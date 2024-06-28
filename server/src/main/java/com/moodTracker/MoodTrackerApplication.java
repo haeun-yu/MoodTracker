@@ -8,6 +8,7 @@ public class MoodTrackerApplication {
 
 	public static void main(String[] args) {
 		SpringApplication.run(MoodTrackerApplication.class, args);
+		
 	}
 
 }

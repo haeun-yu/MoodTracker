@@ -11,11 +11,11 @@ dist
 *.log
 
 ## SpringBoot ###
-.gradle
-build/
+#.gradle
+#build/
 !gradle/wrapper/gradle-wrapper.jar
-!**/src/main/**/build/
-!**/src/test/**/build/
+#!**/src/main/**/build/
+#!**/src/test/**/build/
 
 ### STS ###
 .apt_generated
