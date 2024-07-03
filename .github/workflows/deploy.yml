@@ -21,6 +21,12 @@ jobs:
       - name: check location
         run: pwd
 
+      - name: check my location
+        run: ls -al
+
+      # - name: Copy Project
+      #   run: cp -f ./_work/MoodTracker/MoodTracker ../../.
+
       # - name: Set execute permission for gradlew
       #   run: chmod +x ./gradlew
 
