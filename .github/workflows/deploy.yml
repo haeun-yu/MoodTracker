@@ -25,7 +25,7 @@ jobs:
         run: ls -al
 
       - name: Copy Project
-        run: cp -f ../MoodTracker ../../../../.
+        run: cp -rf ../MoodTracker ../../../../.
 
       - name: check my location
         run: cd ../../../.. &&ls -al
