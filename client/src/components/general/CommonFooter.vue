@@ -1,5 +1,7 @@
 <template>
-  <div class="w-screen flex justify-between px-[30px] pt-[20px] pb-[30px] border-t-[1px]">
+  <div
+    class="w-screen flex justify-between px-[30px] pt-[25px] pb-[30px] border-t-[1px] text-[#777777] bg-white"
+  >
     <section>
       <h1 class="text-[22px] font-bold">Mood Tracker</h1>
       <h3>Inside out</h3>

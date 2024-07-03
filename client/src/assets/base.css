@@ -17,3 +17,80 @@
     'Helvetica Neue',
     sans-serif;
 }
+
+body {
+  background-color: #faf2ff;
+}
+
+.btn-primary {
+  background-color: #c66eff;
+  color: white;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: all 300ms;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.btn-primary:hover,
+.btn-primary:active {
+  background-color: #b441ff;
+}
+
+.btn-secondary {
+  color: #c66eff;
+  background-color: white;
+  border: 1px solid #c66eff;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: all 300ms;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.btn-secondary:hover,
+.btn-secondary:active {
+  color: #b441ff;
+  background-color: #fbf6ff;
+  border: 1px solid #b441ff;
+}
+
+.btn-tertiary {
+  cursor: pointer;
+  transition: all 300ms;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.btn-tertiary:hover,
+.btn-tertiary:active {
+  background-color: #e9ecef;
+}
+
+.btn-primary:disabled,
+.btn-secondary:disabled,
+.btn-tertiary:disabled {
+  background-color: #a1a1a1;
+  color: white;
+  cursor: not-allowed;
+}
+
+.btn-line {
+  color: #c66fff;
+  text-decoration-line: underline;
+  text-underline-offset: 4px;
+  cursor: pointer;
+}
+
+.btn-line:hover,
+.btn-line:active {
+  color: #b441ff;
+}
+
+.btn-line:disabled {
+  color: #a1a1a1;
+  cursor: not-allowed;
+}

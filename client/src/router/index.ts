@@ -14,6 +14,16 @@ const router = createRouter({
       component: () => import('@/views/LoginView.vue')
     },
     {
+      path: '/sign-up',
+      name: 'sign-up',
+      component: () => import('@/views/SignUpView.vue')
+    },
+    {
+      path: '/reset-password',
+      name: 'reset-password',
+      component: () => import('@/views/SignUpView.vue')
+    },
+    {
       path: '/calendar',
       name: 'calendar',
       component: () => import('@/views/CalendarView.vue')
@@ -35,7 +45,7 @@ const router = createRouter({
     },
     {
       path: '/my',
-      name: 'lomygin',
+      name: 'my',
       component: () => import('@/views/MyView.vue')
     }
   ]
