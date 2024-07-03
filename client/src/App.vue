@@ -3,7 +3,7 @@
     <CommonHeader />
   </header>
 
-  <main class="min-h-[calc(100vh-210px)]">
+  <main class="h-full min-h-[calc(100vh-200px)] py-[60px] px-[80px]">
     <RouterView />
   </main>
 
