@@ -25,10 +25,10 @@ jobs:
         run: cp -rf ../MoodTracker ../../../../.
 
       - name: check my location
-        run: cd ../../../../MoodTracker &&ls -al
+        run: cd ../../../../MoodTracker/client && ls -al
 
       - name: Client build
-        run: cd client && yarn && yarn build
+        run: ls -al && yarn && yarn build
 
       - name: Set execute permission for gradlew
         run: cd ../server && chmod +x ./gradlew
