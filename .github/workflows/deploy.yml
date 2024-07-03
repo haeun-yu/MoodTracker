@@ -21,9 +21,6 @@ jobs:
       - name: check location
         run: pwd
 
-      - name: check my location
-        run: ls -al
-
       - name: Copy Project
         run: cp -rf ../MoodTracker ../../../../.
 
@@ -31,7 +28,7 @@ jobs:
         run: cd ../../../.. &&ls -al
 
       - name: Client build
-        run: cd ../../../../MoodTracker/client && yarn && yarn build
+        run: cd ./MoodTracker/client && yarn && yarn build
 
       - name: Set execute permission for gradlew
         run: cd ../server && chmod +x ./gradlew
