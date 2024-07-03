@@ -28,13 +28,13 @@ jobs:
         run: cd ../../../../MoodTracker/client && ls -al
 
       - name: Client build
-        run: ls -al && yarn && yarn build
+        run: cd ../../../../MoodTracker/client && yarn && yarn build
 
       - name: Set execute permission for gradlew
-        run: cd ../server && chmod +x ./gradlew
+        run: cd ../../../../MoodTracker/client/server && chmod +x ./gradlew
 
       - name: Build with Gradle
-        run: ./gradlew build
+        run: cd ../../../../MoodTracker/client/server && ./gradlew build
 
       - name: Run application in background
-        run: nohup java -jar build/libs/moodTracker-0.0.1-SNAPSHOT.jar &
+        run: cd ../../../../MoodTracker/client/server && nohup java -jar build/libs/moodTracker-0.0.1-SNAPSHOT.jar &
