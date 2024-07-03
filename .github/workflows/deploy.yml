@@ -30,14 +30,14 @@ jobs:
       - name: check my location
         run: cd ../../../.. &&ls -al
 
-      # - name: Client build
-      #   run: cd ../../../../MoodTracker/client && yarn && yarn build
+      - name: Client build
+        run: cd ../../../../MoodTracker/client && yarn && yarn build
 
-      # - name: Set execute permission for gradlew
-      #   run: cd ../server && chmod +x ./gradlew
+      - name: Set execute permission for gradlew
+        run: cd ../server && chmod +x ./gradlew
 
-      # - name: Build with Gradle
-      #   run: ./gradlew build
+      - name: Build with Gradle
+        run: ./gradlew build
 
-      # - name: Run application in background
-      #   run: nohup java -jar build/libs/moodTracker-0.0.1-SNAPSHOT.jar &
+      - name: Run application in background
+        run: nohup java -jar build/libs/moodTracker-0.0.1-SNAPSHOT.jar &
