@@ -10,7 +10,7 @@
 
 <script setup lang="ts">
 type Props = {
-  type?: 'text' | 'number'
+  type?: 'text' | 'number' | 'password'
   placeholder?: string
   disabled?: boolean
 }

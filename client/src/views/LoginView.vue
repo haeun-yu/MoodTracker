@@ -36,7 +36,7 @@
 import { ref } from 'vue'
 import CommonInput from '@/components/input/CommonInput.vue'
 
-const form = ref({
+const form = ref<Login>({
   email: '',
   password: ''
 })
