@@ -2,7 +2,7 @@ name: Build Client Image
 
 on:
   push:
-    branches: [build/test]
+    branches: [main]
     # paths:
     #   - "client/**"
 
