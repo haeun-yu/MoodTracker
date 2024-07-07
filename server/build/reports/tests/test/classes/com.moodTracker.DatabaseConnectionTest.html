@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+<meta http-equiv="x-ua-compatible" content="IE=edge"/>
+<title>Test results - DatabaseConnectionTest</title>
+<link href="../css/base-style.css" rel="stylesheet" type="text/css"/>
+<link href="../css/style.css" rel="stylesheet" type="text/css"/>
+<script src="../js/report.js" type="text/javascript"></script>
+</head>
+<body>
+<div id="content">
+<h1>DatabaseConnectionTest</h1>
+<div class="breadcrumbs">
+<a href="../index.html">all</a> &gt; 
+<a href="../packages/com.moodTracker.html">com.moodTracker</a> &gt; DatabaseConnectionTest</div>
+<div id="summary">
+<table>
+<tr>
+<td>
+<div class="summaryGroup">
+<table>
+<tr>
+<td>
+<div class="infoBox" id="tests">
+<div class="counter">1</div>
+<p>tests</p>
+</div>
+</td>
+<td>
+<div class="infoBox" id="failures">
+<div class="counter">0</div>
+<p>failures</p>
+</div>
+</td>
+<td>
+<div class="infoBox" id="ignored">
+<div class="counter">0</div>
+<p>ignored</p>
+</div>
+</td>
+<td>
+<div class="infoBox" id="duration">
+<div class="counter">1.317s</div>
+<p>duration</p>
+</div>
+</td>
+</tr>
+</table>
+</div>
+</td>
+<td>
+<div class="infoBox success" id="successRate">
+<div class="percent">100%</div>
+<p>successful</p>
+</div>
+</td>
+</tr>
+</table>
+</div>
+<div id="tabs">
+<ul class="tabLinks">
+<li>
+<a href="#tab0">Tests</a>
+</li>
+<li>
+<a href="#tab1">Standard output</a>
+</li>
+</ul>
+<div id="tab0" class="tab">
+<h2>Tests</h2>
+<table>
+<thead>
+<tr>
+<th>Test</th>
+<th>Duration</th>
+<th>Result</th>
+</tr>
+</thead>
+<tr>
+<td class="success">testDatabaseConnection()</td>
+<td class="success">1.317s</td>
+<td class="success">passed</td>
+</tr>
+</table>
+</div>
+<div id="tab1" class="tab">
+<h2>Standard output</h2>
+<span class="code">
+<pre>21:09:57.420 [Test worker] INFO org.springframework.test.context.support.AnnotationConfigContextLoaderUtils -- Could not detect default configuration classes for test class [com.moodTracker.DatabaseConnectionTest]: DatabaseConnectionTest does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
+21:09:57.584 [Test worker] INFO org.springframework.boot.test.context.SpringBootTestContextBootstrapper -- Found @SpringBootConfiguration com.moodTracker.MoodTrackerApplication for test class com.moodTracker.DatabaseConnectionTest
+
+  .   ____          _            __ _ _
+ /\\ / ___'_ __ _ _(_)_ __  __ _ \ \ \ \
+( ( )\___ | '_ | '_| | '_ \/ _` | \ \ \ \
+ \\/  ___)| |_)| | | | | || (_| |  ) ) ) )
+  '  |____| .__|_| |_|_| |_\__, | / / / /
+ =========|_|==============|___/=/_/_/_/
+
+ :: Spring Boot ::                (v3.3.1)
+
+2024-06-27T21:09:58.107+09:00  INFO 41596 --- [moodTracker] [    Test worker] com.moodTracker.DatabaseConnectionTest   : Starting DatabaseConnectionTest using Java 17.0.11 with PID 41596 (started by Eunchan in C:\Users\Eunchan\Desktop\bluewhale507\MoodTracker\server)
+2024-06-27T21:09:58.109+09:00  INFO 41596 --- [moodTracker] [    Test worker] com.moodTracker.DatabaseConnectionTest   : No active profile set, falling back to 1 default profile: &quot;default&quot;
+2024-06-27T21:09:59.150+09:00  INFO 41596 --- [moodTracker] [    Test worker] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2024-06-27T21:09:59.188+09:00  INFO 41596 --- [moodTracker] [    Test worker] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 23 ms. Found 0 JPA repository interfaces.
+2024-06-27T21:09:59.907+09:00  INFO 41596 --- [moodTracker] [    Test worker] o.hibernate.jpa.internal.util.LogHelper  : HHH000204: Processing PersistenceUnitInfo [name: default]
+2024-06-27T21:09:59.971+09:00  INFO 41596 --- [moodTracker] [    Test worker] org.hibernate.Version                    : HHH000412: Hibernate ORM core version 6.5.2.Final
+2024-06-27T21:10:00.028+09:00  INFO 41596 --- [moodTracker] [    Test worker] o.h.c.internal.RegionFactoryInitiator    : HHH000026: Second-level cache disabled
+2024-06-27T21:10:00.449+09:00  INFO 41596 --- [moodTracker] [    Test worker] o.s.o.j.p.SpringPersistenceUnitInfo      : No LoadTimeWeaver setup: ignoring JPA class transformer
+2024-06-27T21:10:00.484+09:00  INFO 41596 --- [moodTracker] [    Test worker] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Starting...
+2024-06-27T21:10:03.306+09:00  INFO 41596 --- [moodTracker] [    Test worker] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Added connection com.mysql.cj.jdbc.ConnectionImpl@9e50283
+2024-06-27T21:10:03.312+09:00  INFO 41596 --- [moodTracker] [    Test worker] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Start completed.
+2024-06-27T21:10:03.548+09:00  WARN 41596 --- [moodTracker] [    Test worker] org.hibernate.orm.deprecation            : HHH90000025: MySQL8Dialect does not need to be specified explicitly using 'hibernate.dialect' (remove the property setting and it will be selected by default)
+2024-06-27T21:10:03.550+09:00  WARN 41596 --- [moodTracker] [    Test worker] org.hibernate.orm.deprecation            : HHH90000026: MySQL8Dialect has been deprecated; use org.hibernate.dialect.MySQLDialect instead
+2024-06-27T21:10:04.029+09:00  INFO 41596 --- [moodTracker] [    Test worker] o.h.e.t.j.p.i.JtaPlatformInitiator       : HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2024-06-27T21:10:04.037+09:00  INFO 41596 --- [moodTracker] [    Test worker] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
+2024-06-27T21:10:04.390+09:00  WARN 41596 --- [moodTracker] [    Test worker] JpaBaseConfiguration$JpaWebConfiguration : spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2024-06-27T21:10:05.801+09:00  WARN 41596 --- [moodTracker] [    Test worker] .s.s.UserDetailsServiceAutoConfiguration : 
+
+Using generated security password: 58153840-4d8e-4e5b-8fc4-098737ef2eb2
+
+This generated password is for development use only. Your security configuration must be updated before running your application in production.
+
+2024-06-27T21:10:05.863+09:00  INFO 41596 --- [moodTracker] [    Test worker] r$InitializeUserDetailsManagerConfigurer : Global AuthenticationManager configured with UserDetailsService bean with name inMemoryUserDetailsManager
+2024-06-27T21:10:06.372+09:00  INFO 41596 --- [moodTracker] [    Test worker] com.moodTracker.DatabaseConnectionTest   : Started DatabaseConnectionTest in 8.559 seconds (process running for 10.103)
+2024-06-27T21:10:07.226+09:00 DEBUG 41596 --- [moodTracker] [    Test worker] o.s.jdbc.core.JdbcTemplate               : Executing SQL query [SELECT COUNT(*) FROM User]
+Database connection successful. Number of rows: 1
+</pre>
+</span>
+</div>
+</div>
+<div id="footer">
+<p>
+<div>
+<label class="hidden" id="label-for-line-wrapping-toggle" for="line-wrapping-toggle">Wrap lines
+<input id="line-wrapping-toggle" type="checkbox" autocomplete="off"/>
+</label>
+</div>Generated by 
+<a href="http://www.gradle.org">Gradle 8.8</a> at 2024. 6. 27. 오후 9:10:09</p>
+</div>
+</div>
+</body>
+</html>

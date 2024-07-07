@@ -1,0 +1,46 @@
+name: Build Client Image
+
+on:
+  push:
+    branches: [main]
+    # paths:
+    #   - "client/**"
+
+# VERSION_TYPE: patch # major, minor, patch
+# VERSION_STATE: alpha # alpha, beta, rc
+
+jobs:
+  deploy:
+    runs-on: [self-hosted, label-moodTracker]
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: check location
+        run: pwd
+
+      - name: Copy Project
+        run: cp -rf ../MoodTracker ../../../../.
+
+      - name: check my location
+        run: cd ../../../../MoodTracker/client && ls -al
+
+      # - name: Install Node.js
+      #   uses: actions/setup-node@v3
+      #   with:
+      #     node-version: "20" # 원하는 Node.js 버전을 명시합니다.
+
+      # - name: Install Yarn
+      #   run: npm install -g yarn
+
+      # - name: Client build
+      #   run: cd ../../../../MoodTracker/client && yarn && yarn build
+
+      - name: Set execute permission for gradlew
+        run: cd ../../../../MoodTracker/server && chmod +x ./gradlew
+
+      - name: Build with Gradle
+        run: cd ../../../../MoodTracker/server && ./gradlew build
+
+      - name: Run application in background
+        run: cd ../../../../MoodTracker/server && nohup java -jar build/libs/moodTracker-0.0.1-SNAPSHOT.jar &
