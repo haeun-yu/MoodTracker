@@ -1,6 +1,6 @@
 <template>
   <div class="flex items-center justify-between bg-[#D0A7EB] h-[70px] px-[30px]">
-    <h1 class="text-[22px] font-bold text-white">Mood Tracker</h1>
+    <RouterLink to="/" class="text-[22px] font-bold text-white">Mood Tracker</RouterLink>
 
     <nav v-if="menu !== 'login'">
       <RouterLink to="/calendar" class="navigation" :class="{ active: menu === 'calendar' }"
