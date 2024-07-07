@@ -31,11 +31,15 @@ body {
   display: flex;
   align-items: center;
   justify-content: center;
+  box-shadow:
+    0 4px 6px -1px rgb(0 0 0 / 0.1),
+    0 2px 4px -2px rgb(0 0 0 / 0.1);
 }
 
 .btn-primary:hover,
 .btn-primary:active {
   background-color: #b441ff;
+  box-shadow: 0 0 #0000;
 }
 
 .btn-secondary {
@@ -48,6 +52,9 @@ body {
   display: flex;
   align-items: center;
   justify-content: center;
+  box-shadow:
+    0 4px 6px -1px rgb(0 0 0 / 0.1),
+    0 2px 4px -2px rgb(0 0 0 / 0.1);
 }
 
 .btn-secondary:hover,
@@ -55,6 +62,7 @@ body {
   color: #b441ff;
   background-color: #fbf6ff;
   border: 1px solid #b441ff;
+  box-shadow: 0 0 #0000;
 }
 
 .btn-tertiary {
