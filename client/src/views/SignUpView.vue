@@ -66,12 +66,15 @@ const handleSignUp = () => {
 .signup-body {
   width: 100%;
   height: 100%;
-  background-color: white;
-  border: 1.5px solid black;
   border-radius: 40px;
   display: flex;
   align-items: center;
   justify-content: center;
+  border: 1.5px solid #eeeeee;
+  background-color: #fcf7ff;
+  box-shadow:
+    0 10px 15px -3px rgb(0 0 0 / 0.1),
+    0 4px 6px -4px rgb(0 0 0 / 0.1);
 }
 
 label {

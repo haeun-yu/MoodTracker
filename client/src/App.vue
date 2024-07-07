@@ -3,7 +3,7 @@
     <CommonHeader />
   </header>
 
-  <main class="h-full min-h-[calc(100vh-200px)] py-[60px] px-[80px]">
+  <main class="grid h-full min-h-[calc(100vh-200px)] py-[60px] px-[80px]">
     <RouterView />
   </main>
 
