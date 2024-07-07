@@ -6,10 +6,8 @@ on:
     # paths:
     #   - "client/**"
 
-env:
-  # VERSION_TYPE: patch # major, minor, patch
-  # VERSION_STATE: alpha # alpha, beta, rc
-  CLIENT_GHCR_IMAGE: ghcr.io/teamgrit-lab/cobiz-client
+# VERSION_TYPE: patch # major, minor, patch
+# VERSION_STATE: alpha # alpha, beta, rc
 
 jobs:
   deploy:

@@ -2,13 +2,12 @@
 ### Vuejs ###
 #node_modules/
 #dist/
-#npm-debug.log
-#yarn-error.log
+# *.lock
+npm-debug.log
+yarn-error.log
 .DS_Store
-node_modules
 .env
 *.log
-*.lock
 
 ## SpringBoot ###
 #.gradle
