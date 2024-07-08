@@ -1,7 +1,7 @@
 <template>
   <div class="reset-password-body">
     <section class="w-[50%] flex flex-col items-center gap-[50px] pt-[50px] pb-[70px]">
-      <h1 class="text-[34px] font-bold">Reset Password</h1>
+      <h1 class="text-3xl-bold">Reset Password</h1>
 
       <article class="w-full flex flex-col gap-[15px]">
         <div class="flex flex-col gap-[10px]">
