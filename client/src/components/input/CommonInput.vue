@@ -2,7 +2,7 @@
   <input
     v-model="value"
     :type="type ? type : 'text'"
-    class="w-full border-[1.5px] border-[#222222] rounded-[5px] p-[8px]"
+    class="w-full border-[1.5px] rounded-[5px] p-[8px] shadow-inner border-[#eeeeee]"
     :placeholder="placeholder"
     :disabled="disabled"
   />

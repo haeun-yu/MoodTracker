@@ -9,7 +9,7 @@
     </section>
 
     <section class="w-[60%] flex flex-col items-center justify-center gap-[50px]">
-      <h1 class="text-[34px] font-bold">Login</h1>
+      <h1 class="text-5xl-bold">Login</h1>
 
       <article class="w-[50%] flex flex-col gap-[15px]">
         <div class="flex items-center">

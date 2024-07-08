@@ -1,7 +1,7 @@
 <template>
   <div class="signup-body">
     <section class="w-[50%] flex flex-col items-center gap-[50px] pt-[50px] pb-[70px]">
-      <h1 class="text-[34px] font-bold">Sign Up</h1>
+      <h1 class="text-3xl-bold">Sign Up</h1>
 
       <article class="w-full flex flex-col gap-[15px]">
         <div class="flex flex-col gap-[10px]">
@@ -25,7 +25,9 @@
           <p class="text-[14px] text-[#8E46BD]">{{ confirmMessage }}</p>
         </div>
 
-        <button class="btn-primary p-[10px]" @click="handleSignUp">Sign up</button>
+        <div class="flex justify-end">
+          <button class="btn-primary p-[10px]" @click="handleSignUp">Submit</button>
+        </div>
       </article>
     </section>
   </div>

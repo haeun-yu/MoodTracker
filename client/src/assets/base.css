@@ -108,3 +108,423 @@ body {
   color: #a1a1a1;
   cursor: not-allowed;
 }
+
+.text-5xl-heavy {
+  font-size: 36px;
+  font-weight: 900;
+}
+
+.text-4xl-heavy {
+  font-size: 30px;
+  font-weight: 900;
+}
+
+.text-3xl-heavy {
+  font-size: 27px;
+  font-weight: 900;
+}
+
+.text-2xl-heavy {
+  font-size: 23px;
+  font-weight: 900;
+}
+
+.text-xl-heavy {
+  font-size: 20px;
+  font-weight: 900;
+}
+
+.text-lg-heavy {
+  font-size: 18px;
+  font-weight: 900;
+}
+
+.text-base-heavy {
+  font-size: 16px;
+  font-weight: 900;
+}
+
+.text-sm-heavy {
+  font-size: 14px;
+  font-weight: 900;
+}
+
+.text-xs-heavy {
+  font-size: 12px;
+  font-weight: 900;
+}
+
+.text-5xl-extrabold {
+  font-size: 36px;
+  font-weight: 800;
+}
+
+.text-4xl-extrabold {
+  font-size: 30px;
+  font-weight: 800;
+}
+
+.text-3xl-extrabold {
+  font-size: 27px;
+  font-weight: 800;
+}
+
+.text-2xl-extrabold {
+  font-size: 23px;
+  font-weight: 800;
+}
+
+.text-xl-extrabold {
+  font-size: 20px;
+  font-weight: 800;
+}
+
+.text-lg-extrabold {
+  font-size: 18px;
+  font-weight: 800;
+}
+
+.text-base-extrabold {
+  font-size: 16px;
+  font-weight: 800;
+}
+
+.text-sm-extrabold {
+  font-size: 14px;
+  font-weight: 800;
+}
+
+.text-xs-extrabold {
+  font-size: 12px;
+  font-weight: 800;
+}
+
+.text-5xl-bold {
+  font-size: 36px;
+  font-weight: 700;
+}
+
+.text-4xl-bold {
+  font-size: 30px;
+  font-weight: 700;
+}
+
+.text-3xl-bold {
+  font-size: 27px;
+  font-weight: 700;
+}
+
+.text-2xl-bold {
+  font-size: 23px;
+  font-weight: 700;
+}
+
+.text-xl-bold {
+  font-size: 20px;
+  font-weight: 700;
+}
+
+.text-lg-bold {
+  font-size: 18px;
+  font-weight: 700;
+}
+
+.text-base-bold {
+  font-size: 16px;
+  font-weight: 700;
+}
+
+.text-sm-bold {
+  font-size: 14px;
+  font-weight: 700;
+}
+
+.text-xs-bold {
+  font-size: 12px;
+  font-weight: 700;
+}
+
+.text-5xl-semibold {
+  font-size: 36px;
+  font-weight: 600;
+}
+
+.text-4xl-semibold {
+  font-size: 30px;
+  font-weight: 600;
+}
+
+.text-3xl-semibold {
+  font-size: 27px;
+  font-weight: 600;
+}
+
+.text-2xl-semibold {
+  font-size: 23px;
+  font-weight: 600;
+}
+
+.text-xl-semibold {
+  font-size: 20px;
+  font-weight: 600;
+}
+
+.text-lg-semibold {
+  font-size: 18px;
+  font-weight: 600;
+}
+
+.text-base-semibold {
+  font-size: 16px;
+  font-weight: 600;
+}
+
+.text-sm-semibold {
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.text-xs-semibold {
+  font-size: 12px;
+  font-weight: 600;
+}
+
+.text-5xl-medium {
+  font-size: 36px;
+  font-weight: 500;
+}
+
+.text-4xl-medium {
+  font-size: 30px;
+  font-weight: 500;
+}
+
+.text-3xl-medium {
+  font-size: 27px;
+  font-weight: 500;
+}
+
+.text-2xl-medium {
+  font-size: 23px;
+  font-weight: 500;
+}
+
+.text-xl-medium {
+  font-size: 20px;
+  font-weight: 500;
+}
+
+.text-lg-medium {
+  font-size: 18px;
+  font-weight: 500;
+}
+
+.text-base-medium {
+  font-size: 16px;
+  font-weight: 500;
+}
+
+.text-sm-medium {
+  font-size: 14px;
+  font-weight: 500;
+}
+
+.text-xs-medium {
+  font-size: 12px;
+  font-weight: 500;
+}
+
+.text-5xl-regular {
+  font-size: 36px;
+  font-weight: 400;
+}
+
+.text-4xl-regular {
+  font-size: 30px;
+  font-weight: 400;
+}
+
+.text-3xl-regular {
+  font-size: 27px;
+  font-weight: 400;
+}
+
+.text-2xl-regular {
+  font-size: 23px;
+  font-weight: 400;
+}
+
+.text-xl-regular {
+  font-size: 20px;
+  font-weight: 400;
+}
+
+.text-lg-regular {
+  font-size: 18px;
+  font-weight: 400;
+}
+
+.text-base-regular {
+  font-size: 16px;
+  font-weight: 400;
+}
+
+.text-sm-regular {
+  font-size: 14px;
+  font-weight: 400;
+}
+
+.text-xs-regular {
+  font-size: 12px;
+  font-weight: 400;
+}
+
+.text-5xl-light {
+  font-size: 36px;
+  font-weight: 300;
+}
+
+.text-4xl-light {
+  font-size: 30px;
+  font-weight: 300;
+}
+
+.text-3xl-light {
+  font-size: 27px;
+  font-weight: 300;
+}
+
+.text-2xl-light {
+  font-size: 23px;
+  font-weight: 300;
+}
+
+.text-xl-light {
+  font-size: 20px;
+  font-weight: 300;
+}
+
+.text-lg-light {
+  font-size: 18px;
+  font-weight: 300;
+}
+
+.text-base-light {
+  font-size: 16px;
+  font-weight: 300;
+}
+
+.text-sm-light {
+  font-size: 14px;
+  font-weight: 300;
+}
+
+.text-xs-light {
+  font-size: 12px;
+  font-weight: 300;
+}
+
+.text-5xl-extralight {
+  font-size: 36px;
+  font-weight: 200;
+}
+
+.text-4xl-extralight {
+  font-size: 30px;
+  font-weight: 200;
+}
+
+.text-3xl-extralight {
+  font-size: 27px;
+  font-weight: 200;
+}
+
+.text-2xl-extralight {
+  font-size: 23px;
+  font-weight: 200;
+}
+
+.text-xl-extralight {
+  font-size: 20px;
+  font-weight: 200;
+}
+
+.text-lg-extralight {
+  font-size: 18px;
+  font-weight: 200;
+}
+
+.text-base-extralight {
+  font-size: 16px;
+  font-weight: 200;
+}
+
+.text-sm-extralight {
+  font-size: 14px;
+  font-weight: 200;
+}
+
+.text-xs-extralight {
+  font-size: 12px;
+  font-weight: 200;
+}
+
+.text-5xl-thin {
+  font-size: 36px;
+  font-weight: 100;
+}
+
+.text-4xl-thin {
+  font-size: 30px;
+  font-weight: 100;
+}
+
+.text-3xl-thin {
+  font-size: 27px;
+  font-weight: 100;
+}
+
+.text-2xl-thin {
+  font-size: 23px;
+  font-weight: 100;
+}
+
+.text-xl-thin {
+  font-size: 20px;
+  font-weight: 100;
+}
+
+.text-lg-thin {
+  font-size: 18px;
+  font-weight: 100;
+}
+
+.text-base-thin {
+  font-size: 16px;
+  font-weight: 100;
+}
+
+.text-sm-thin {
+  font-size: 14px;
+  font-weight: 100;
+}
+
+.text-xs-thin {
+  font-size: 12px;
+  font-weight: 100;
+}
+
+@keyframes fadeIn {
+  0% {
+    opacity: 0;
+    transform: translateX(20px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+.fade-in {
+  animation: fadeIn 0.5s ease-out;
+}
