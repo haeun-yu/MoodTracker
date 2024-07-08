@@ -25,7 +25,9 @@
           <p class="text-[14px] text-[#8E46BD]">{{ confirmMessage }}</p>
         </div>
 
-        <button class="btn-primary p-[10px]" @click="handleSignUp">Sign up</button>
+        <div class="flex justify-end">
+          <button class="btn-primary p-[10px]" @click="handleSignUp">Submit</button>
+        </div>
       </article>
     </section>
   </div>
