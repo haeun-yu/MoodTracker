@@ -5,6 +5,7 @@
     <section>
       <h3 class="text-2xl-extrabold">Mood Tracker</h3>
       <p>Inside out</p>
+      <!-- <img src="/logo/logo2.svg" class="h-full" /> -->
     </section>
 
     <section class="flex gap-[50px]">
