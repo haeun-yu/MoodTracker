@@ -157,7 +157,7 @@ const diaryList = ref<Diary[]>([
   }
 ])
 const searchResult = ref<Diary[]>([])
-const ITEMS_PER_PAGE = 5
+const ITEMS_PER_PAGE = 10
 
 onMounted(() => {
   searchResult.value = diaryList.value
