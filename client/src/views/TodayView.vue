@@ -36,7 +36,7 @@
         </div>
 
         <div class="relative w-full">
-          <textarea v-model="form.content" class="h-[calc(45vh)]" />
+          <textarea v-model="form.content" class="h-[calc(45vh)]" :disable="isDone" />
           <p class="absolute bottom-[10px] right-[10px] text-[#5B5B5B] text-sm-light">
             {{ form.content.length }}/1000
           </p>
@@ -69,7 +69,17 @@
 
 <script setup lang="ts">
 import { ref, watch } from 'vue'
-const emotions = ['Happy', 'Angry', 'Sad', 'IDK', 'Sick', 'Panick', 'Blue', 'Upset', 'Calm']
+const emotions = [
+  'Happy',
+  'Angry',
+  'Sad',
+  'IDK',
+  'Exhausted',
+  'Panicked',
+  'Blue',
+  'Upset',
+  'Peaceful'
+]
 
 const user = {
   name: '아무개'
@@ -77,7 +87,7 @@ const user = {
 const form = ref<any>({
   emotion: '',
   content: '',
-  feedback: ''
+  feedback: '피드백 내용~~'
 })
 
 const isDone = ref<boolean>(false)
