@@ -8,3 +8,10 @@ type User = {
   email: string
   password: string
 }
+
+type Diary = {
+  date: string
+  emotion: string
+  content: string
+  feedback: string
+}

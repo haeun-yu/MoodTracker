@@ -72,6 +72,7 @@
 
 <script setup lang="ts">
 import { onMounted, ref, watch } from 'vue'
+import { formatDate } from '@vueuse/core'
 import Gemini from '@/api/gemini'
 
 const emotions = [
@@ -89,7 +90,8 @@ const emotions = [
 const user = {
   name: '아무개'
 }
-const form = ref<any>({
+const form = ref<Diary>({
+  date: '',
   emotion: '',
   content: '',
   feedback: ''
@@ -100,6 +102,7 @@ const isDone = ref<boolean>(false)
 
 onMounted(() => {
   gemini.value = new Gemini(handleGeminiResult)
+  form.value.date = formatDate(new Date(), 'YYYY-MM-DD')
 })
 
 watch(
