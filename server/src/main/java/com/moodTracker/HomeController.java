@@ -2,12 +2,14 @@ package com.moodTracker;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
  
 @Controller
 public class HomeController {
- 
-	@GetMapping("/")
-	public String index() {
-		return "index.html";
+	
+	//Spring API 경로는 /api로 시작
+	@GetMapping(value = {"", "/"})
+	public String viewMapping() {
+		return "forward:/index.html";
 	}
 }

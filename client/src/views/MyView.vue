@@ -1,6 +1,6 @@
 <template>
   <div class="my-body">
-    <h1 class="text-[28px] font-bold mb-[20px]">{{ menu }}</h1>
+    <h1 class="text-3xl-bold mb-[20px]">{{ menu }}</h1>
 
     <section class="grid grid-cols-4">
       <article class="flex flex-col gap-[10px] pt-[20px]">
