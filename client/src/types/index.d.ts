@@ -4,7 +4,14 @@ type Login = {
 }
 
 type User = {
-  name: string
+  userName: string
   email: string
   password: string
+}
+
+type Diary = {
+  date: string
+  emotion: string
+  content: string
+  feedback: string
 }

@@ -42,5 +42,8 @@ jobs:
       - name: Build with Gradle
         run: cd ../../../../MoodTracker/server && ./gradlew build
 
-      - name: Run application in background
-        run: cd ../../../../MoodTracker/server && nohup java -jar build/libs/moodTracker-0.0.1-SNAPSHOT.jar &
+      - name: Restart EC2
+        run: aws ec2 reboot-instances --instance-ids i-00d2a3918ba7b8707
+
+      # - name: Run application in background => reboot 후 자동실행하도록 aws 서버 측 설정
+      # run: cd ../../../../MoodTracker/server && nohup java -jar build/libs/moodTracker-0.0.1-SNAPSHOT.jar &
