@@ -69,11 +69,12 @@
       <article v-else-if="menu === 'Delete Account'" class="function-box">
         <div class="w-full flex flex-col justify-between gap-[30px] p-[20px]">
           <div class="flex flex-col gap-[10px]">
-            <label class="w-[50%] text-[20px]">Password</label>
+            <label class="w-[50%] text-[20px]">Your Password</label>
             <CommonInput type="password" class="w-[50%] text-[20px] font-light" />
           </div>
 
-          <div class="flex justify-end">
+          <div class="flex items-end justify-between">
+            <img src="/images/delete-account.svg" />
             <button class="btn-primary p-[10px]">Delete Account</button>
           </div>
         </div>
