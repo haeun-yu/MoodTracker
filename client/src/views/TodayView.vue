@@ -36,7 +36,7 @@
         </div>
 
         <div class="relative w-full">
-          <textarea v-model="form.content" class="h-[calc(45vh)]" />
+          <textarea v-model="form.content" class="h-[calc(45vh)]" :disable="isDone" />
           <p class="absolute bottom-[10px] right-[10px] text-[#5B5B5B] text-sm-light">
             {{ form.content.length }}/1000
           </p>
@@ -48,7 +48,10 @@
       </article>
 
       <div v-if="!isDone" class="flex justify-end mt-[20px]">
-        <button class="btn-primary p-[10px]" @click="handleSubmit">Submit</button>
+        <button class="btn-primary p-[10px]" @click="handleSubmit" :disabled="isLoading">
+          <img v-if="isLoading" src="/icons/loading.svg" class="w-[30px] animate-spin" />
+          <p v-else>Submit</p>
+        </button>
       </div>
     </section>
 
@@ -68,19 +71,39 @@
 </template>
 
 <script setup lang="ts">
-import { ref, watch } from 'vue'
-const emotions = ['Happy', 'Angry', 'Sad', 'IDK', 'Sick', 'Panick', 'Blue', 'Upset', 'Calm']
+import { onMounted, ref, watch } from 'vue'
+import { formatDate } from '@vueuse/core'
+import Gemini from '@/api/gemini'
+
+const emotions = [
+  'Happy',
+  'Angry',
+  'Sad',
+  'IDK',
+  'Exhausted',
+  'Panicked',
+  'Blue',
+  'Upset',
+  'Peaceful'
+]
 
 const user = {
   name: '아무개'
 }
-const form = ref<any>({
+const form = ref<Diary>({
+  date: '',
   emotion: '',
   content: '',
   feedback: ''
 })
-
+const gemini = ref<Gemini | null>(null)
+const isLoading = ref<boolean>(false)
 const isDone = ref<boolean>(false)
+
+onMounted(() => {
+  gemini.value = new Gemini(handleGeminiResult)
+  form.value.date = formatDate(new Date(), 'YYYY-MM-DD')
+})
 
 watch(
   () => form.value.content,
@@ -109,7 +132,29 @@ const handleChangeEmotion = (value: string) => {
 }
 
 const handleSubmit = () => {
-  console.log(form.value)
+  if (isLoading.value) return
+
+  isLoading.value = true
+  handleQuestion()
+}
+
+const handleGeminiResult = (result: string) => {
+  form.value.feedback = result
+  submitDiary()
+}
+
+const handleQuestion = () => {
+  const prompt = `사용자가 하루 동안 기록한 감정을 기반으로 따뜻하고 공감어린 피드백을 작성해줘.
+  너가 준 내용 그대로 일기 작성자에게 보내줄거야.
+  일기의 있는 내용으로 감정을 더 자세하게 분석해줘도 좋을 것 같아. (최대 1000자)
+  선택한 감정: ${form.value.emotion}, 일기의 내용: ${form.value.content}`
+  gemini.value!.generate(prompt)
+}
+
+const submitDiary = () => {
+  // 일기 업로드
+  console.log('Submit Diary: ', form.value)
+  isLoading.value = false
   isDone.value = true
 }
 </script>
