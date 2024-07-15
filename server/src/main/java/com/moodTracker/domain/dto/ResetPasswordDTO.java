@@ -11,7 +11,9 @@ import lombok.Setter;
 public class ResetPasswordDTO {
 	
 	private int userSeq;
-	private String email;
 	private String currentPassword;
 	private String newPassword;
+	
+	//이메일 인증시 사용
+	private String email;
 }

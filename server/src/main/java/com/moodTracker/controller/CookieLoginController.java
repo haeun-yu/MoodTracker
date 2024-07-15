@@ -17,6 +17,7 @@ import com.moodTracker.domain.dto.CommonResponseDTO;
 import com.moodTracker.domain.dto.JoinFormDTO;
 import com.moodTracker.domain.dto.LoginFormDTO;
 import com.moodTracker.domain.dto.LoginStatusDTO;
+import com.moodTracker.domain.dto.LogoutDTO;
 import com.moodTracker.domain.dto.ResetPasswordDTO;
 import com.moodTracker.domain.dto.UserInfoDTO;
 import com.moodTracker.domain.entity.User;
@@ -31,9 +32,9 @@ import jakarta.validation.Valid;
 @RequiredArgsConstructor
 @RequestMapping("/api/auth")
 public class CookieLoginController {
-
+	
     private final UserService userService;
-
+    
     //index 접속(초기접속)시 쿠키값 확인하여 로그인 여부 체크
     @GetMapping(value = {"", "/"})
     public CommonResponse<LoginStatusDTO> home(@CookieValue(name = "userSeq", required = false) Integer userSeq) {
@@ -119,7 +120,7 @@ public class CookieLoginController {
         return CommonResponse.success(CommonResponseDTO.of("SUCCESS","로그아웃 성공"));
     }
 
-    @PostMapping("/info")
+    @GetMapping("/info")
     public CommonResponse<?> userInfo(@CookieValue(name = "userSeq", required = false) Integer userSeq) {
         User loginUser = userService.getLoginUser(userSeq);
         UserInfoDTO userInfoDTO = new UserInfoDTO();
@@ -135,12 +136,15 @@ public class CookieLoginController {
         }
     }
 
-    @PostMapping("/reset")
+    //패스워드 변경
+    @PostMapping("/reset") 
     public CommonResponse<?> ResetPassword(@Valid @RequestBody ResetPasswordDTO resetPasswordDTO, @CookieValue(name = "userSeq", required = false) Integer userSeq,  BindingResult bindingResult) {
     	User loginUser = userService.getLoginUser(userSeq);
     	if(loginUser == null) {
-    		//로그인 전 패스워드 변경 <이메일 인증 필요>
-    		return null;
+    		//로그인 이후 패스워드 변경요청 시 쿠키 값 없는경우 or 패킷 조작을 통해 쿠키값을 변경한 경우..
+            log.info("[RESET] 패스워드 변경 실패: 쿠키 만료");
+            return CommonResponse.success(CommonResponseDTO.of("FAIL", "쿠키가 만료되었습니다."));
+            
     	} else {
     		//쿠키 값 가진채로 PW 변경
     		if(!resetPasswordDTO.getCurrentPassword().equals(loginUser.getPassword())) {
@@ -165,19 +169,18 @@ public class CookieLoginController {
     	}
     }
     
-    @DeleteMapping("/withdraw")
-    public CommonResponse<?> withdrawUser(@CookieValue(name = "userSeq") Integer userSeq, @RequestParam(name = "password") String userPassword) {
+    @PostMapping("/withdraw")
+    public CommonResponse<?> withdrawUser(@CookieValue(name = "userSeq", required = false) Integer userSeq, @RequestBody LogoutDTO logoutDTO) {
     	User withdrawUser = userService.getLoginUser(userSeq);
     		
     	//패스워드만 받는 폼이므로, 굳이 DTO생성 없이 처리
-    	if(userPassword == withdrawUser.getPassword()) {
+    	if(logoutDTO.getPassword().equals(withdrawUser.getPassword())) {
     		userService.withdrawUser(userSeq);
     		log.info("[WITHDRAW] 회원탈퇴 완료");
             return CommonResponse.success(CommonResponseDTO.of("SUCCESS","회원탈퇴 성공"));
     	} else {
     		log.info("[WITHDRAW] 회원탈퇴 실패");
             return CommonResponse.success(CommonResponseDTO.of("FAIL","회원탈퇴 실패"));
-
     	}
     }
     
