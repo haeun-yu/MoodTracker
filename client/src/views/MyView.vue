@@ -95,7 +95,6 @@
 
 <script setup lang="ts">
 import { onMounted, ref } from 'vue'
-import { userInformation } from '@/datas/user'
 import authAPI from '@/api/auth'
 import { useRouter } from 'vue-router'
 import { useToastStore } from '@/stores/toast.store'
