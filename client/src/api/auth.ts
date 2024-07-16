@@ -5,7 +5,7 @@ const axiosInstance = axios.create({
   withCredentials: true
 })
 
-const checkLogin = async (): Promise<boolean> => {
+const checkLogin = async (): Promise<CheckLogin> => {
   try {
     const response = await axiosInstance.get(``)
 
@@ -16,7 +16,7 @@ const checkLogin = async (): Promise<boolean> => {
   }
 }
 
-const signup = async (data: User): Promise<any> => {
+const signUp = async (data: User): Promise<any> => {
   try {
     const response = await axiosInstance.post(`/join`, data)
 
@@ -27,7 +27,7 @@ const signup = async (data: User): Promise<any> => {
   }
 }
 
-const getInformation = async (): Promise<User[]> => {
+const getInformation = async (): Promise<User> => {
   try {
     const response = await axiosInstance.get(`/info`)
 
@@ -60,7 +60,10 @@ const logout = async (): Promise<any> => {
   }
 }
 
-const resetPassword = async (data: { email: string }): Promise<any> => {
+const resetPassword = async (data: {
+  currentPassword: string
+  newPassword: string
+}): Promise<any> => {
   try {
     const response = await axiosInstance.post(`/reset`, data)
 
@@ -71,9 +74,9 @@ const resetPassword = async (data: { email: string }): Promise<any> => {
   }
 }
 
-const deleteAccount = async (): Promise<any> => {
+const deleteAccount = async (data: { password: string }): Promise<any> => {
   try {
-    const response = await axiosInstance.delete(`/withdraw`)
+    const response = await axiosInstance.post(`/withdraw`, data)
 
     return response.data
   } catch (error) {
@@ -82,6 +85,6 @@ const deleteAccount = async (): Promise<any> => {
   }
 }
 
-const authAPI = { checkLogin, signup, getInformation, login, logout }
+const authAPI = { checkLogin, signUp, getInformation, login, logout, resetPassword, deleteAccount }
 
 export default authAPI

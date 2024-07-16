@@ -22,7 +22,13 @@
           <CommonInput v-model="form.password" placeholder="Enter Password" />
         </div>
 
-        <button class="btn-primary p-[10px]" @click="handleLogin">Login</button>
+        <button
+          class="btn-primary p-[10px]"
+          @click="handleLogin"
+          :disabled="isSendLoading || isEmpty"
+        >
+          Login
+        </button>
         <RouterLink to="/sign-up" class="btn-secondary p-[10px]">Sign up</RouterLink>
         <div class="w-full flex justify-end">
           <RouterLink to="/reset-password" class="btn-line">Forget password</RouterLink>
@@ -33,16 +39,70 @@
 </template>
 
 <script setup lang="ts">
-import { ref } from 'vue'
+import { ref, computed, onMounted } from 'vue'
+import authAPI from '@/api/auth'
+import { useRouter } from 'vue-router'
+import { useToastStore } from '@/stores/toast.store'
 import CommonInput from '@/components/input/CommonInput.vue'
+
+const router = useRouter()
+const { addToast } = useToastStore()
 
 const form = ref<Login>({
   email: '',
   password: ''
 })
+const isSendLoading = ref<boolean>(false)
+const isEmpty = computed(() => {
+  return !form.value.email || !form.value.password
+})
+const EMAIL_FORMAT = /^([0-9a-zA-Z_.-]+)@([0-9a-zA-Z_-]+)(\.[0-9a-zA-Z_-]+){1,2}$/
 
-const handleLogin = () => {
-  console.log(form.value)
+onMounted(async () => {
+  try {
+    const response = await authAPI.checkLogin()
+    if (response) {
+      router.push('/')
+    }
+  } catch (error) {
+    addToast({
+      message: '서버에 문제가 발생했습니다. 다시 시도해주세요.'
+    })
+    console.error(error)
+    isSendLoading.value = false
+  }
+})
+
+const handleLogin = async () => {
+  if (isSendLoading.value) return
+  isSendLoading.value = true
+
+  if (isEmpty.value) {
+    addToast({
+      message: '모든 항목을 입력해주세요.'
+    })
+    isSendLoading.value = false
+    return
+  }
+
+  if (!EMAIL_FORMAT.test(form.value.email)) {
+    addToast({
+      message: '이메일을 올바르게 입력해주세요.'
+    })
+    isSendLoading.value = false
+    return
+  }
+
+  try {
+    await authAPI.login(form.value)
+    router.push('/')
+  } catch (error) {
+    addToast({
+      message: '로그인에 실패했습니다. 다시 시도해주세요.'
+    })
+    console.error(error)
+    isSendLoading.value = false
+  }
 }
 </script>
 
