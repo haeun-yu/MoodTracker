@@ -10,7 +10,7 @@
 
     <section class="flex gap-[50px]">
       <article v-for="(member, index) in members" :key="index">
-        <img :src="member.img" alt="member.name" class="w-[30px] h-[30px]" />
+        <img :src="member.img" alt="member.name" class="w-[25px] h-[25px]" />
         <p class="text-[15px]">{{ member.name }}</p>
         <p class="text-[#888888] text-[13px]">{{ member.role }}</p>
       </article>
@@ -21,22 +21,22 @@
 <script setup lang="ts">
 const members: any[] = [
   {
-    img: '/images/sample-image.svg',
+    img: '/icons/Seungwook.svg',
     name: 'Seungwook Byun',
     role: 'Team Leader & Planner'
   },
   {
-    img: '/images/sample-image.svg',
+    img: '/icons/Gayeong.svg',
     name: 'Gayeong Kim',
     role: 'Designer'
   },
   {
-    img: '/images/sample-image.svg',
+    img: '/icons/Eunchan.svg',
     name: 'Eunchan Ju',
     role: 'Back-end developer'
   },
   {
-    img: '/images/sample-image.svg',
+    img: '/icons/Haeun.svg',
     name: 'Haeun Yu',
     role: 'Front-end developer'
   }

@@ -36,7 +36,7 @@
           />
           <div class="flex border-b-[1.5px] border-black">
             <label class="w-[30%] text-[26px]">Name</label>
-            <p class="w-[70%]] text-[26px] font-light">{{ user.name }}</p>
+            <p class="w-[70%]] text-[26px] font-light">{{ user.userName }}</p>
           </div>
           <div class="flex border-b-[1.5px] border-black">
             <label class="w-[30%] text-[26px]">Email</label>
@@ -70,12 +70,22 @@
         <div class="w-full flex flex-col justify-between gap-[30px] p-[20px]">
           <div class="flex flex-col gap-[10px]">
             <label class="w-[50%] text-[20px]">Your Password</label>
-            <CommonInput type="password" class="w-[50%] text-[20px] font-light" />
+            <CommonInput
+              type="password"
+              v-model="password"
+              class="w-[50%] text-[20px] font-light"
+            />
           </div>
 
           <div class="flex items-end justify-between">
             <img src="/images/delete-account.svg" />
-            <button class="btn-primary p-[10px]">Delete Account</button>
+            <button
+              class="btn-primary px-[20px] py-[10px] rounded-[30px] rounded-br-none"
+              @click="handleDeleteAccount"
+              :disabled="isDeleteLoading"
+            >
+              Delete Account
+            </button>
           </div>
         </div>
       </article>
@@ -86,21 +96,74 @@
 <script setup lang="ts">
 import { onMounted, ref } from 'vue'
 import { userInformation } from '@/datas/user'
+import authAPI from '@/api/auth'
+import { useRouter } from 'vue-router'
+import { useToastStore } from '@/stores/toast.store'
 import CommonInput from '@/components/input/CommonInput.vue'
+
+const router = useRouter()
+const { addToast } = useToastStore()
 
 const menu = ref<string>('My Information')
 const user = ref<User>({
-  name: '',
+  userName: '',
   email: '',
   password: ''
 })
+const password = ref<string>('')
 
-onMounted(() => {
-  user.value = userInformation
+const isDeleteLoading = ref<boolean>(false)
+
+onMounted(async () => {
+  try {
+    const response = await authAPI.checkLogin()
+    if (response.userSeq === 1) {
+      router.push('/')
+    } else {
+      addToast({
+        message: '로그인이 필요합니다.'
+      })
+      router.push('/login')
+    }
+  } catch (error) {
+    addToast({
+      message: '서버에 문제가 발생했습니다. 다시 시도해주세요.'
+    })
+    console.error(error)
+  }
+
+  try {
+    const response = await authAPI.getInformation()
+    if (response) {
+      user.value = response
+    }
+  } catch (error) {
+    addToast({
+      message: '사용자 정보를 가져올 수 없습니다. 다시 시도해주세요.'
+    })
+    console.error(error)
+    router.back()
+  }
 })
 
 const handleMenu = (value: string) => {
   menu.value = value
+}
+
+const handleDeleteAccount = async () => {
+  if (isDeleteLoading.value) return
+
+  try {
+    const data = { password: password.value }
+    await authAPI.deleteAccount(data)
+    router.push('/')
+  } catch (error) {
+    addToast({
+      message: '탈퇴에 실패했습니다. 다시 시도해주세요.'
+    })
+    console.error(error)
+    isDeleteLoading.value = false
+  }
 }
 </script>
 

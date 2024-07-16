@@ -6,7 +6,26 @@
       <article class="w-full flex flex-col gap-[15px]">
         <div class="flex flex-col gap-[10px]">
           <label>Email</label>
-          <CommonInput v-model="form.email" placeholder="Enter Email" />
+          <div class="flex items-center gap-[10px]">
+            <CommonInput v-model="form.email" placeholder="Enter Email" />
+            <button
+              class="btn-primary p-[10px] text-sm"
+              :disabled="isSendCode"
+              @click="handleSendVerificationCode"
+            >
+              Send
+            </button>
+          </div>
+          <div v-if="isSendCode" class="flex items-center gap-[10px]">
+            <CommonInput v-model="confirmCode" placeholder="Enter Verification Code" />
+            <button
+              class="btn-primary p-[10px] text-sm"
+              :disabled="isCheckCode"
+              @click="handleCheckVerificationCode"
+            >
+              Confirm
+            </button>
+          </div>
         </div>
 
         <div class="flex flex-col gap-[10px]">
@@ -21,7 +40,13 @@
         </div>
 
         <div class="flex justify-end">
-          <button class="btn-primary p-[10px]" @click="handleResetPassword">Submit</button>
+          <button
+            class="btn-primary p-[10px]"
+            @click="handleResetPassword"
+            :disabled="isResetLoading"
+          >
+            Submit
+          </button>
         </div>
       </article>
     </section>
@@ -29,16 +54,34 @@
 </template>
 
 <script setup lang="ts">
-import { ref, watch } from 'vue'
+import { ref, watch, computed } from 'vue'
+import authAPI from '@/api/auth'
+import emailAPI from '@/api/email'
+import { useRouter } from 'vue-router'
+import { useToastStore } from '@/stores/toast.store'
 import CommonInput from '@/components/input/CommonInput.vue'
 
+const router = useRouter()
+const { addToast } = useToastStore()
+
 const form = ref<User>({
-  name: '',
+  userName: '',
   email: '',
   password: ''
 })
 const confirmPassword = ref<string>('')
 const confirmMessage = ref<string>('')
+const confirmCode = ref<string>('')
+
+const isSendCode = ref<boolean>(false)
+const isCheckCode = ref<boolean>(false)
+const isResetLoading = ref<boolean>(false)
+
+const EMAIL_FORMAT = /^([0-9a-zA-Z_.-]+)@([0-9a-zA-Z_-]+)(\.[0-9a-zA-Z_-]+){1,2}$/
+
+const isEmpty = computed(() => {
+  return !form.value.password || !confirmPassword.value
+})
 
 watch(
   () => confirmPassword.value,
@@ -49,13 +92,99 @@ watch(
   }
 )
 
-const handleResetPassword = () => {
+const handleSendVerificationCode = async () => {
+  if (!EMAIL_FORMAT.test(form.value.email) || !form.value.email) {
+    addToast({
+      message: '이메일을 올바르게 입력해주세요.'
+    })
+    return
+  }
+
+  isSendCode.value = true
+  try {
+    const data = {
+      mail: form.value.email
+    }
+    const response = await emailAPI.sendVerificationEmail(data)
+    if (response) {
+      addToast({
+        message: '인증 코드가 발송되었습니다. 메일을 확인해주세요.'
+      })
+    }
+  } catch (error) {
+    addToast({
+      message: '서버에 문제가 발생했습니다. 다시 시도해주세요.'
+    })
+    console.error(error)
+    isSendCode.value = false
+  }
+}
+
+const handleCheckVerificationCode = async () => {
+  if (!confirmCode.value) {
+    addToast({
+      message: '인증 코드를 입력해주세요.'
+    })
+    return
+  }
+
+  isCheckCode.value = true
+  try {
+    const data = {
+      userNumber: confirmCode.value
+    }
+    const response = await emailAPI.checkVerificationCode(data)
+    if (response) {
+      addToast({
+        message: '인증이 완료되었습니다.'
+      })
+    }
+  } catch (error) {
+    addToast({
+      message: '올바른 인증 번호를 입력해주세요.'
+    })
+    console.error(error)
+    isCheckCode.value = false
+  }
+}
+
+const handleResetPassword = async () => {
+  if (!isCheckCode.value) {
+    addToast({
+      message: '이메일 인증을 진행해주세요.'
+    })
+    return
+  }
+
+  if (isEmpty.value) {
+    addToast({
+      message: '비밀번호를 입력해주세요.'
+    })
+    return
+  }
+
   if (form.value.password !== confirmPassword.value) {
     confirmMessage.value = '비밀번호가 일치하지 않습니다.'
     return
   }
 
-  console.log(form.value)
+  isResetLoading.value = true
+
+  try {
+    const data = {
+      currentPassword: form.value.password,
+      newPassword: confirmPassword.value
+    }
+
+    await authAPI.resetPassword(data)
+    router.push('/login')
+  } catch (error) {
+    addToast({
+      message: '비밀번호 변경에 실패했습니다. 다시 시도해주세요.'
+    })
+    console.error(error)
+    isResetLoading.value = false
+  }
 }
 </script>
 

@@ -1,0 +1,32 @@
+import axios from 'axios'
+
+const axiosInstance = axios.create({
+  baseURL: import.meta.env.VITE_BASE_API_URL + '/email',
+  withCredentials: true
+})
+
+const sendVerificationEmail = async (data: { mail: string }): Promise<any> => {
+  try {
+    const response = await axiosInstance.post(`/mailSend`, data)
+
+    return response.data
+  } catch (error) {
+    console.log('sendVerificationEmail error: ', error)
+    throw error
+  }
+}
+
+const checkVerificationCode = async (data: { userNumber: string }): Promise<any> => {
+  try {
+    const response = await axiosInstance.post(`/mailCheck`, data)
+
+    return response.data
+  } catch (error) {
+    console.log('checkVerificationCode error: ', error)
+    throw error
+  }
+}
+
+const emailAPI = { sendVerificationEmail, checkVerificationCode }
+
+export default emailAPI
