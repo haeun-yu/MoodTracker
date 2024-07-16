@@ -10,11 +10,14 @@
   <footer>
     <CommonFooter />
   </footer>
+
+  <CommonToast />
 </template>
 
 <script setup lang="ts">
 import CommonHeader from '@/components/general/CommonHeader.vue'
 import CommonFooter from '@/components/general/CommonFooter.vue'
+import CommonToast from '@/components/CommonToast.vue'
 </script>
 
 <style scoped></style>

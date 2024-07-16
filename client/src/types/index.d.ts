@@ -15,3 +15,16 @@ type Diary = {
   content: string
   feedback: string
 }
+
+type Toast = {
+  id?: string
+  message: string
+  timeout?: number
+}
+
+type CheckLogin = {
+  loggedIn: boolean
+  userSeq: 0 | 1
+  userName: string
+  message: string
+}
