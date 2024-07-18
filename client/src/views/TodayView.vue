@@ -43,7 +43,7 @@
         </div>
 
         <div v-if="isDone" class="absolute top-[-80px] right-[-50px]">
-          <img src="/images/stamp.svg" alt="diary" class="w-full" />
+          <img src="/images/stamp.svg" alt="diary" class="w-[200px]" />
         </div>
       </article>
 
