@@ -79,7 +79,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref, onMounted, onUnmounted } from 'vue'
+import { ref, onBeforeMount, onUnmounted } from 'vue'
 
 const fadeSection1 = ref(null)
 const fadeSection2 = ref(null)
@@ -99,7 +99,7 @@ const handleIntersect = (entries: IntersectionObserverEntry[], observer: Interse
   })
 }
 
-onMounted(() => {
+onBeforeMount(() => {
   const observer = new IntersectionObserver(handleIntersect, {
     threshold: 0.1
   })

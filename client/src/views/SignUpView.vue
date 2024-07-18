@@ -59,7 +59,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref, watch, computed, onMounted } from 'vue'
+import { ref, watch, computed, onBeforeMount } from 'vue'
 import authAPI from '@/api/auth'
 import emailAPI from '@/api/email'
 import { useRouter } from 'vue-router'
@@ -87,10 +87,13 @@ const isEmpty = computed(() => {
 
 const EMAIL_FORMAT = /^([0-9a-zA-Z_.-]+)@([0-9a-zA-Z_-]+)(\.[0-9a-zA-Z_-]+){1,2}$/
 
-onMounted(async () => {
+onBeforeMount(async () => {
   try {
     const response = await authAPI.checkLogin()
-    if (response) {
+    if (response.userSeq === 1) {
+      addToast({
+        message: '로그인이 되어있습니다.'
+      })
       router.push('/')
     }
   } catch (error) {

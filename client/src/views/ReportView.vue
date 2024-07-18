@@ -3,7 +3,7 @@
 </template>
 
 <script setup lang="ts">
-import { onMounted, ref, watch } from 'vue'
+import { onBeforeMount, ref, watch } from 'vue'
 import authAPI from '@/api/auth'
 import { useRouter } from 'vue-router'
 import { useToastStore } from '@/stores/toast.store'
@@ -11,12 +11,10 @@ import { useToastStore } from '@/stores/toast.store'
 const router = useRouter()
 const { addToast } = useToastStore()
 
-onMounted(async () => {
+onBeforeMount(async () => {
   try {
     const response = await authAPI.checkLogin()
-    if (response.userSeq === 1) {
-      router.push('/')
-    } else {
+    if (response.userSeq !== 1) {
       addToast({
         message: '로그인이 필요합니다.'
       })
