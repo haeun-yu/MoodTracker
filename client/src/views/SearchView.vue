@@ -62,7 +62,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref, watch, onMounted, computed } from 'vue'
+import { ref, watch, onBeforeMount, computed } from 'vue'
 import authAPI from '@/api/auth'
 import { useRouter } from 'vue-router'
 import { useToastStore } from '@/stores/toast.store'
@@ -165,12 +165,10 @@ const diaryList = ref<Diary[]>([
 const searchResult = ref<Diary[]>([])
 const ITEMS_PER_PAGE = 10
 
-onMounted(async () => {
+onBeforeMount(async () => {
   try {
     const response = await authAPI.checkLogin()
-    if (response.userSeq === 1) {
-      router.push('/')
-    } else {
+    if (response.userSeq !== 1) {
       addToast({
         message: '로그인이 필요합니다.'
       })
@@ -232,7 +230,7 @@ const nextPage = () => {
   }
 }
 
-// onMounted(() => {
+// onBeforeMount(() => {
 //   searchResult.value = diaryList.value
 // })
 
