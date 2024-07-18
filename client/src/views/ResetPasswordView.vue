@@ -54,7 +54,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref, watch, computed } from 'vue'
+import { ref, watch, computed, onBeforeMount } from 'vue'
 import authAPI from '@/api/auth'
 import emailAPI from '@/api/email'
 import { useRouter } from 'vue-router'
@@ -81,6 +81,16 @@ const EMAIL_FORMAT = /^([0-9a-zA-Z_.-]+)@([0-9a-zA-Z_-]+)(\.[0-9a-zA-Z_-]+){1,2}
 
 const isEmpty = computed(() => {
   return !form.value.password || !confirmPassword.value
+})
+
+onBeforeMount(async () => {
+  const response = await authAPI.checkLogin()
+  if (response.userSeq === 1) {
+    addToast({
+      message: '로그인이 되어있습니다.'
+    })
+    router.push('/')
+  }
 })
 
 watch(

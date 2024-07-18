@@ -43,7 +43,7 @@
         </div>
 
         <div v-if="isDone" class="absolute top-[-80px] right-[-50px]">
-          <img src="/images/stamp.svg" alt="diary" class="w-full" />
+          <img src="/images/stamp.svg" alt="diary" class="w-[200px]" />
         </div>
       </article>
 
@@ -71,7 +71,7 @@
 </template>
 
 <script setup lang="ts">
-import { onMounted, ref, watch } from 'vue'
+import { onBeforeMount, ref, watch } from 'vue'
 import { formatDate } from '@vueuse/core'
 import Gemini from '@/api/gemini'
 import authAPI from '@/api/auth'
@@ -106,12 +106,10 @@ const gemini = ref<Gemini | null>(null)
 const isLoading = ref<boolean>(false)
 const isDone = ref<boolean>(false)
 
-onMounted(async () => {
+onBeforeMount(async () => {
   try {
     const response = await authAPI.checkLogin()
-    if (response.userSeq === 1) {
-      router.push('/')
-    } else {
+    if (response.userSeq !== 1) {
       addToast({
         message: '로그인이 필요합니다.'
       })
