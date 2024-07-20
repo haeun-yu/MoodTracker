@@ -12,8 +12,7 @@ import com.moodTracker.domain.entity.Diary;
 
 public interface DiaryRepository extends JpaRepository<Diary, Integer>{
 
-	List<Diary> findByContentContaining(String searchWord);
-	Diary findByCreatedAt(LocalDateTime searchDate);
-	Optional<Diary> findByCreatedAtAndUserSeq(LocalDateTime localDateTime, Integer userSeq);
+	List<Diary> findByUserSeqAndContentContaining(Integer userSeq, String searchWord);
+	Optional<Diary> findByUserSeqAndCreatedAt(Integer userSeq, LocalDateTime localDateTime);
 	void save(DiaryDTO diaryDTO);
 }

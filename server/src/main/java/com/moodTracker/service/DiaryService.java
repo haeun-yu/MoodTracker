@@ -42,21 +42,21 @@ public class DiaryService {
 	    }
 
 	 /**
-	  * 유저 일련번호와 날짜로 일기 중복여부 조회
+	  * 유저 일련번호와 날짜로 일기 조회
 	  * @param localDateTime
 	  * @param userSeq
 	  * @return
 	  */
-	    public Optional<Diary> findDiaryByDateAndUserSeq(LocalDateTime localDateTime, Integer userSeq) {
-	        return diaryRepository.findByCreatedAtAndUserSeq(localDateTime, userSeq);
+	    public Optional<Diary> findDiaryByUserSeqAndDate(Integer userSeq, LocalDateTime localDateTime) {
+	        return diaryRepository.findByUserSeqAndCreatedAt(userSeq, localDateTime);
 	    }
 	
 	/**
 	 * 키워드로 일기검색 기능
 	 * @param searchWord
 	 */
-	public List<Diary> getSearchedDiaryByKeword(String searchWord) {
-		return diaryRepository.findByContentContaining(searchWord);
+	public List<Diary> searchDiaryByKeword(Integer userSeq, String searchWord) {
+		return diaryRepository.findByUserSeqAndContentContaining(userSeq, searchWord);
 	}
 	
 	/**
@@ -80,8 +80,8 @@ public class DiaryService {
 	 * @param searchDate
 	 * @return
 	 */
-	public Diary getSearchedDiaryByDate(String searchDate) {
-		return diaryRepository.findByCreatedAt(parseDateTime(searchDate));
+	public Optional<Diary> searchDiaryByDate(Integer userSeq, String searchDate) {
+		return diaryRepository.findByUserSeqAndCreatedAt(userSeq, parseDateTime(searchDate));
 	}
 	
 }

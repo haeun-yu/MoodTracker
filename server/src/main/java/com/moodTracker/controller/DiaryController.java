@@ -51,7 +51,7 @@ public class DiaryController {
 				diaryDTO.setUserSeq(userSeq);
 				
 		        // 동일한 날짜의 일기가 이미 존재하는지 확인
-		        Optional<Diary> existingDiaryOptional = diaryService.findDiaryByDateAndUserSeq(LocalDateTime.now().toLocalDate().atStartOfDay(), userSeq);
+		        Optional<Diary> existingDiaryOptional = diaryService.findDiaryByUserSeqAndDate(userSeq, LocalDateTime.now().toLocalDate().atStartOfDay());
 
 		        if (existingDiaryOptional.isPresent()) {
 		            // 이미 일기가 존재하면 업데이트 수행
@@ -90,7 +90,7 @@ public class DiaryController {
 		//쿠키로 조회한 유저명과 쿼리스트링으로 넘어온 유저명 비교
 		if(user.getUserName().equals(userName)) {
 			log.info("[SEARCH] SEARCH 성공");
-	        return CommonResponse.success(diaryService.getSearchedDiaryByKeword(searchWord));
+	        return CommonResponse.success(diaryService.searchDiaryByKeword(userSeq, searchWord));
 		} else {
 			log.info("[SEARCH] SEARCH 실패");
 	        return CommonResponse.success(CommonResponseDTO.of("FAIL", "잘못된 접근입니다."));
@@ -111,8 +111,8 @@ public class DiaryController {
 		if(user.getUserName().equals(userName)) {
             try {
                 log.info("[SEARCH] SEARCH 성공");
-                Diary searchedDiaryByDate = diaryService.getSearchedDiaryByDate(submitDate);
-                return CommonResponse.success(searchedDiaryByDate);
+                Optional<Diary> searchDiaryByDate = diaryService.searchDiaryByDate(userSeq, submitDate);
+                return CommonResponse.success(searchDiaryByDate);
             } catch (DateTimeParseException e) {
                 log.error("[SEARCH] 날짜 형식 변환 오류: {}", e.getMessage());
                 return CommonResponse.success(CommonResponseDTO.of("FAIL", "날짜 형식이 올바르지 않습니다."));
@@ -123,5 +123,6 @@ public class DiaryController {
 		} else {
 			log.info("[SEARCH] SEARCH 실패");
 	        return CommonResponse.success(CommonResponseDTO.of("FAIL", "잘못된 접근입니다."));
-		}		}
+		}		
+	}
 }
