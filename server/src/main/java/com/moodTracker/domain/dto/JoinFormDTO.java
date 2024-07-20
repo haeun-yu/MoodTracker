@@ -23,6 +23,7 @@ public class JoinFormDTO {
     @NotBlank(message = "닉네임이 비어있습니다.")
     private String userName;
 
+    //Builder로 User 생성 후, User 타입으로 반환
     public User toEntity() {
         return User.builder()
                 .email(this.email)
