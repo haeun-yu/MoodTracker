@@ -5,14 +5,11 @@ import lombok.extern.slf4j.Slf4j;
 
 import java.util.List;
 
-import org.springframework.http.ResponseEntity;
-import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.*;
 
 import com.moodTracker.domain.CommonResponse;
-import com.moodTracker.domain.UserRole;
 import com.moodTracker.domain.dto.CommonResponseDTO;
 import com.moodTracker.domain.dto.JoinFormDTO;
 import com.moodTracker.domain.dto.LoginFormDTO;
@@ -143,7 +140,7 @@ public class CookieLoginController {
     	if(loginUser == null) {
     		//로그인 이후 패스워드 변경요청 시 쿠키 값 없는경우 or 패킷 조작을 통해 쿠키값을 변경한 경우..
             log.info("[RESET] 패스워드 변경 실패: 쿠키 만료");
-            return CommonResponse.success(CommonResponseDTO.of("FAIL", "쿠키가 만료되었습니다."));
+            return CommonResponse.success(CommonResponseDTO.of("FAIL", "잘못된 접근입니다."));
             
     	} else {
     		//쿠키 값 가진채로 PW 변경
