@@ -46,7 +46,19 @@
         </p>
       </article>
 
-      <img src="/images/main/main2.svg" />
+      <article class="relative">
+        <img src="/images/main/main2.svg" />
+        <img
+          ref="fadeSection2_1"
+          class="absolute top-[213px] left-[152px] fade-up-1"
+          src="/images/main/main2-1.svg"
+        />
+        <img
+          ref="fadeSection2_2"
+          class="absolute bottom-[100px] right-[212px] fade-up-2"
+          src="/images/main/main2-2.svg"
+        />
+      </article>
     </section>
 
     <section ref="fadeSection3" class="flex items-center justify-between w-full fade-up">
@@ -79,7 +91,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref, onBeforeMount, onUnmounted } from 'vue'
+import { ref, onMounted, onUnmounted } from 'vue'
 
 const fadeSection1 = ref(null)
 const fadeSection2 = ref(null)
@@ -87,6 +99,8 @@ const fadeSection3 = ref(null)
 const fadeSection1_1 = ref(null)
 const fadeSection1_2 = ref(null)
 const fadeSection1_3 = ref(null)
+const fadeSection2_1 = ref(null)
+const fadeSection2_2 = ref(null)
 
 const handleIntersect = (entries: IntersectionObserverEntry[], observer: IntersectionObserver) => {
   entries.forEach((entry) => {
@@ -99,7 +113,7 @@ const handleIntersect = (entries: IntersectionObserverEntry[], observer: Interse
   })
 }
 
-onBeforeMount(() => {
+onMounted(() => {
   const observer = new IntersectionObserver(handleIntersect, {
     threshold: 0.1
   })
@@ -110,6 +124,8 @@ onBeforeMount(() => {
   if (fadeSection1_1.value) observer.observe(fadeSection1_1.value)
   if (fadeSection1_2.value) observer.observe(fadeSection1_2.value)
   if (fadeSection1_3.value) observer.observe(fadeSection1_3.value)
+  if (fadeSection2_1.value) observer.observe(fadeSection2_1.value)
+  if (fadeSection2_2.value) observer.observe(fadeSection2_2.value)
 })
 
 onUnmounted(() => {
