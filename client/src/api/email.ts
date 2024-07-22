@@ -7,7 +7,9 @@ const axiosInstance = axios.create({
 
 const sendVerificationEmail = async (data: { mail: string }): Promise<any> => {
   try {
-    const response = await axiosInstance.get(`/mailSend`, data)
+    const response = await axiosInstance.get('/mailSend', {
+      params: data
+    })
 
     return response.data
   } catch (error) {
@@ -18,7 +20,9 @@ const sendVerificationEmail = async (data: { mail: string }): Promise<any> => {
 
 const checkVerificationCode = async (data: { userNumber: string }): Promise<any> => {
   try {
-    const response = await axiosInstance.get(`/mailCheck`, data)
+    const response = await axiosInstance.get('/mailCheck', {
+      params: data
+    })
 
     return response.data
   } catch (error) {
