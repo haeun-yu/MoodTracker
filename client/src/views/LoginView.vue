@@ -19,7 +19,7 @@
 
         <div class="flex items-center">
           <label>Password</label>
-          <CommonInput v-model="form.password" placeholder="Enter Password" />
+          <CommonInput v-model="form.password" type="password" placeholder="Enter Password" />
         </div>
 
         <button
