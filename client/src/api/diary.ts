@@ -35,7 +35,7 @@ const searchDiaryByDate = async (userName: string, date: string): Promise<any> =
   }
 }
 
-const createDiary = async (userName: string, data: Diary): Promise<any> => {
+const createDiary = async (userName: string, data: DiaryForm): Promise<any> => {
   try {
     // const data = {
     //   content: string

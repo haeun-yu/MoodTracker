@@ -175,7 +175,7 @@ const handleQuestion = () => {
 }
 
 const submitDiary = async () => {
-  const sendForm = {
+  const sendForm: DiaryForm = {
     emotion: form.value.emotion,
     content: form.value.content,
     feedback: form.value.feedback
