@@ -2,7 +2,10 @@
   <div class="h-full flex flex-col items-center justify-between gap-[150px]">
     <section class="flex flex-col items-center gap-[50px]">
       <p class="text-3xl-regular">Mood tracker와 감정을 기록하며 하루를 되새겨보세요.</p>
-      <RouterLink to="/today" class="btn-tertiary py-[10px] px-[35px] text-[24px] font-semibold">
+      <RouterLink
+        :to="isLoggedIn ? '/today' : '/login'"
+        class="btn-tertiary py-[10px] px-[35px] text-[24px] font-semibold"
+      >
         기록 시작
       </RouterLink>
 
@@ -81,7 +84,7 @@
     >
       <p class="text-2xl-regular text-[#363636]">이제 저희와 함께 여정을 떠나 보실래요?</p>
       <RouterLink
-        to="/today"
+        :to="isLoggedIn ? '/today' : '/login'"
         class="btn-tertiary w-[calc(70vw)] p-[10px] text-[24px] font-semibold"
       >
         기록하러 가기
@@ -92,6 +95,11 @@
 
 <script setup lang="ts">
 import { ref, onMounted, onUnmounted } from 'vue'
+import authAPI from '@/api/auth'
+import { useToastStore } from '@/stores/toast.store'
+
+const isLoggedIn = ref(false)
+const { addToast } = useToastStore()
 
 const fadeSection1 = ref(null)
 const fadeSection2 = ref(null)
@@ -113,7 +121,16 @@ const handleIntersect = (entries: IntersectionObserverEntry[], observer: Interse
   })
 }
 
-onMounted(() => {
+onMounted(async () => {
+  try {
+    const response = await authAPI.checkLogin()
+    isLoggedIn.value = response.loggedIn
+  } catch (error) {
+    addToast({
+      message: '서버에 문제가 발생했습니다. 다시 시도해주세요.'
+    })
+    console.error(error)
+  }
   const observer = new IntersectionObserver(handleIntersect, {
     threshold: 0.1
   })

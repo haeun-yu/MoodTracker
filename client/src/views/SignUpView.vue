@@ -90,7 +90,7 @@ const EMAIL_FORMAT = /^([0-9a-zA-Z_.-]+)@([0-9a-zA-Z_-]+)(\.[0-9a-zA-Z_-]+){1,2}
 onBeforeMount(async () => {
   try {
     const response = await authAPI.checkLogin()
-    if (response.userSeq === 1) {
+    if (response.loggedIn) {
       addToast({
         message: '로그인이 되어있습니다.'
       })

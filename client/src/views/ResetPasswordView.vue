@@ -85,7 +85,7 @@ const isEmpty = computed(() => {
 
 onBeforeMount(async () => {
   const response = await authAPI.checkLogin()
-  if (response.userSeq === 1) {
+  if (response.loggedIn) {
     addToast({
       message: '로그인이 되어있습니다.'
     })

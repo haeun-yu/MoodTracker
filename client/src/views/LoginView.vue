@@ -61,7 +61,7 @@ const EMAIL_FORMAT = /^([0-9a-zA-Z_.-]+)@([0-9a-zA-Z_-]+)(\.[0-9a-zA-Z_-]+){1,2}
 onBeforeMount(async () => {
   try {
     const response = await authAPI.checkLogin()
-    if (response.userSeq === 1) {
+    if (response.loggedIn) {
       addToast({
         message: '로그인이 되어있습니다.'
       })
@@ -72,7 +72,7 @@ onBeforeMount(async () => {
       message: '서버에 문제가 발생했습니다. 다시 시도해주세요.'
     })
     console.error(error)
-    isSendLoading.value = false
+    router.push('/')
   }
 })
 
