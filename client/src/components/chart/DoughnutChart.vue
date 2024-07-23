@@ -22,7 +22,7 @@ type Props = {
 const props = defineProps<Props>()
 
 const doughnutChart = ref<HTMLCanvasElement | null>(null)
-let chartInstance: Chart | null = null
+let chartInstance: Chart<'doughnut', number[], unknown> | null = null
 
 const createChart = () => {
   if (chartInstance) chartInstance.destroy()
@@ -41,7 +41,6 @@ const createChart = () => {
         ]
       },
       options: {
-        cutoutPercentage: 90, // not working
         cutout: '80%',
         rotation: -150,
         circumference: 300,
@@ -65,6 +64,4 @@ onMounted(() => {
 watch([() => props.monthlyCount, () => props.endOfDay], createChart)
 </script>
 
-<style scoped>
-/* Add any additional styles here */
-</style>
+<style scoped></style>
