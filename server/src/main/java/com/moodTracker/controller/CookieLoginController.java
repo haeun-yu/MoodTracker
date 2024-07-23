@@ -180,32 +180,4 @@ public class CookieLoginController {
             return CommonResponse.success(CommonResponseDTO.of("FAIL","회원탈퇴 실패"));
     	}
     }
-    
-//    ResposeEntity를 이용한 API 결과값 반환 및 예외처리 구현
-//    @DeleteMapping("/withdraw")
-//    public ResponseEntity<?> withdrawUser(@RequestParam(name = "userId") Long userId) {
-//        try {
-//            // 회원 탈퇴 로직 실행
-//            userService.withdrawUser(userId);
-//
-//            return ResponseEntity.ok("회원 탈퇴 성공");
-//        } catch (Exception e) {
-//            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("회원 탈퇴 실패: " + e.getMessage());
-//        }
-//    }
-//    어드민 페이지
-//    @GetMapping("/admin")
-//    public String adminPage(@CookieValue(name = "userSeq", required = false) Integer userSeq) {
-//        User loginUser = userService.getLoginUser(userSeq);
-//
-//        if(loginUser == null) {
-//            return "redirect:/auth/login";
-//        }
-//
-//        if(!loginUser.getRole().equals(UserRole.ADMIN)) {
-//            return "redirect:/auth";
-//        }
-//
-//        return "auth/admin";
-//    }
 }

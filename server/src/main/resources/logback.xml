@@ -1,14 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
 <configuration>
+
+    <!-- 콘솔 출력용 STDOUT 애펜더 정의 -->
     <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
         <encoder>
+            <!-- 로그 출력 포맷 설정 -->
             <pattern>%d{yyyyMMdd HH:mm:ss.SSS} [%thread] %-5level %logger{35} - %msg%n</pattern>
         </encoder>
     </appender>
 
-    <!-- Turn off unnecessary JDBC logs -->
-    <logger name="org.hibernate.type.descriptor.sql.BasicBinder" level="ERROR" />
+    <!-- Hibernate TRACE 로그 설정 -->
+    <logger name="org.hibernate" level="TRACE">
+        <appender-ref ref="STDOUT" />
+    </logger>
 
-    <root level="DEBUG">
+    <!-- 루트 로거 설정 -->
+    <root level="ERROR">
         <appender-ref ref="STDOUT" />
     </root>
+
 </configuration>
