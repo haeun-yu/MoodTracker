@@ -4,6 +4,12 @@ type Login = {
 }
 
 type User = {
+  name: string
+  email: string
+  password: string
+}
+
+type UserForm = {
   userName: string
   email: string
   password: string
@@ -32,6 +38,6 @@ type Toast = {
 type CheckLogin = {
   loggedIn: boolean
   userSeq: 0 | 1
-  userName: string
+  name: string
   message: string
 }

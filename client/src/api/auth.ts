@@ -16,7 +16,7 @@ const checkLogin = async (): Promise<CheckLogin> => {
   }
 }
 
-const signUp = async (data: User): Promise<any> => {
+const signUp = async (data: UserForm): Promise<any> => {
   try {
     const response = await axiosInstance.post(`/join`, data)
 

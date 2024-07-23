@@ -36,7 +36,7 @@
           />
           <div class="flex border-b-[1.5px] border-black">
             <label class="w-[30%] text-[26px]">Name</label>
-            <p class="w-[70%]] text-[26px] font-light">{{ user.userName }}</p>
+            <p class="w-[70%]] text-[26px] font-light">{{ user.name }}</p>
           </div>
           <div class="flex border-b-[1.5px] border-black">
             <label class="w-[30%] text-[26px]">Email</label>
@@ -105,7 +105,7 @@ const { addToast } = useToastStore()
 
 const menu = ref<string>('My Information')
 const user = ref<User>({
-  userName: '',
+  name: '',
   email: '',
   password: ''
 })

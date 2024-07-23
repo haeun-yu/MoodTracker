@@ -108,7 +108,7 @@ onBeforeMount(async () => {
   }
   user.value = userResponse
 
-  const response = await DiaryAPI.searchDiaryByKeyword(user.value.userName, '')
+  const response = await DiaryAPI.searchDiaryByKeyword(user.value.name, '')
   diaryList.value = response
 
   searchResult.value = diaryList.value
@@ -134,7 +134,7 @@ const sortDiaries = () => {
 }
 
 const handleSearch = async () => {
-  const response = await DiaryAPI.searchDiaryByKeyword(user.value!.userName, search.value)
+  const response = await DiaryAPI.searchDiaryByKeyword(user.value!.name, search.value)
   diaryList.value = response
 
   searchResult.value = diaryList.value.filter((diary) => diary.content.includes(search.value))

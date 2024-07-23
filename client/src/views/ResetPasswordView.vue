@@ -65,7 +65,7 @@ const router = useRouter()
 const { addToast } = useToastStore()
 
 const form = ref<User>({
-  userName: '',
+  name: '',
   email: '',
   password: ''
 })

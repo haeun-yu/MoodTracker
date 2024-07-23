@@ -69,7 +69,7 @@ import CommonInput from '@/components/input/CommonInput.vue'
 const router = useRouter()
 const { addToast } = useToastStore()
 
-const form = ref<User>({
+const form = ref<UserForm>({
   userName: '',
   email: '',
   password: ''
