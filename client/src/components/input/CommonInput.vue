@@ -14,6 +14,6 @@ type Props = {
   placeholder?: string
   disabled?: boolean
 }
-const { type, disabled } = defineProps<Props>()
+const props = defineProps<Props>()
 const value = defineModel<string | number>()
 </script>

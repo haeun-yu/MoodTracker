@@ -36,7 +36,7 @@
           />
           <div class="flex border-b-[1.5px] border-black">
             <label class="w-[30%] text-[26px]">Name</label>
-            <p class="w-[70%]] text-[26px] font-light">{{ user.userName }}</p>
+            <p class="w-[70%]] text-[26px] font-light">{{ user.name }}</p>
           </div>
           <div class="flex border-b-[1.5px] border-black">
             <label class="w-[30%] text-[26px]">Email</label>
@@ -105,7 +105,7 @@ const { addToast } = useToastStore()
 
 const menu = ref<string>('My Information')
 const user = ref<User>({
-  userName: '',
+  name: '',
   email: '',
   password: ''
 })
@@ -116,7 +116,7 @@ const isDeleteLoading = ref<boolean>(false)
 onBeforeMount(async () => {
   try {
     const response = await authAPI.checkLogin()
-    if (response.userSeq !== 1) {
+    if (!response.loggedIn) {
       addToast({
         message: '로그인이 필요합니다.'
       })
@@ -127,6 +127,7 @@ onBeforeMount(async () => {
       message: '서버에 문제가 발생했습니다. 다시 시도해주세요.'
     })
     console.error(error)
+    router.push('/')
   }
 
   try {
