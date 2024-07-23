@@ -5,7 +5,7 @@ const axiosInstance = axios.create({
   withCredentials: true
 })
 
-const searchDiary = async (userName: string, keyword: string): Promise<any> => {
+const searchDiaryByKeyword = async (userName: string, keyword: string): Promise<any> => {
   try {
     const response = await axiosInstance.get(`/searchByKeword/${userName}`, {
       params: {
@@ -53,7 +53,7 @@ const createDiary = async (userName: string, data: DiaryForm): Promise<any> => {
 }
 
 const diaryAPI = {
-  searchDiary,
+  searchDiaryByKeyword,
   searchDiaryByDate,
   createDiary
 }

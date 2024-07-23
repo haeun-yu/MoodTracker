@@ -167,10 +167,37 @@ const handleGeminiResult = (result: string) => {
 }
 
 const handleQuestion = () => {
-  const prompt = `사용자가 하루 동안 기록한 감정을 기반으로 따뜻하고 공감어린 피드백을 작성해줘.
-  너가 준 내용 그대로 일기 작성자에게 보내줄거야.
-  일기의 있는 내용으로 감정을 더 자세하게 분석해줘도 좋을 것 같아. (최대 1000자)
-  선택한 감정: ${form.value.emotion}, 일기의 내용: ${form.value.content}`
+  const prompt = `사용자가 하루 동안 기록한 감정을 기반으로 따뜻하고 공감어린 피드백을 작성해줘. 감정에 따라 아래와 같은 피드백을 출력해줘. 각 피드백은 사용자의 감정과 일기 내용을 바탕으로 특별하고 맞춤형으로 작성되어야 해.
+
+사용자 정보:
+- 사용자 이름: ${user.value!.userName}
+- 일기의 내용: ${form.value.content}
+- 선택한 감정: ${form.value.emotion}
+
+감정에 따른 피드백 예시:
+
+- Happy: "${user.value!.userName}, 오늘 정말 기쁜 하루를 보낸 것 같아 기뻐요! 당신의 긍정적인 에너지가 ${form.value.content}을 통해 전해졌어요. 오늘 하루도 너무 수고 많았고, 내일도 이 기운 그대로 멋진 하루가 될 거예요!"
+
+- Angry: "${user.value!.userName}, 오늘 화가 나는 일이 있었군요. ${form.value.content}을 읽으니 당신의 감정을 충분히 이해할 수 있어요. 때로는 화를 내는 것도 필요해요. 내일은 더 나은 날이 될 거예요. 당신을 항상 응원하고 있어요."
+
+- Sad: "${user.value!.userName}, 오늘 슬픈 일이 있었군요. ${form.value.content}을 통해 당신의 마음이 느껴져요. 슬픔도 우리가 느껴야 할 중요한 감정이에요. 충분히 쉬고, 당신이 소중한 존재라는 걸 잊지 마세요. 내일은 더 나은 날이 될 거예요."
+
+- Exhausted: "${user.value!.userName}, 오늘 많이 피곤했나 봐요. ${form.value.content}을 읽으니 정말 힘든 하루를 보낸 것 같아요. 충분히 쉬어야 해요. 당신의 건강이 가장 중요해요. 내일은 더 활기찬 하루가 되길 바랄게요."
+
+- Panicked: "${user.value!.userName}, 오늘 두려움을 느낀 일이 있었군요. ${form.value.content}을 보니 얼마나 힘들었을지 이해가 돼요. 두려움은 우리를 성장하게 하는 감정이에요. 당신이 이겨낼 수 있다는 걸 믿어요. 내일은 더 안정된 하루가 될 거예요."
+
+- IDK: "${user.value!.userName}, 오늘 무기력한 하루를 보냈군요. ${form.value.content}을 보니 모든 것이 귀찮게 느껴졌겠어요. 누구나 가끔은 이렇게 느낄 때가 있어요. 충분히 쉬고, 자신을 돌봐주세요. 내일은 더 활기찬 하루가 되길 바라요."
+
+- Blue: "${user.value!.userName}, 오늘 우울한 기분이었군요. ${form.value.content}을 통해 당신의 마음이 느껴져요. 우울함도 우리가 겪는 중요한 감정이에요. 충분히 쉬고, 자신을 잘 돌봐주세요. 내일은 더 나은 날이 되길 바랄게요."
+
+- Upset: "${user.value!.userName}, 오늘 속상한 일이 있었군요. ${form.value.content}을 보니 얼마나 마음이 아팠을지 이해가 돼요. 속상함을 느끼는 것도 중요해요. 충분히 쉬고, 자신을 잘 돌봐주세요. 내일은 더 나은 날이 될 거예요."
+
+- Peaceful: "${user.value!.userName}, 오늘 평온한 하루를 보낸 것 같아 기뻐요. ${form.value.content}을 읽으니 당신의 마음이 안정된 것 같아 좋네요. 평온한 하루를 보낸 만큼 내일도 이렇게 평온하길 바랄게요."
+
+출력 형식:
+
+${user.value!.userName}, 사용자가 선택한 감정에 따라 적절한 피드백을 여기에 삽입하세요.`
+
   gemini.value!.generate(prompt)
 }
 
@@ -178,8 +205,8 @@ const submitDiary = async () => {
   const sendForm: DiaryForm = {
     emotion: form.value.emotion,
     content: form.value.content,
-    feedback: form.value.feedback
-    // feedbackCode: form.value.feedbackCode
+    feedback: form.value.feedback,
+    feedbackCode: 'SUCCESS'
   }
   const response = await diaryAPI.createDiary(user.value?.userName!, sendForm)
 

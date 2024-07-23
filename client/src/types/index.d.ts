@@ -20,6 +20,7 @@ type DiaryForm = {
   emotion: string
   content: string
   feedback: string
+  feedbackCode?: string
 }
 
 type Toast = {
