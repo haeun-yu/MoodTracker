@@ -65,7 +65,7 @@ const router = useRouter()
 const { addToast } = useToastStore()
 
 const form = ref<User>({
-  userName: '',
+  name: '',
   email: '',
   password: ''
 })
@@ -85,7 +85,7 @@ const isEmpty = computed(() => {
 
 onBeforeMount(async () => {
   const response = await authAPI.checkLogin()
-  if (response.userSeq === 1) {
+  if (response.loggedIn) {
     addToast({
       message: '로그인이 되어있습니다.'
     })
