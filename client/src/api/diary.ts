@@ -35,7 +35,7 @@ const searchDiaryByDate = async (userName: string, date: string): Promise<any> =
   }
 }
 
-const writeDiary = async (userName: string, data: Diary): Promise<any> => {
+const createDiary = async (userName: string, data: Diary): Promise<any> => {
   try {
     // const data = {
     //   content: string
@@ -55,7 +55,7 @@ const writeDiary = async (userName: string, data: Diary): Promise<any> => {
 const diaryAPI = {
   searchDiary,
   searchDiaryByDate,
-  writeDiary
+  createDiary
 }
 
 export default diaryAPI

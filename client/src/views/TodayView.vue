@@ -60,7 +60,7 @@
       class="diary-container px-[40px] py-[30px] w-[35%] fade-in text-[#434343]"
     >
       <div class="w-full">
-        <p class="text-lg-regular">To. {{ user.name }}</p>
+        <p class="text-lg-regular">To. {{ user?.userName }}</p>
       </div>
       <textarea v-model="form.feedback" class="h-[calc(50vh)]" disabled />
       <div class="w-full text-end">
@@ -75,6 +75,7 @@ import { onBeforeMount, ref, watch } from 'vue'
 import { formatDate } from '@vueuse/core'
 import Gemini from '@/api/gemini'
 import authAPI from '@/api/auth'
+import diaryAPI from '@/api/diary'
 import { useRouter } from 'vue-router'
 import { useToastStore } from '@/stores/toast.store'
 
@@ -93,9 +94,7 @@ const emotions = [
   'Peaceful'
 ]
 
-const user = {
-  name: '아무개'
-}
+const user = ref<User | null>(null)
 const form = ref<Diary>({
   date: '',
   emotion: '',
@@ -122,6 +121,8 @@ onBeforeMount(async () => {
     console.error(error)
     router.push('/')
   }
+
+  user.value = await authAPI.getInformation()
 
   gemini.value = new Gemini(handleGeminiResult)
   form.value.date = formatDate(new Date(), 'YYYY-MM-DD')
@@ -173,11 +174,19 @@ const handleQuestion = () => {
   gemini.value!.generate(prompt)
 }
 
-const submitDiary = () => {
-  // 일기 업로드
-  console.log('Submit Diary: ', form.value)
-  isLoading.value = false
-  isDone.value = true
+const submitDiary = async () => {
+  const sendForm = {
+    emotion: form.value.emotion,
+    content: form.value.content,
+    feedback: form.value.feedback
+    // feedbackCode: form.value.feedbackCode
+  }
+  const response = await diaryAPI.createDiary(user.value?.userName!, sendForm)
+
+  if (response) {
+    isLoading.value = false
+    isDone.value = true
+  }
 }
 </script>
 
