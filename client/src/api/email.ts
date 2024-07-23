@@ -11,7 +11,7 @@ const sendVerificationEmail = async (data: { mail: string }): Promise<any> => {
       params: data
     })
 
-    return response.data
+    return response.data.data
   } catch (error) {
     console.log('sendVerificationEmail error: ', error)
     throw error
@@ -24,7 +24,7 @@ const checkVerificationCode = async (data: { userNumber: string }): Promise<any>
       params: data
     })
 
-    return response.data
+    return response.data.data
   } catch (error) {
     console.log('checkVerificationCode error: ', error)
     throw error

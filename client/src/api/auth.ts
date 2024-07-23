@@ -9,7 +9,7 @@ const checkLogin = async (): Promise<CheckLogin> => {
   try {
     const response = await axiosInstance.get(``)
 
-    return response.data
+    return response.data.data
   } catch (error) {
     console.log('checkLogin error: ', error)
     throw error
@@ -20,7 +20,7 @@ const signUp = async (data: User): Promise<any> => {
   try {
     const response = await axiosInstance.post(`/join`, data)
 
-    return response.data
+    return response.data.data
   } catch (error) {
     console.log('signup error: ', error)
     throw error
@@ -31,7 +31,7 @@ const getInformation = async (): Promise<User> => {
   try {
     const response = await axiosInstance.get(`/info`)
 
-    return response.data
+    return response.data.data
   } catch (error) {
     console.log('getUsers error: ', error)
     throw error
@@ -42,7 +42,7 @@ const login = async (data: Login): Promise<any> => {
   try {
     const response = await axiosInstance.post(`/login`, data)
 
-    return response.data
+    return response.data.data
   } catch (error) {
     console.log('login error: ', error)
     throw error
@@ -53,7 +53,7 @@ const logout = async (): Promise<any> => {
   try {
     const response = await axiosInstance.get(`/logout`)
 
-    return response.data
+    return response.data.data
   } catch (error) {
     console.log('logout error: ', error)
     throw error
@@ -67,7 +67,7 @@ const resetPassword = async (data: {
   try {
     const response = await axiosInstance.post(`/reset`, data)
 
-    return response.data
+    return response.data.data
   } catch (error) {
     console.log('resetPassword error: ', error)
     throw error
@@ -78,7 +78,7 @@ const deleteAccount = async (data: { password: string }): Promise<any> => {
   try {
     const response = await axiosInstance.post(`/withdraw`, data)
 
-    return response.data
+    return response.data.data
   } catch (error) {
     console.log('deleteAccount error: ', error)
     throw error

@@ -13,7 +13,7 @@ const searchDiaryByKeyword = async (userName: string, keyword: string): Promise<
       }
     })
 
-    return response.data
+    return response.data.data
   } catch (error) {
     console.log('searchDiary error: ', error)
     throw error
@@ -28,7 +28,7 @@ const searchDiaryByDate = async (userName: string, date: string): Promise<any> =
       }
     })
 
-    return response.data
+    return response.data.data
   } catch (error) {
     console.log('searchDiaryByDate error: ', error)
     throw error
@@ -45,7 +45,7 @@ const createDiary = async (userName: string, data: DiaryForm): Promise<any> => {
     // }
     const response = await axiosInstance.post(`/submit/${userName}`, data)
 
-    return response.data
+    return response.data.data
   } catch (error) {
     console.log('writeDiary error: ', error)
     throw error
