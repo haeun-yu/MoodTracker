@@ -2,7 +2,7 @@
   <div class="flex items-center justify-between bg-[#D0A7EB] h-[70px] px-[30px]">
     <RouterLink to="/"><img src="/logo/logo.svg" class="h-full" /></RouterLink>
 
-    <nav v-if="menu !== 'login'">
+    <nav v-if="menu !== 'login' && isLogin">
       <RouterLink to="/calendar" class="navigation" :class="{ active: menu === 'calendar' }"
         >Calendar</RouterLink
       >
@@ -17,26 +17,29 @@
       >
       <RouterLink to="/my" class="navigation" :class="{ active: menu === 'my' }">My</RouterLink>
     </nav>
+    <RouterLink v-else to="/login" class="navigation"><img src="/icons/login.svg" /></RouterLink>
   </div>
 </template>
 
 <script setup lang="ts">
 import { ref, watch, onBeforeMount } from 'vue'
 import { useRoute } from 'vue-router'
+import authAPI from '@/api/auth'
 
 const route = useRoute()
 const menu = ref<string>('')
+const isLogin = ref<boolean>(false)
 
 onBeforeMount(async () => {
-  // isLogin.value = userStore.isJustLogin()
+  isLogin.value = await authAPI.checkLogin()
   menu.value = getMenuFromRoute()
-  // information.value = (await userStore.getUserInfo()) as UserInformation
 })
 
 watch(
   () => route,
-  () => {
+  async () => {
     menu.value = getMenuFromRoute()
+    isLogin.value = await authAPI.checkLogin()
   },
   { deep: true }
 )

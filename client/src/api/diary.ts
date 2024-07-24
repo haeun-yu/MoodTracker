@@ -5,7 +5,7 @@ const axiosInstance = axios.create({
   withCredentials: true
 })
 
-const searchDiaryByKeyword = async (userName: string, keyword: string): Promise<any> => {
+const searchDiaryByKeyword = async (userName: string, keyword: string): Promise<Diary[]> => {
   try {
     const response = await axiosInstance.get(`/searchByKeword/${userName}`, {
       params: {
@@ -13,14 +13,20 @@ const searchDiaryByKeyword = async (userName: string, keyword: string): Promise<
       }
     })
 
+    console.log('searchDiary response: ', response)
+
+    if (response.data.data.resultCode !== 'FAIL') {
+      return []
+    }
+
     return response.data.data
   } catch (error) {
     console.log('searchDiary error: ', error)
-    throw error
+    return []
   }
 }
 
-const searchDiaryByDate = async (userName: string, date: string): Promise<any> => {
+const searchDiaryByDate = async (userName: string, date: string): Promise<Diary | null> => {
   try {
     const response = await axiosInstance.get(`/searchByDate/${userName}/date`, {
       params: {
@@ -28,27 +34,32 @@ const searchDiaryByDate = async (userName: string, date: string): Promise<any> =
       }
     })
 
+    console.log('searchDiaryByDate response: ', response)
+
+    if (response.data.data.resultCode !== 'FAIL') {
+      return null
+    }
+
     return response.data.data
   } catch (error) {
     console.log('searchDiaryByDate error: ', error)
-    throw error
+    return null
   }
 }
 
-const createDiary = async (userName: string, data: DiaryForm): Promise<any> => {
+const createDiary = async (userName: string, data: DiaryForm): Promise<boolean> => {
   try {
-    // const data = {
-    //   content: string
-    //   feedback: string
-    //   feedbackCode: string
-    //   emotion: string
-    // }
     const response = await axiosInstance.post(`/submit/${userName}`, data)
+    console.log('writeDiary response: ', response)
 
-    return response.data.data
+    if (response.data.data.resultCode === 'SUCCESS') {
+      return true
+    } else {
+      return false
+    }
   } catch (error) {
     console.log('writeDiary error: ', error)
-    throw error
+    return false
   }
 }
 

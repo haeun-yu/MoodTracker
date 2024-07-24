@@ -83,32 +83,26 @@ const searchResult = ref<Diary[]>([])
 const ITEMS_PER_PAGE = 10
 
 onBeforeMount(async () => {
-  try {
-    const response = await authAPI.checkLogin()
-    if (!response.loggedIn) {
-      addToast({
-        message: '로그인이 필요합니다.'
-      })
-      router.push('/login')
-    }
-  } catch (error) {
+  const checkLoginResponse = await authAPI.checkLogin()
+
+  if (!checkLoginResponse) {
     addToast({
-      message: '서버에 문제가 발생했습니다. 다시 시도해주세요.'
+      message: '로그인이 필요합니다.'
     })
-    console.error(error)
-    router.push('/')
+    router.push('/login')
   }
 
-  const userResponse = await authAPI.getInformation()
-  if (!userResponse) {
+  const getInfoResponse = await authAPI.getInformation()
+
+  if (!getInfoResponse) {
     addToast({
       message: '서버에 문제가 발생했습니다. 다시 시도해주세요.'
     })
     router.push('/')
   }
-  user.value = userResponse
+  user.value = getInfoResponse
 
-  const response = await DiaryAPI.searchDiaryByKeyword(user.value.name, '')
+  const response = await DiaryAPI.searchDiaryByKeyword(user.value!.name, '')
   diaryList.value = response
 
   searchResult.value = diaryList.value
@@ -135,6 +129,7 @@ const sortDiaries = () => {
 
 const handleSearch = async () => {
   const response = await DiaryAPI.searchDiaryByKeyword(user.value!.name, search.value)
+
   diaryList.value = response
 
   searchResult.value = diaryList.value.filter((diary) => diary.content.includes(search.value))

@@ -59,19 +59,11 @@ const isEmpty = computed(() => {
 const EMAIL_FORMAT = /^([0-9a-zA-Z_.-]+)@([0-9a-zA-Z_-]+)(\.[0-9a-zA-Z_-]+){1,2}$/
 
 onBeforeMount(async () => {
-  try {
-    const response = await authAPI.checkLogin()
-    if (response.loggedIn) {
-      addToast({
-        message: '로그인이 되어있습니다.'
-      })
-      router.push('/')
-    }
-  } catch (error) {
+  const response = await authAPI.checkLogin()
+  if (response) {
     addToast({
-      message: '서버에 문제가 발생했습니다. 다시 시도해주세요.'
+      message: '로그인이 되어있습니다.'
     })
-    console.error(error)
     router.push('/')
   }
 })
@@ -96,16 +88,16 @@ const handleLogin = async () => {
     return
   }
 
-  try {
-    await authAPI.login(form.value)
+  const response = await authAPI.login(form.value)
+
+  if (response) {
     router.push('/')
-  } catch (error) {
+  } else {
     addToast({
       message: '로그인에 실패했습니다. 다시 시도해주세요.'
     })
-    console.error(error)
-    isSendLoading.value = false
   }
+  isSendLoading.value = false
 }
 </script>
 
