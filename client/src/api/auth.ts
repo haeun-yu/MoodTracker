@@ -1,19 +1,13 @@
-import axios, { Axios } from 'axios'
+import axios from 'axios'
 
 const axiosInstance = axios.create({
   baseURL: import.meta.env.VITE_BASE_API_URL + '/auth',
   withCredentials: true
 })
 
-const cookie = document.cookie
-
 const checkLogin = async (): Promise<boolean> => {
   try {
-    const response = await axiosInstance.get(``, {
-      headers: {
-        Cookie: cookie
-      }
-    })
+    const response = await axiosInstance.get(``)
 
     if (response.data.data.loggedIn) {
       return true
@@ -43,11 +37,7 @@ const signUp = async (data: UserForm): Promise<boolean> => {
 
 const getInformation = async (): Promise<User | null> => {
   try {
-    const response = await axiosInstance.get(`/info`, {
-      headers: {
-        Cookie: cookie
-      }
-    })
+    const response = await axiosInstance.get(`/info`)
 
     if (response.data.data.resultCode && response.data.data.resultCode !== 'FAIL') {
       return response.data.data
@@ -77,11 +67,7 @@ const login = async (data: Login): Promise<boolean> => {
 
 const logout = async (): Promise<boolean> => {
   try {
-    const response = await axiosInstance.get(`/logout`, {
-      headers: {
-        Cookie: cookie
-      }
-    })
+    const response = await axiosInstance.get(`/logout`)
 
     if (response.data.data.resultCode === 'SUCCESS') {
       return true
@@ -114,11 +100,7 @@ const resetPassword = async (data: {
 
 const deleteAccount = async (data: { password: string }): Promise<boolean> => {
   try {
-    const response = await axiosInstance.post(`/withdraw`, data, {
-      headers: {
-        Cookie: cookie
-      }
-    })
+    const response = await axiosInstance.post(`/withdraw`, data)
 
     if (response.data.data.resultCode === 'SUCCESS') {
       return true

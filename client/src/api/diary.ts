@@ -5,14 +5,9 @@ const axiosInstance = axios.create({
   withCredentials: true
 })
 
-const cookie = document.cookie
-
 const searchDiaryByKeyword = async (userName: string, keyword: string): Promise<Diary[]> => {
   try {
     const response = await axiosInstance.get(`/searchByKeword/${userName}`, {
-      headers: {
-        Cookie: cookie
-      },
       params: {
         searchWord: keyword
       }
@@ -32,9 +27,6 @@ const searchDiaryByKeyword = async (userName: string, keyword: string): Promise<
 const searchDiaryByDate = async (userName: string, date: string): Promise<Diary | null> => {
   try {
     const response = await axiosInstance.get(`/searchByDate/${userName}/date`, {
-      headers: {
-        Cookie: cookie
-      },
       params: {
         submitDate: date
       }
@@ -59,11 +51,7 @@ const createDiary = async (userName: string, data: DiaryForm): Promise<boolean> 
     //   feedbackCode: string
     //   emotion: string
     // }
-    const response = await axiosInstance.post(`/submit/${userName}`, data, {
-      headers: {
-        Cookie: cookie
-      }
-    })
+    const response = await axiosInstance.post(`/submit/${userName}`, data)
 
     if (response.data.data.resultCode === 'SUCCESS') {
       return true
