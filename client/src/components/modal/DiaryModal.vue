@@ -9,7 +9,7 @@
         </button>
       </div>
 
-      <section class="pt-[10px] pb-[40px] border-b-[1.5px] border-black">
+      <section v-if="diary" class="pt-[10px] pb-[40px] border-b-[1.5px] border-black">
         <article class="flex items-center justify-between mb-[15px]">
           <label class="text-lg-medium">{{ date }}</label>
 
@@ -24,7 +24,7 @@
         </article>
       </section>
 
-      <section class="py-[40px] flex flex-col gap-[10px]">
+      <section v-if="diary" class="py-[40px] flex flex-col gap-[10px]">
         <p>From. Mood tracker</p>
         <pre>{{ diary.feedback }}</pre>
       </section>
@@ -33,11 +33,11 @@
 </template>
 
 <script setup lang="ts">
-import { ref, onBeforeMount, defineModel } from 'vue'
+import { ref, onBeforeMount } from 'vue'
 import SlotModal from '@/components/modal/SlotModal.vue'
 
 type Props = {
-  diary: Diary
+  diary: Diary | undefined
 }
 const props = defineProps<Props>()
 const emits = defineEmits(['close'])
@@ -45,7 +45,7 @@ const emits = defineEmits(['close'])
 const date = ref('')
 
 onBeforeMount(() => {
-  date.value = getDate(props.diary.date)
+  if (props.diary) date.value = getDate(props.diary.date)
 })
 
 const getDate = (date: string) => {

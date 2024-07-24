@@ -120,12 +120,13 @@
       </section>
     </div>
   </div>
-  <DiaryModal v-if="isModalOpen" :diary="selectedDiary!" @close="isModalOpen = false" />
+  <DiaryModal v-if="isModalOpen" :diary="selectedDiary" @close="isModalOpen = false" />
 </template>
 
 <script setup lang="ts">
 import { onBeforeMount, ref, watch } from 'vue'
 import authAPI from '@/api/auth'
+import calendarAPI from '@/api/calendar'
 import { useRouter } from 'vue-router'
 import { useToastStore } from '@/stores/toast.store'
 import doughnutChart from '@/components/chart/DoughnutChart.vue'
@@ -143,44 +144,14 @@ const weekNames = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat']
 const currentYear = ref<number>(0)
 const currentMonth = ref<number>(0)
 
-const diaryList = ref<Diary[]>([
-  {
-    date: '2024-07-01',
-    emotion: 'Happy',
-    content: '오늘은 행복했어요.',
-    feedback: '행복한 이유를 적어보세요.'
-  },
-  {
-    date: '2021-1-02',
-    emotion: 'Sad',
-    content: '오늘은 슬펐어요.',
-    feedback: '슬픈 이유를 적어보세요.'
-  },
-  {
-    date: '2021-10-03',
-    emotion: 'Angry',
-    content: '오늘은 화났어요.',
-    feedback: '화난 이유를 적어보세요.'
-  }
-])
+const user = ref<User | null>(null)
+const diaryList = ref<{ date: string; emotion: string }[]>([])
 
 const longestConsecutive = ref<number>(0)
 const weeklyAverage = ref<number>(0)
 const monthlyCount = ref<number>(0)
-const emotionCount = ref<{ emotion: string; count: number }[]>([
-  {
-    emotion: 'Happy',
-    count: 13
-  },
-  {
-    emotion: 'Sad',
-    count: 30
-  },
-  {
-    emotion: 'Angry',
-    count: 1
-  }
-])
+const emotionCount = ref<{ emotion: string; count: number }[]>([])
+
 const selectedDiary = ref<Diary>()
 const isModalOpen = ref<boolean>(false)
 
@@ -193,15 +164,38 @@ onBeforeMount(async () => {
     router.push('/login')
   }
 
+  user.value = await authAPI.getInformation()
+
   currentYear.value = new Date().getFullYear()
   currentMonth.value = new Date().getMonth() + 1
 
   init()
+  await getDatas()
 })
 
-watch([currentYear, currentMonth], () => {
+watch([currentYear, currentMonth], async () => {
   init()
+  await getDatas()
 })
+
+const getDatas = async () => {
+  diaryList.value = await calendarAPI.getDiaryList(
+    user.value!.name,
+    `${currentYear.value}-${currentMonth.value}`
+  )
+  emotionCount.value = await calendarAPI.getEmotionCount(
+    user.value!.name,
+    `${currentYear.value}-${currentMonth.value}`
+  )
+  monthlyCount.value = await calendarAPI.getMonthlyCount(
+    user.value!.name,
+    `${currentYear.value}-${currentMonth.value}`
+  )
+  longestConsecutive.value = await calendarAPI.getLongestConsecutive(
+    user.value!.name,
+    `${currentYear.value}-${currentMonth.value}`
+  )
+}
 
 const init = () => {
   currentMonthStartWeekIndex.value = getStartWeek(currentYear.value, currentMonth.value)
@@ -308,10 +302,13 @@ const getDiary = (day: number) => {
   return diary || null
 }
 
-const handleDate = (day: number) => {
+const handleDate = async (day: number) => {
   if (day === 0) return
 
-  const diary = getDiary(day)
+  const diary = await calendarAPI.getDiary(
+    user.value!.name,
+    `${currentYear.value}-${currentMonth.value}-${day}`
+  )
   if (diary) {
     selectedDiary.value = diary
     isModalOpen.value = true
