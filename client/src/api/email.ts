@@ -5,29 +5,37 @@ const axiosInstance = axios.create({
   withCredentials: true
 })
 
-const sendVerificationEmail = async (data: { mail: string }): Promise<any> => {
+const sendVerificationEmail = async (data: { mail: string }): Promise<boolean> => {
   try {
     const response = await axiosInstance.get('/mailSend', {
       params: data
     })
 
-    return response.data.data
+    if (response.data.data.resultCode !== 'SUCCESS') {
+      return true
+    } else {
+      return false
+    }
   } catch (error) {
     console.log('sendVerificationEmail error: ', error)
-    throw error
+    return false
   }
 }
 
-const checkVerificationCode = async (data: { userNumber: string }): Promise<any> => {
+const checkVerificationCode = async (data: { userNumber: string }): Promise<boolean> => {
   try {
     const response = await axiosInstance.get('/mailCheck', {
       params: data
     })
 
-    return response.data.data
+    if (response.data.data.resultCode !== 'SUCCESS') {
+      return true
+    } else {
+      return false
+    }
   } catch (error) {
     console.log('checkVerificationCode error: ', error)
-    throw error
+    return false
   }
 }
 

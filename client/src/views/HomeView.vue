@@ -122,15 +122,9 @@ const handleIntersect = (entries: IntersectionObserverEntry[], observer: Interse
 }
 
 onMounted(async () => {
-  try {
-    const response = await authAPI.checkLogin()
-    isLoggedIn.value = response.loggedIn
-  } catch (error) {
-    addToast({
-      message: '서버에 문제가 발생했습니다. 다시 시도해주세요.'
-    })
-    console.error(error)
-  }
+  const response = await authAPI.checkLogin()
+  isLoggedIn.value = response
+
   const observer = new IntersectionObserver(handleIntersect, {
     threshold: 0.1
   })

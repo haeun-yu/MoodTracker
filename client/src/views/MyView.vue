@@ -114,32 +114,21 @@ const password = ref<string>('')
 const isDeleteLoading = ref<boolean>(false)
 
 onBeforeMount(async () => {
-  try {
-    const response = await authAPI.checkLogin()
-    if (!response.loggedIn) {
-      addToast({
-        message: '로그인이 필요합니다.'
-      })
-      router.push('/login')
-    }
-  } catch (error) {
+  const checkLoginResponse = await authAPI.checkLogin()
+  if (!checkLoginResponse) {
     addToast({
-      message: '서버에 문제가 발생했습니다. 다시 시도해주세요.'
+      message: '로그인이 필요합니다.'
     })
-    console.error(error)
-    router.push('/')
+    router.push('/login')
   }
 
-  try {
-    const response = await authAPI.getInformation()
-    if (response) {
-      user.value = response
-    }
-  } catch (error) {
+  const getInfoResponse = await authAPI.getInformation()
+  if (getInfoResponse) {
+    user.value = getInfoResponse
+  } else {
     addToast({
       message: '사용자 정보를 가져올 수 없습니다. 다시 시도해주세요.'
     })
-    console.error(error)
     router.back()
   }
 })
@@ -151,17 +140,20 @@ const handleMenu = (value: string) => {
 const handleDeleteAccount = async () => {
   if (isDeleteLoading.value) return
 
-  try {
-    const data = { password: password.value }
-    await authAPI.deleteAccount(data)
-    router.push('/')
-  } catch (error) {
+  const data = { password: password.value }
+  const response = await authAPI.deleteAccount(data)
+
+  if (response) {
+    addToast({
+      message: '탈퇴가 완료되었습니다.'
+    })
+    router.push('/login')
+  } else {
     addToast({
       message: '탈퇴에 실패했습니다. 다시 시도해주세요.'
     })
-    console.error(error)
-    isDeleteLoading.value = false
   }
+  isDeleteLoading.value = false
 }
 </script>
 

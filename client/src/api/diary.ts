@@ -5,37 +5,53 @@ const axiosInstance = axios.create({
   withCredentials: true
 })
 
-const searchDiaryByKeyword = async (userName: string, keyword: string): Promise<any> => {
+const cookie = document.cookie
+
+const searchDiaryByKeyword = async (userName: string, keyword: string): Promise<Diary[]> => {
   try {
     const response = await axiosInstance.get(`/searchByKeword/${userName}`, {
+      headers: {
+        Cookie: cookie
+      },
       params: {
         searchWord: keyword
       }
     })
 
+    if (response.data.data.resultCode && response.data.data.resultCode !== 'FAIL') {
+      return []
+    }
+
     return response.data.data
   } catch (error) {
     console.log('searchDiary error: ', error)
-    throw error
+    return []
   }
 }
 
-const searchDiaryByDate = async (userName: string, date: string): Promise<any> => {
+const searchDiaryByDate = async (userName: string, date: string): Promise<Diary | null> => {
   try {
     const response = await axiosInstance.get(`/searchByDate/${userName}/date`, {
+      headers: {
+        Cookie: cookie
+      },
       params: {
         submitDate: date
       }
     })
 
+    if (response.data.data.resultCode && response.data.data.resultCode !== 'FAIL') {
+      return null
+    }
+
     return response.data.data
   } catch (error) {
     console.log('searchDiaryByDate error: ', error)
-    throw error
+    return null
   }
 }
 
-const createDiary = async (userName: string, data: DiaryForm): Promise<any> => {
+const createDiary = async (userName: string, data: DiaryForm): Promise<boolean> => {
   try {
     // const data = {
     //   content: string
@@ -43,12 +59,20 @@ const createDiary = async (userName: string, data: DiaryForm): Promise<any> => {
     //   feedbackCode: string
     //   emotion: string
     // }
-    const response = await axiosInstance.post(`/submit/${userName}`, data)
+    const response = await axiosInstance.post(`/submit/${userName}`, data, {
+      headers: {
+        Cookie: cookie
+      }
+    })
 
-    return response.data.data
+    if (response.data.data.resultCode === 'SUCCESS') {
+      return true
+    } else {
+      return false
+    }
   } catch (error) {
     console.log('writeDiary error: ', error)
-    throw error
+    return false
   }
 }
 
