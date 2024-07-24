@@ -42,6 +42,9 @@
             <label class="w-[30%] text-[26px]">Email</label>
             <p class="w-[70%]] text-[26px] font-light">{{ user.email }}</p>
           </div>
+          <div class="w-full flex justify-end">
+            <button class="btn-primary p-[10px]" @click="handleLogout">Logout</button>
+          </div>
         </div>
       </article>
       <article v-else-if="menu === 'Reset Password'" class="function-box">
@@ -135,6 +138,21 @@ onBeforeMount(async () => {
 
 const handleMenu = (value: string) => {
   menu.value = value
+}
+
+const handleLogout = async () => {
+  const response = await authAPI.logout()
+
+  if (response) {
+    addToast({
+      message: '로그아웃 되었습니다.'
+    })
+    router.push('/login')
+  } else {
+    addToast({
+      message: '로그아웃에 실패했습니다. 다시 시도해주세요.'
+    })
+  }
 }
 
 const handleDeleteAccount = async () => {
