@@ -15,7 +15,7 @@ const searchDiaryByKeyword = async (userName: string, keyword: string): Promise<
 
     console.log('searchDiary response: ', response)
 
-    if (response.data.data.resultCode && response.data.data.resultCode !== 'FAIL') {
+    if (response.data.data.resultCode !== 'FAIL') {
       return []
     }
 
@@ -36,7 +36,7 @@ const searchDiaryByDate = async (userName: string, date: string): Promise<Diary 
 
     console.log('searchDiaryByDate response: ', response)
 
-    if (response.data.data.resultCode && response.data.data.resultCode !== 'FAIL') {
+    if (response.data.data.resultCode !== 'FAIL') {
       return null
     }
 

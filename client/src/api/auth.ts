@@ -42,7 +42,7 @@ const getInformation = async (): Promise<User | null> => {
     const response = await axiosInstance.get(`/info`)
     console.log('getInformation response: ', response)
 
-    if (response.data.data.resultCode && response.data.data.resultCode !== 'FAIL') {
+    if (response.data.data.resultCode !== 'FAIL') {
       return response.data.data
     } else {
       return null
