@@ -13,6 +13,8 @@ const searchDiaryByKeyword = async (userName: string, keyword: string): Promise<
       }
     })
 
+    console.log('searchDiary response: ', response)
+
     if (response.data.data.resultCode && response.data.data.resultCode !== 'FAIL') {
       return []
     }
@@ -32,6 +34,8 @@ const searchDiaryByDate = async (userName: string, date: string): Promise<Diary 
       }
     })
 
+    console.log('searchDiaryByDate response: ', response)
+
     if (response.data.data.resultCode && response.data.data.resultCode !== 'FAIL') {
       return null
     }
@@ -45,13 +49,8 @@ const searchDiaryByDate = async (userName: string, date: string): Promise<Diary 
 
 const createDiary = async (userName: string, data: DiaryForm): Promise<boolean> => {
   try {
-    // const data = {
-    //   content: string
-    //   feedback: string
-    //   feedbackCode: string
-    //   emotion: string
-    // }
     const response = await axiosInstance.post(`/submit/${userName}`, data)
+    console.log('writeDiary response: ', response)
 
     if (response.data.data.resultCode === 'SUCCESS') {
       return true

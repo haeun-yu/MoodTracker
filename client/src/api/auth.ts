@@ -8,6 +8,7 @@ const axiosInstance = axios.create({
 const checkLogin = async (): Promise<boolean> => {
   try {
     const response = await axiosInstance.get(``)
+    console.log('checkLogin response: ', response)
 
     if (response.data.data.loggedIn) {
       return true
@@ -23,6 +24,7 @@ const checkLogin = async (): Promise<boolean> => {
 const signUp = async (data: UserForm): Promise<boolean> => {
   try {
     const response = await axiosInstance.post(`/join`, data)
+    console.log('signup response: ', response)
 
     if (response.data.data.resultCode === 'SUCCESS') {
       return true
@@ -38,6 +40,7 @@ const signUp = async (data: UserForm): Promise<boolean> => {
 const getInformation = async (): Promise<User | null> => {
   try {
     const response = await axiosInstance.get(`/info`)
+    console.log('getInformation response: ', response)
 
     if (response.data.data.resultCode && response.data.data.resultCode !== 'FAIL') {
       return response.data.data
@@ -53,6 +56,7 @@ const getInformation = async (): Promise<User | null> => {
 const login = async (data: Login): Promise<boolean> => {
   try {
     const response = await axiosInstance.post(`/login`, data)
+    console.log('login response: ', response)
 
     if (response.data.data.resultCode === 'SUCCESS') {
       return true
@@ -68,6 +72,7 @@ const login = async (data: Login): Promise<boolean> => {
 const logout = async (): Promise<boolean> => {
   try {
     const response = await axiosInstance.get(`/logout`)
+    console.log('logout response: ', response)
 
     if (response.data.data.resultCode === 'SUCCESS') {
       return true
@@ -86,6 +91,7 @@ const resetPassword = async (data: {
 }): Promise<string> => {
   try {
     const response = await axiosInstance.post(`/reset`, data)
+    console.log('resetPassword response: ', response)
 
     if (response.data.data.resultCode === 'SUCCESS') {
       return ''
@@ -101,6 +107,7 @@ const resetPassword = async (data: {
 const deleteAccount = async (data: { password: string }): Promise<boolean> => {
   try {
     const response = await axiosInstance.post(`/withdraw`, data)
+    console.log('deleteAccount response: ', response)
 
     if (response.data.data.resultCode === 'SUCCESS') {
       return true

@@ -10,6 +10,7 @@ const sendVerificationEmail = async (data: { mail: string }): Promise<boolean> =
     const response = await axiosInstance.get('/mailSend', {
       params: data
     })
+    console.log('sendVerificationEmail response: ', response)
 
     if (response.data.data.resultCode !== 'SUCCESS') {
       return true
@@ -27,6 +28,7 @@ const checkVerificationCode = async (data: { userNumber: string }): Promise<bool
     const response = await axiosInstance.get('/mailCheck', {
       params: data
     })
+    console.log('checkVerificationCode response: ', response)
 
     if (response.data.data.resultCode !== 'SUCCESS') {
       return true
