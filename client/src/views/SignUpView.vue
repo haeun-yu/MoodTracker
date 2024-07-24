@@ -6,7 +6,7 @@
       <article class="w-full flex flex-col gap-[15px]">
         <div class="flex flex-col gap-[10px]">
           <label>Name</label>
-          <CommonInput v-model="form.userName" placeholder="Enter Email" />
+          <CommonInput v-model="form.userName" placeholder="Enter Name" />
         </div>
 
         <div class="flex flex-col gap-[10px]">

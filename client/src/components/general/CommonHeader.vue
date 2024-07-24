@@ -37,8 +37,9 @@ onBeforeMount(async () => {
 
 watch(
   () => route,
-  () => {
+  async () => {
     menu.value = getMenuFromRoute()
+    isLogin.value = await authAPI.checkLogin()
   },
   { deep: true }
 )
