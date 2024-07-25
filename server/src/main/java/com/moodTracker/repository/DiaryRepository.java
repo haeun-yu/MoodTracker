@@ -50,12 +50,26 @@ public interface DiaryRepository extends JpaRepository<Diary, Integer>{
 		                                                                    @Param("year") int year,
 		                                                                    @Param("month") int month);
     
-    @Query("SELECT MAX(DATEDIFF(d2.createdAt, d1.createdAt) + 1) " +
-            "FROM Diary d1 " +
-            "JOIN Diary d2 ON d2.createdAt = (SELECT MIN(d3.createdAt) FROM Diary d3 WHERE d3.createdAt > d1.createdAt AND d3.userSeq = :userSeq) " +
-            "WHERE d1.userSeq = :userSeq " +
-            "AND YEAR(d1.createdAt) = :year " +
-            "AND MONTH(d1.createdAt) = :month")
+    @Query(value = "SELECT MAX(consecutive_days) " +
+            "FROM ( " +
+            "    SELECT " +
+            "        DATEDIFF(MAX(createdAt), MIN(createdAt)) + 1 AS consecutive_days " +
+            "    FROM ( " +
+            "        SELECT " +
+            "            createdAt, " +
+            "            createdAt - @rownum := @rownum + 1 AS grp " +
+            "        FROM ( " +
+            "            SELECT " +
+            "                createdAt " +
+            "            FROM Diary " +
+            "            WHERE userSeq = :userSeq " +
+            "            AND YEAR(createdAt) = :year " +
+            "            AND MONTH(createdAt) = :month " +
+            "            ORDER BY createdAt " +
+            "        ) AS t, (SELECT @rownum := 0) r " +
+            "    ) AS s " +
+            "    GROUP BY s.grp " +
+            ") AS t", nativeQuery = true)
      Long findMaxConsecutiveDays(@Param("userSeq") String userSeq,
                                     @Param("year") int year,
                                     @Param("month") int month);
