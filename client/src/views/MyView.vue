@@ -42,6 +42,9 @@
             <label class="w-[30%] text-[26px]">Email</label>
             <p class="w-[70%]] text-[26px] font-light">{{ user.email }}</p>
           </div>
+          <div class="w-full flex justify-end">
+            <button class="btn-primary p-[10px]" @click="handleLogout">Logout</button>
+          </div>
         </div>
       </article>
       <article v-else-if="menu === 'Reset Password'" class="function-box">
@@ -49,20 +52,34 @@
           <div class="flex flex-col gap-[30px]">
             <div class="flex flex-col gap-[10px]">
               <label class="w-[50%] text-[20px]">Current Password</label>
-              <CommonInput type="password" class="w-[50%] text-[20px] font-light" />
+              <CommonInput
+                type="password"
+                v-model="changePassword.currentPassword"
+                class="w-[50%] text-[20px] font-light"
+              />
             </div>
             <div class="flex flex-col gap-[10px]">
               <label class="w-[50%] text-[20px]">New Password</label>
-              <CommonInput type="password" class="w-[50%] text-[20px] font-light" />
+              <CommonInput
+                type="password"
+                v-model="changePassword.newPassword"
+                class="w-[50%] text-[20px] font-light"
+              />
             </div>
             <div class="flex flex-col gap-[10px]">
               <label class="w-[50%] text-[20px]">Confirm New Password</label>
-              <CommonInput type="password" class="w-[50%] text-[20px] font-light" />
+              <CommonInput
+                type="password"
+                v-model="changePassword.confirmPassword"
+                class="w-[50%] text-[20px] font-light"
+              />
             </div>
           </div>
 
           <div class="flex justify-end">
-            <button class="btn-primary p-[10px]">Reset Password</button>
+            <button class="btn-primary p-[10px]" @click="handleResetPassword">
+              Reset Password
+            </button>
           </div>
         </div>
       </article>
@@ -110,36 +127,30 @@ const user = ref<User>({
   password: ''
 })
 const password = ref<string>('')
+const changePassword = ref<any>({
+  currentPassword: '',
+  newPassword: '',
+  confirmPassword: ''
+})
 
 const isDeleteLoading = ref<boolean>(false)
 
 onBeforeMount(async () => {
-  try {
-    const response = await authAPI.checkLogin()
-    if (!response.loggedIn) {
-      addToast({
-        message: '로그인이 필요합니다.'
-      })
-      router.push('/login')
-    }
-  } catch (error) {
+  const checkLoginResponse = await authAPI.checkLogin()
+  if (!checkLoginResponse) {
     addToast({
-      message: '서버에 문제가 발생했습니다. 다시 시도해주세요.'
+      message: '로그인이 필요합니다.'
     })
-    console.error(error)
-    router.push('/')
+    router.push('/login')
   }
 
-  try {
-    const response = await authAPI.getInformation()
-    if (response) {
-      user.value = response
-    }
-  } catch (error) {
+  const getInfoResponse = await authAPI.getInformation()
+  if (getInfoResponse) {
+    user.value = getInfoResponse
+  } else {
     addToast({
       message: '사용자 정보를 가져올 수 없습니다. 다시 시도해주세요.'
     })
-    console.error(error)
     router.back()
   }
 })
@@ -148,20 +159,76 @@ const handleMenu = (value: string) => {
   menu.value = value
 }
 
+const handleLogout = async () => {
+  const response = await authAPI.logout()
+
+  if (response) {
+    addToast({
+      message: '로그아웃 되었습니다.'
+    })
+    router.push('/login')
+  } else {
+    addToast({
+      message: '로그아웃에 실패했습니다. 다시 시도해주세요.'
+    })
+  }
+}
+
+const handleResetPassword = async () => {
+  if (
+    !changePassword.value.currentPassword ||
+    !changePassword.value.newPassword ||
+    !changePassword.value.confirmPassword
+  ) {
+    addToast({
+      message: '비밀번호를 입력해주세요.'
+    })
+    return
+  }
+
+  if (changePassword.value.newPassword !== changePassword.value.confirmPassword) {
+    addToast({
+      message: '비밀번호가 일치하지 않습니다.'
+    })
+    return
+  }
+
+  const data = {
+    currentPassword: changePassword.value.currentPassword,
+    newPassword: changePassword.value.newPassword
+  }
+
+  const response = await authAPI.resetPassword(data)
+
+  if (response === '') {
+    addToast({
+      message: '비밀번호가 변경되었습니다.'
+    })
+    router.push('/login')
+  } else {
+    addToast({
+      message: response
+    })
+  }
+}
+
 const handleDeleteAccount = async () => {
   if (isDeleteLoading.value) return
 
-  try {
-    const data = { password: password.value }
-    await authAPI.deleteAccount(data)
-    router.push('/')
-  } catch (error) {
+  const data = { password: password.value }
+  const response = await authAPI.deleteAccount(data)
+
+  if (response) {
+    addToast({
+      message: '탈퇴가 완료되었습니다.'
+    })
+    router.push('/login')
+  } else {
     addToast({
       message: '탈퇴에 실패했습니다. 다시 시도해주세요.'
     })
-    console.error(error)
-    isDeleteLoading.value = false
   }
+  isDeleteLoading.value = false
 }
 </script>
 
