@@ -65,7 +65,7 @@ const router = useRouter()
 const { addToast } = useToastStore()
 
 const form = ref<User>({
-  userName: '',
+  name: '',
   email: '',
   password: ''
 })
@@ -85,7 +85,7 @@ const isEmpty = computed(() => {
 
 onBeforeMount(async () => {
   const response = await authAPI.checkLogin()
-  if (response.userSeq === 1) {
+  if (response) {
     addToast({
       message: '로그인이 되어있습니다.'
     })
@@ -180,21 +180,24 @@ const handleResetPassword = async () => {
 
   isResetLoading.value = true
 
-  try {
-    const data = {
-      currentPassword: form.value.password,
-      newPassword: confirmPassword.value
-    }
-
-    await authAPI.resetPassword(data)
-    router.push('/login')
-  } catch (error) {
-    addToast({
-      message: '비밀번호 변경에 실패했습니다. 다시 시도해주세요.'
-    })
-    console.error(error)
-    isResetLoading.value = false
+  const data = {
+    currentPassword: form.value.password,
+    newPassword: confirmPassword.value
   }
+
+  const response = await authAPI.resetPassword(data)
+
+  if (response === '') {
+    addToast({
+      message: '비밀번호가 변경되었습니다.'
+    })
+    router.push('/login')
+  } else {
+    addToast({
+      message: response
+    })
+  }
+  isResetLoading.value = false
 }
 </script>
 

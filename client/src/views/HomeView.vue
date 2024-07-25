@@ -2,7 +2,10 @@
   <div class="h-full flex flex-col items-center justify-between gap-[150px]">
     <section class="flex flex-col items-center gap-[50px]">
       <p class="text-3xl-regular">Mood tracker와 감정을 기록하며 하루를 되새겨보세요.</p>
-      <RouterLink to="/today" class="btn-tertiary py-[10px] px-[35px] text-[24px] font-semibold">
+      <RouterLink
+        :to="isLoggedIn ? '/today' : '/login'"
+        class="btn-tertiary py-[10px] px-[35px] text-[24px] font-semibold"
+      >
         기록 시작
       </RouterLink>
 
@@ -46,7 +49,19 @@
         </p>
       </article>
 
-      <img src="/images/main/main2.svg" />
+      <article class="relative">
+        <img src="/images/main/main2.svg" />
+        <img
+          ref="fadeSection2_1"
+          class="absolute top-[213px] left-[152px] fade-up-1"
+          src="/images/main/main2-1.svg"
+        />
+        <img
+          ref="fadeSection2_2"
+          class="absolute bottom-[100px] right-[212px] fade-up-2"
+          src="/images/main/main2-2.svg"
+        />
+      </article>
     </section>
 
     <section ref="fadeSection3" class="flex items-center justify-between w-full fade-up">
@@ -69,7 +84,7 @@
     >
       <p class="text-2xl-regular text-[#363636]">이제 저희와 함께 여정을 떠나 보실래요?</p>
       <RouterLink
-        to="/today"
+        :to="isLoggedIn ? '/today' : '/login'"
         class="btn-tertiary w-[calc(70vw)] p-[10px] text-[24px] font-semibold"
       >
         기록하러 가기
@@ -79,7 +94,12 @@
 </template>
 
 <script setup lang="ts">
-import { ref, onBeforeMount, onUnmounted } from 'vue'
+import { ref, onMounted, onUnmounted } from 'vue'
+import authAPI from '@/api/auth'
+import { useToastStore } from '@/stores/toast.store'
+
+const isLoggedIn = ref(false)
+const { addToast } = useToastStore()
 
 const fadeSection1 = ref(null)
 const fadeSection2 = ref(null)
@@ -87,6 +107,8 @@ const fadeSection3 = ref(null)
 const fadeSection1_1 = ref(null)
 const fadeSection1_2 = ref(null)
 const fadeSection1_3 = ref(null)
+const fadeSection2_1 = ref(null)
+const fadeSection2_2 = ref(null)
 
 const handleIntersect = (entries: IntersectionObserverEntry[], observer: IntersectionObserver) => {
   entries.forEach((entry) => {
@@ -99,7 +121,10 @@ const handleIntersect = (entries: IntersectionObserverEntry[], observer: Interse
   })
 }
 
-onBeforeMount(() => {
+onMounted(async () => {
+  const response = await authAPI.checkLogin()
+  isLoggedIn.value = response
+
   const observer = new IntersectionObserver(handleIntersect, {
     threshold: 0.1
   })
@@ -110,6 +135,8 @@ onBeforeMount(() => {
   if (fadeSection1_1.value) observer.observe(fadeSection1_1.value)
   if (fadeSection1_2.value) observer.observe(fadeSection1_2.value)
   if (fadeSection1_3.value) observer.observe(fadeSection1_3.value)
+  if (fadeSection2_1.value) observer.observe(fadeSection2_1.value)
+  if (fadeSection2_2.value) observer.observe(fadeSection2_2.value)
 })
 
 onUnmounted(() => {
