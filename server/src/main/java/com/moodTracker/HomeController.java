@@ -1,4 +1,4 @@
-package com.moodTracker.controller;
+package com.moodTracker;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
