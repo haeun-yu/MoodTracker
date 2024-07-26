@@ -14,15 +14,15 @@
 
     <section v-else class="flex flex-col gap-[30px]">
       <article class="flex gap-[20px] h-[300px]">
-        <div class="w-[30%] boxs">
-          <label>{{ year }}년 {{ month }}월 감정 순위</label>
-          <p>어떤 감정을 느꼈는 지 한 눈에 확인하세요!</p>
+        <div class="w-[30%] boxs gap-[10px]">
+          <label class="text-lg-bold">{{ year }}년 {{ month }}월 감정 순위</label>
+          <p class="text-[#607D8B]">어떤 감정을 느꼈는 지 한 눈에 확인하세요!</p>
 
-          <div>
+          <div class="h-full flex flex-col justify-between">
             <div
               v-for="(emotion, key) in emotionCount"
               v-bind:key
-              class="flex items-center gap-[10px] px-[20px]"
+              class="flex items-center gap-[10px]"
             >
               <img
                 class="w-[40px]"
@@ -31,19 +31,19 @@
               />
               <div class="w-full">
                 <div
-                  class="bg-white h-[20px] rounded-r-[10px] mt-[5px]"
+                  class="bg-[#e6afb9] h-[20px] rounded-r-[10px] mt-[5px]"
                   :style="{ width: (emotion.count / 30) * 100 + '%' }"
                 ></div>
-                <p>{{ emotion.count }}회</p>
+                <p class="text-[#e6afb9]">{{ emotion.emotion }}/{{ emotion.count }}회</p>
               </div>
             </div>
           </div>
         </div>
 
         <div class="w-[70%] boxs2">
-          <label>아무개 님의 2024년 6월달 감정을 분석했어요</label>
+          <label class="text-lg-bold">아무개 님의 2024년 6월달 감정을 분석했어요</label>
           <div></div>
-          <p>*사용자 기록을 점수로 변환하여 누적 합산한 결과입니다.</p>
+          <p class="text-sm-light">*사용자 기록을 점수로 변환하여 누적 합산한 결과입니다.</p>
         </div>
       </article>
 

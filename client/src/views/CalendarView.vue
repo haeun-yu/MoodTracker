@@ -95,7 +95,7 @@
                   class="bg-white h-[20px] rounded-r-[10px] mt-[5px]"
                   :style="{ width: (emotion.count / 30) * 100 + '%' }"
                 ></div>
-                <p>{{ emotion.count }}회</p>
+                <p>{{ emotion.emotion }}/{{ emotion.count }}회</p>
               </div>
             </div>
           </div>
@@ -150,7 +150,20 @@ const diaryList = ref<{ date: string; emotion: string }[]>([])
 const longestConsecutive = ref<number>(0)
 const weeklyAverage = ref<number>(0)
 const monthlyCount = ref<number>(0)
-const emotionCount = ref<{ emotion: string; count: number }[]>([])
+const emotionCount = ref<{ emotion: string; count: number }[]>([
+  {
+    emotion: 'Happy',
+    count: 10
+  },
+  {
+    emotion: 'Sad',
+    count: 5
+  },
+  {
+    emotion: 'Angry',
+    count: 3
+  }
+])
 
 const selectedDiary = ref<Diary>()
 const isModalOpen = ref<boolean>(false)
