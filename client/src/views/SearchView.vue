@@ -60,7 +60,6 @@
       </article>
     </section>
   </div>
-  {{ isModalOpen }}
   <DiaryModal v-if="isModalOpen" :diary="selectedDiary" @close="isModalOpen = false" />
 </template>
 
@@ -68,6 +67,7 @@
 import { ref, watch, onBeforeMount, computed } from 'vue'
 import authAPI from '@/api/auth'
 import DiaryAPI from '@/api/diary'
+import DiaryModal from '@/components/modal/DiaryModal.vue'
 import { useRouter } from 'vue-router'
 import { useToastStore } from '@/stores/toast.store'
 import CommonInput from '@/components/input/CommonInput.vue'
@@ -85,7 +85,7 @@ const totalPages = ref<number>(1)
 const diaryList = ref<Diary[]>([])
 const searchResult = ref<Diary[]>([])
 const ITEMS_PER_PAGE = 10
-const selectedDiary = ref<Diary | null>(null)
+const selectedDiary = ref<Diary | undefined>(undefined)
 
 onBeforeMount(async () => {
   const checkLoginResponse = await authAPI.checkLogin()
@@ -174,7 +174,6 @@ const nextPage = () => {
 }
 
 const handleClickDiary = (diary: Diary) => {
-  console.log(diary)
   selectedDiary.value = diary
   isModalOpen.value = true
 }
