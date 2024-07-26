@@ -103,6 +103,7 @@ onBeforeMount(async () => {
   user.value = getInfoResponse
 
   const response = await DiaryAPI.searchDiaryByKeyword(user.value!.name, '')
+  console.log(response)
   diaryList.value = response
 
   searchResult.value = diaryList.value

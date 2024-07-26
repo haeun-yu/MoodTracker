@@ -6,7 +6,7 @@ type Login = {
 type User = {
   name: string
   email: string
-  password: string
+  password?: string
 }
 
 type UserForm = {
