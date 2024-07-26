@@ -40,6 +40,7 @@
             v-for="(result, index) in paginatedDiaryList"
             :key="index"
             class="search-result-list"
+            @click="handleClickDiary(result)"
           >
             <p class="w-[10%]">{{ getDate(result.createdAt) }}</p>
             <img :src="`/icons/emotions/${result.emotion}.svg`" alt="emotion" class="w-[2%]" />
@@ -59,6 +60,7 @@
       </article>
     </section>
   </div>
+  <DiaryModal v-if="isModalOpen" :diary="selectedDiary" @close="isModalOpen = false" />
 </template>
 
 <script setup lang="ts">
@@ -73,6 +75,7 @@ const router = useRouter()
 const { addToast } = useToastStore()
 
 const isLatest = ref<boolean>(true)
+const isModalOpen = ref<boolean>(false)
 
 const user = ref<User | null>(null)
 const search = ref<string>('')
@@ -81,6 +84,7 @@ const totalPages = ref<number>(1)
 const diaryList = ref<Diary[]>([])
 const searchResult = ref<Diary[]>([])
 const ITEMS_PER_PAGE = 10
+const selectedDiary = ref<Diary | null>(null)
 
 onBeforeMount(async () => {
   const checkLoginResponse = await authAPI.checkLogin()
@@ -168,19 +172,10 @@ const nextPage = () => {
   }
 }
 
-// onBeforeMount(() => {
-//   searchResult.value = diaryList.value
-// })
-
-// watch(isLatest, () => {
-//   searchResult.value = isLatest.value
-//     ? searchResult.value.sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime())
-//     : searchResult.value.sort((a, b) => new Date(a.date).getTime() - new Date(b.date).getTime())
-// })
-
-// const handleSearch = () => {
-//   searchResult.value = diaryList.value.filter((diary) => diary.content.includes(search.value))
-// }
+const handleClickDiary = (diary: Diary) => {
+  selectedDiary.value = diary
+  isModalOpen.value = true
+}
 </script>
 
 <style scoped>
