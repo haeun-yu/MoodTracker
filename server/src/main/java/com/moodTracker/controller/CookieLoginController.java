@@ -5,6 +5,8 @@ import lombok.extern.slf4j.Slf4j;
 
 import java.util.List;
 
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.*;
@@ -108,15 +110,38 @@ public class CookieLoginController {
         return CommonResponse.success(CommonResponseDTO.of("SUCCESS","로그인 성공"));
     }
 
-    @GetMapping("/logout")
-    public CommonResponse<?> logout(HttpServletResponse response) {
-        Cookie cookie = new Cookie("userSeq", null);
-        cookie.setMaxAge(0);
-        response.addCookie(cookie);
-        log.info("[LOGOUT] 로그아웃 성공");
-        return CommonResponse.success(CommonResponseDTO.of("SUCCESS","로그아웃 성공"));
-    }
+//	  구 로그아웃
+//    @GetMapping("/logout")
+//    public CommonResponse<?> logout(HttpServletResponse response) {
+//        Cookie cookie = new Cookie("userSeq", null);
+//        cookie.setMaxAge(0);
+//        response.addCookie(cookie);
+//        log.info("[LOGOUT] 로그아웃 성공");
+//        return CommonResponse.success(CommonResponseDTO.of("SUCCESS","로그아웃 성공"));
+//    }
 
+    @GetMapping("/logout")
+    public ResponseEntity<CommonResponse<?>> logout(HttpServletResponse response) {
+        try {
+        	
+            // 예외를 강제로 발생시킵니다.
+//            if (true) { // 조건을 조정하여 예외 발생 여부를 제어할 수 있습니다.
+//                throw new RuntimeException("강제로 발생시킨 예외");
+//            }
+        	
+            Cookie cookie = new Cookie("userSeq", null);
+            cookie.setMaxAge(0);
+            response.addCookie(cookie);
+            
+            log.info("[LOGOUT] 로그아웃 성공");
+            return ResponseEntity.ok(CommonResponse.success(CommonResponseDTO.of("SUCCESS","로그아웃 성공")));
+        } catch (Exception e) {
+            log.error("[LOGOUT] 로그아웃 실패", e);
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body(CommonResponse.success(CommonResponseDTO.of("FAIL",e.getMessage())));
+        }
+    }
+    
     @GetMapping("/info")
     public CommonResponse<?> userInfo(@CookieValue(name = "userSeq", required = false) Integer userSeq) {
         User loginUser = userService.getLoginUser(userSeq);
@@ -132,7 +157,7 @@ public class CookieLoginController {
 	        return CommonResponse.success(userInfoDTO);
         }
     }
-
+    
     //패스워드 변경
     @PostMapping("/reset") 
     public CommonResponse<?> ResetPassword(@Valid @RequestBody ResetPasswordDTO resetPasswordDTO, @CookieValue(name = "userSeq", required = false) Integer userSeq,  BindingResult bindingResult) {
