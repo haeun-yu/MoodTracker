@@ -26,7 +26,7 @@ const getDiaryList = async (userName: string, date: string): Promise<Diary[]> =>
 const getDiary = async (userName: string, date: string): Promise<Diary | null> => {
   try {
     const res = await axiosInstance.get(`/date/${userName}`, {
-      params: { submitDate: date }
+      params: { requestYearMonth: date }
     })
 
     console.log('getDiary response: ', res)
@@ -54,7 +54,7 @@ const getEmotionCount = async (
     console.log('getEmotionCount response: ', res)
 
     if (res.data.data.resultCode !== 'FAIL') {
-      return res.data.data
+      return res.data.data.count
     } else {
       return []
     }
@@ -72,7 +72,7 @@ const getMonthlyCount = async (userName: string, date: string): Promise<number> 
     console.log('getMonthlyCount response: ', res)
 
     if (res.data.data.resultCode !== 'FAIL') {
-      return res.data.data
+      return res.data.data.count
     } else {
       return 0
     }
@@ -90,7 +90,7 @@ const getLongestConsecutive = async (userName: string, date: string): Promise<nu
     console.log('getLongestConsecutive response: ', res)
 
     if (res.data.data.resultCode !== 'FAIL') {
-      return res.data.data
+      return res.data.data.count
     } else {
       return 0
     }

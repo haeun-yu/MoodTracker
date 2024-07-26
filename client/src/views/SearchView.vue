@@ -39,9 +39,10 @@
           <div
             v-for="(result, index) in paginatedDiaryList"
             :key="index"
-            class="search-result-list"
+            class="search-result-list cursor-pointer"
+            @click="handleClickDiary(result)"
           >
-            <p class="w-[10%]">{{ result.date }}</p>
+            <p class="w-[10%]">{{ getDate(result.createdAt) }}</p>
             <img :src="`/icons/emotions/${result.emotion}.svg`" alt="emotion" class="w-[2%]" />
             <p class="w-[80%] ellipsis">{{ result.content }}</p>
           </div>
@@ -59,12 +60,14 @@
       </article>
     </section>
   </div>
+  <DiaryModal v-if="isModalOpen" :diary="selectedDiary" @close="isModalOpen = false" />
 </template>
 
 <script setup lang="ts">
 import { ref, watch, onBeforeMount, computed } from 'vue'
 import authAPI from '@/api/auth'
 import DiaryAPI from '@/api/diary'
+import DiaryModal from '@/components/modal/DiaryModal.vue'
 import { useRouter } from 'vue-router'
 import { useToastStore } from '@/stores/toast.store'
 import CommonInput from '@/components/input/CommonInput.vue'
@@ -72,7 +75,8 @@ import CommonInput from '@/components/input/CommonInput.vue'
 const router = useRouter()
 const { addToast } = useToastStore()
 
-const isLatest = ref<boolean>(true)
+const isLatest = ref<boolean>(false)
+const isModalOpen = ref<boolean>(false)
 
 const user = ref<User | null>(null)
 const search = ref<string>('')
@@ -81,6 +85,7 @@ const totalPages = ref<number>(1)
 const diaryList = ref<Diary[]>([])
 const searchResult = ref<Diary[]>([])
 const ITEMS_PER_PAGE = 10
+const selectedDiary = ref<Diary | undefined>(undefined)
 
 onBeforeMount(async () => {
   const checkLoginResponse = await authAPI.checkLogin()
@@ -103,6 +108,7 @@ onBeforeMount(async () => {
   user.value = getInfoResponse
 
   const response = await DiaryAPI.searchDiaryByKeyword(user.value!.name, '')
+  console.log(response)
   diaryList.value = response
 
   searchResult.value = diaryList.value
@@ -121,10 +127,19 @@ watch([searchResult, currentPage], () => {
   updateTotalPages()
 })
 
+const getDate = (date: Date | string) => {
+  const newDate = new Date(date)
+  return `${newDate.getFullYear()}-${newDate.getMonth() + 1}-${newDate.getDate()}`
+}
+
 const sortDiaries = () => {
   searchResult.value = isLatest.value
-    ? searchResult.value.sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime())
-    : searchResult.value.sort((a, b) => new Date(a.date).getTime() - new Date(b.date).getTime())
+    ? searchResult.value.sort(
+        (a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
+      )
+    : searchResult.value.sort(
+        (a, b) => new Date(a.createdAt).getTime() - new Date(b.createdAt).getTime()
+      )
 }
 
 const handleSearch = async () => {
@@ -158,19 +173,10 @@ const nextPage = () => {
   }
 }
 
-// onBeforeMount(() => {
-//   searchResult.value = diaryList.value
-// })
-
-// watch(isLatest, () => {
-//   searchResult.value = isLatest.value
-//     ? searchResult.value.sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime())
-//     : searchResult.value.sort((a, b) => new Date(a.date).getTime() - new Date(b.date).getTime())
-// })
-
-// const handleSearch = () => {
-//   searchResult.value = diaryList.value.filter((diary) => diary.content.includes(search.value))
-// }
+const handleClickDiary = (diary: Diary) => {
+  selectedDiary.value = diary
+  isModalOpen.value = true
+}
 </script>
 
 <style scoped>
