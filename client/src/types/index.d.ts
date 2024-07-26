@@ -16,10 +16,11 @@ type UserForm = {
 }
 
 type Diary = {
-  date: string
+  // date: string
   emotion: string
   content: string
   feedback: string
+  createdAt: Date
 }
 
 type DiaryForm = {

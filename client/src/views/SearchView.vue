@@ -41,7 +41,7 @@
             :key="index"
             class="search-result-list"
           >
-            <p class="w-[10%]">{{ result.date }}</p>
+            <p class="w-[10%]">{{ getDate(result.createdAt) }}</p>
             <img :src="`/icons/emotions/${result.emotion}.svg`" alt="emotion" class="w-[2%]" />
             <p class="w-[80%] ellipsis">{{ result.content }}</p>
           </div>
@@ -122,10 +122,19 @@ watch([searchResult, currentPage], () => {
   updateTotalPages()
 })
 
+const getDate = (date: Date) => {
+  const newDate = new Date(date)
+  return `${newDate.getFullYear()}-${newDate.getMonth() + 1}-${newDate.getDate()}`
+}
+
 const sortDiaries = () => {
   searchResult.value = isLatest.value
-    ? searchResult.value.sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime())
-    : searchResult.value.sort((a, b) => new Date(a.date).getTime() - new Date(b.date).getTime())
+    ? searchResult.value.sort(
+        (a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
+      )
+    : searchResult.value.sort(
+        (a, b) => new Date(a.createdAt).getTime() - new Date(b.createdAt).getTime()
+      )
 }
 
 const handleSearch = async () => {
