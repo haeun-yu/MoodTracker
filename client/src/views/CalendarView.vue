@@ -100,7 +100,9 @@
             </div>
           </div>
           <div class="w-full flex justify-end">
-            <RouterLink to="/report" class="btn-route">그래프 보러 가기</RouterLink>
+            <RouterLink :to="'/report/' + currentYear + '-' + currentMonth" class="btn-route"
+              >그래프 보러 가기</RouterLink
+            >
           </div>
         </article>
 

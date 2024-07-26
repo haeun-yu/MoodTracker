@@ -39,7 +39,7 @@
           <div
             v-for="(result, index) in paginatedDiaryList"
             :key="index"
-            class="search-result-list"
+            class="search-result-list cursor-pointer"
             @click="handleClickDiary(result)"
           >
             <p class="w-[10%]">{{ getDate(result.createdAt) }}</p>
@@ -74,7 +74,7 @@ import CommonInput from '@/components/input/CommonInput.vue'
 const router = useRouter()
 const { addToast } = useToastStore()
 
-const isLatest = ref<boolean>(true)
+const isLatest = ref<boolean>(false)
 const isModalOpen = ref<boolean>(false)
 
 const user = ref<User | null>(null)
@@ -173,6 +173,7 @@ const nextPage = () => {
 }
 
 const handleClickDiary = (diary: Diary) => {
+  console.log(diary)
   selectedDiary.value = diary
   isModalOpen.value = true
 }
