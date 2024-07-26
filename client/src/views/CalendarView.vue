@@ -145,7 +145,7 @@ const currentYear = ref<number>(0)
 const currentMonth = ref<number>(0)
 
 const user = ref<User | null>(null)
-const diaryList = ref<{ date: string; emotion: string }[]>([])
+const diaryList = ref<Diary[]>([])
 
 const longestConsecutive = ref<number>(0)
 const weeklyAverage = ref<number>(0)
@@ -304,7 +304,7 @@ const getDiary = (day: number) => {
   if (day === 0) return null
 
   const diary = diaryList.value.find((diary) => {
-    const diaryDate = new Date(diary.date)
+    const diaryDate = new Date(diary.createdAt)
     return (
       diaryDate.getFullYear() === currentYear.value &&
       diaryDate.getMonth() + 1 === currentMonth.value &&

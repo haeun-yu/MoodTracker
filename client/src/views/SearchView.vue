@@ -126,7 +126,7 @@ watch([searchResult, currentPage], () => {
   updateTotalPages()
 })
 
-const getDate = (date: Date) => {
+const getDate = (date: Date | string) => {
   const newDate = new Date(date)
   return `${newDate.getFullYear()}-${newDate.getMonth() + 1}-${newDate.getDate()}`
 }

@@ -20,7 +20,7 @@ type Diary = {
   emotion: string
   content: string
   feedback: string
-  createdAt: Date
+  createdAt: Date | string
 }
 
 type DiaryForm = {

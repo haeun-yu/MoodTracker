@@ -95,8 +95,7 @@ const emotions = [
 ]
 
 const user = ref<User | null>(null)
-const form = ref<Diary>({
-  date: '',
+const form = ref<DiaryForm>({
   emotion: '',
   content: '',
   feedback: ''
@@ -118,7 +117,6 @@ onBeforeMount(async () => {
   user.value = await authAPI.getInformation()
 
   gemini.value = new Gemini(handleGeminiResult)
-  form.value.date = formatDate(new Date(), 'YYYY-MM-DD')
 })
 
 watch(
