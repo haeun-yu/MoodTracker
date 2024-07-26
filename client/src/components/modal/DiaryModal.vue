@@ -46,6 +46,7 @@ const date = ref('')
 
 onBeforeMount(() => {
   if (props.diary) date.value = getDate(props.diary.createdAt)
+  console.log(props.diary)
 })
 
 const getDate = (date: string | Date) => {

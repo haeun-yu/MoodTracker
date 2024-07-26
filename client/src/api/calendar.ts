@@ -90,7 +90,7 @@ const getLongestConsecutive = async (userName: string, date: string): Promise<nu
     console.log('getLongestConsecutive response: ', res)
 
     if (res.data.data.resultCode !== 'FAIL') {
-      return res.data.data
+      return res.data.data.count
     } else {
       return 0
     }

@@ -60,6 +60,7 @@
       </article>
     </section>
   </div>
+  {{ isModalOpen }}
   <DiaryModal v-if="isModalOpen" :diary="selectedDiary" @close="isModalOpen = false" />
 </template>
 

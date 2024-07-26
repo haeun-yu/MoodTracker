@@ -92,7 +92,7 @@ const emotionCount = ref<{ emotion: string; count: number }[]>([
 
 const id = route.params.id
 const year = id.slice(0, 4)
-const month = id.slice(-2)
+const month = id.slice(-1)
 const user = ref<User | null>({
   name: 'name',
   email: 'user@test.test'
