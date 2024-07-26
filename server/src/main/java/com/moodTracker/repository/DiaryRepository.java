@@ -74,4 +74,19 @@ public interface DiaryRepository extends JpaRepository<Diary, Integer>{
                                     @Param("year") int year,
                                     @Param("month") int month);
 
+    @Query(value = "SELECT AVG(weekly_count) " +
+            "FROM ( " +
+            "    SELECT " +
+            "        WEEK(createdAt, 1) AS week, " +
+            "        COUNT(*) AS weekly_count " +
+            "    FROM Diary " +
+            "    WHERE userSeq = :userSeq " +
+            "    AND YEAR(createdAt) = :year " +
+            "    AND MONTH(createdAt) = :month " +
+            "    GROUP BY WEEK(createdAt, 1) " +
+            ") AS weekly_stats", nativeQuery = true)
+    Double findWeeklyAverageEntries(@Param("userSeq") String userSeq,
+                                    @Param("year") int year,
+                                    @Param("month") int month);
+    
 }

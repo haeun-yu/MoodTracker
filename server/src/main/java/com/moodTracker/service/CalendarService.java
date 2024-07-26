@@ -96,6 +96,12 @@ public class CalendarService {
         return diaryRepository.findWrintingCountByUserseqAndYearAndMonth(userSeq, year, month);	
     }
 
+	/**
+	 * 월간 최장연속작성 횟수
+	 * @param userSeq
+	 * @param requestYearMonth
+	 * @return
+	 */
 	public MonthlyCommonCountDTO requestLongestStreakCount(String userSeq, String requestYearMonth) {
 		String[] date = requestYearMonth.split("-");
 		int year = Integer.parseInt(date[0]);
@@ -103,6 +109,20 @@ public class CalendarService {
         
         Long maxConsecutiveDays = diaryRepository.findMaxConsecutiveDays(userSeq, year, month);
         return new MonthlyCommonCountDTO(maxConsecutiveDays);
+	}
+
+	/**
+	 * 주간 평균작성횟수
+	 * @param string
+	 * @param requestYearMonth
+	 * @return
+	 */
+	public Double requestmonthlyWeeklyAverage(String userSeq, String requestYearMonth) {
+		String[] date = requestYearMonth.split("-");
+		int year = Integer.parseInt(date[0]);
+		int month = Integer.parseInt(date[1]);
+        
+        return diaryRepository.findWeeklyAverageEntries(userSeq, year, month);	
 	}
 	
 	
