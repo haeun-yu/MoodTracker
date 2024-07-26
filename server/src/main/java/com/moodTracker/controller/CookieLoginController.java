@@ -92,22 +92,29 @@ public class CookieLoginController {
         User user = userService.login(loginFormDTO);
 
         // 로그인 아이디나 비밀번호가 틀린 경우 global error return
-        if(user == null) {
+        if (user == null) {
             bindingResult.reject("loginFail", "로그인 아이디 또는 비밀번호가 틀렸습니다.");
         }
 
-        if(bindingResult.hasErrors()) {
+        if (bindingResult.hasErrors()) {
             log.info("[LOGIN] 로그인 실패");
-            return CommonResponse.success(CommonResponseDTO.of("FAIL","로그인 실패"));
+            return CommonResponse.success(CommonResponseDTO.of("FAIL", "로그인 실패"));
         }
 
         // 로그인 성공 => 쿠키 생성
         Cookie cookie = new Cookie("userSeq", String.valueOf(user.getUserSeq()));
         cookie.setMaxAge(60 * 60);  // 쿠키 유효 시간 : 1시간
+        cookie.setHttpOnly(true);  // JavaScript에서 쿠키 접근 불가
+        cookie.setPath("/");       // 쿠키의 유효 경로 설정
+
+        // SameSite 및 Secure 옵션 설정
+        cookie.setSecure(true);    // HTTPS 연결에서만 전송
+        cookie.setAttribute("SameSite", "none");  // SameSite 설정
+
         response.addCookie(cookie);
 
         log.info("[LOGIN] 로그인 성공 : {}", user.getUserName());
-        return CommonResponse.success(CommonResponseDTO.of("SUCCESS","로그인 성공"));
+        return CommonResponse.success(CommonResponseDTO.of("SUCCESS", "로그인 성공"));
     }
 
 //	  구 로그아웃
