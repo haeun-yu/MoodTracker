@@ -87,12 +87,12 @@ const emotions = [
   'Happy',
   'Angry',
   'Sad',
+  'Proud',
   'IDK',
-  'Exhausted',
+  'Excited',
   'Panicked',
-  'Blue',
-  'Upset',
-  'Peaceful'
+  'Grateful',
+  'Exhausted'
 ]
 
 const user = ref<User | null>(null)
