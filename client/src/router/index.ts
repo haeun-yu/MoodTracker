@@ -47,6 +47,11 @@ const router = createRouter({
       path: '/my',
       name: 'my',
       component: () => import('@/views/MyView.vue')
+    },
+    {
+      path: '/test',
+      name: 'test',
+      component: () => import('@/views/GeminiTestView.vue')
     }
   ]
 })
