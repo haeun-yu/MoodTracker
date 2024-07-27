@@ -186,7 +186,7 @@ public class CalendarController {
             try {
                 log.info("[REQUEST] REQUEST 성공");
                 Double monthlyWeeklyAverage = calendarService.requestmonthlyWeeklyAverage(userSeq.toString(), requestYearMonth);
-                return CommonResponse.success(monthlyWeeklyAverage);
+                return CommonResponse.success(CommonResponseDTO.of("SUCCESS", monthlyWeeklyAverage.toString()));
             } catch (Exception e) {
                 log.error("[REQUEST] 예외발생 : {}", e.getMessage());
                 return CommonResponse.success(CommonResponseDTO.of("FAIL", "[예외발생] " + e.getMessage()));

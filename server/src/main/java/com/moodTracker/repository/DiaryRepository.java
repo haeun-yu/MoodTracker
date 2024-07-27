@@ -89,4 +89,12 @@ public interface DiaryRepository extends JpaRepository<Diary, Integer>{
                                     @Param("year") int year,
                                     @Param("month") int month);
     
+    /**
+     * 일기 존재여부 조회
+     * @param userSeq
+     * @param localDateTime
+     * @return
+     */
+    @Query("SELECT COUNT(d) > 0 FROM Diary d WHERE d.userSeq = :userSeq AND FUNCTION('DATE', d.createdAt) = FUNCTION('DATE', :date)")
+    Boolean existsByDateAndUserSeq(@Param("userSeq") Integer userSeq, @Param("date") LocalDateTime date);
 }

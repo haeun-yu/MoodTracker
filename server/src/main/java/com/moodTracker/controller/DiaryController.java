@@ -96,4 +96,33 @@ public class DiaryController {
 	        return CommonResponse.success(CommonResponseDTO.of("FAIL", "잘못된 접근입니다."));
 		}		
 	}
+	
+	//특정날짜일기 존재유무
+	@GetMapping("/exists/{userName}")
+	public CommonResponse<?> searrchDiaryExistence(
+			@CookieValue(name = "userSeq", required = false) Integer userSeq,
+			@PathVariable("userName") String userName,
+			@RequestParam(name = "searchDate") String searchDate){
+		
+		//쿠키의 userSeq값으로 유저 정보조회
+		User user = userService.getLoginUser(userSeq);
+			
+		//쿠키로 조회한 유저명과 쿼리스트링으로 넘어온 유저명 비교
+		if(user.getUserName().equals(userName)) {
+            try {
+                log.info("[SEARCH] SEARCH 성공");
+                Boolean searchDiaryExistence = diaryService.searchDiaryExistence(userSeq, searchDate);
+                return CommonResponse.success(CommonResponseDTO.of("SUCCESS", searchDiaryExistence.toString()));
+            } catch (DateTimeParseException e) {
+                log.error("[SEARCH] 날짜 형식 변환 오류: {}", e.getMessage());
+                return CommonResponse.success(CommonResponseDTO.of("FAIL", "날짜 형식이 올바르지 않습니다."));
+            } catch (Exception e) {
+                log.error("[SEARCH] 예외발생 : {}", e.getMessage());
+                return CommonResponse.success(CommonResponseDTO.of("FAIL", "[예외발생] " + e.getMessage()));
+            }
+		} else {
+			log.info("[SEARCH] SEARCH 실패");
+	        return CommonResponse.success(CommonResponseDTO.of("FAIL", "잘못된 접근입니다."));
+		}
+	}			
 }
