@@ -70,19 +70,45 @@ public class DiaryService {
         
 	}
 	
-	/**
-	 * YYYY-MM-DD 형식의 String 타입을 LocalDateTime으로 변환
-	 * @param dateString
-	 * @return
-	 */
+    /**
+     * YYYY-MM-DD 형식의 String 타입을 LocalDateTime으로 변환
+     * @param dateString
+     * @return
+     */
     public LocalDateTime parseDateTime(String dateString) throws DateTimeParseException {
         try {
-            String dateTimeString = dateString + "T00:00:00"; // 여기서 T는 날짜와 시간을 구분하는 구분자입니다.
-            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss");
-            return LocalDateTime.parse(dateTimeString, formatter);
+            // 날짜 형식이 유효하지 않으면 예외 처리
+            LocalDate date = parseDate(dateString);
+            // LocalDate를 LocalDateTime으로 변환
+            return date.atStartOfDay();
         } catch (DateTimeParseException e) {
-            // 예외 처리: 날짜 형식이 올바르지 않을 경우 	
+            // 예외 처리: 날짜 형식이 올바르지 않을 경우
             throw new DateTimeParseException("Invalid date format", dateString, e.getErrorIndex(), e);
         }
+    }
+
+    /**
+     * YYYY-M-D 형식의 String 타입을 LocalDate로 변환
+     * @param dateString
+     * @return
+     */
+    private LocalDate parseDate(String dateString) throws DateTimeParseException {
+        // 입력된 날짜 문자열을 정규화하여 올바른 형식으로 변환
+        String normalizedDateString = normalizeDateString(dateString);
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+        return LocalDate.parse(normalizedDateString, formatter);
+    }
+
+    /**
+     * 입력된 날짜 문자열을 'yyyy-MM-dd' 형식으로 변환
+     * @param dateString
+     * @return
+     */
+    private String normalizeDateString(String dateString) {
+        // 날짜 문자열을 파싱하여 LocalDate 객체를 생성
+        LocalDate date = LocalDate.parse(dateString, DateTimeFormatter.ofPattern("yyyy-M-d"));
+        // LocalDate 객체를 'yyyy-MM-dd' 형식의 문자열로 변환
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+        return date.format(formatter);
     }
 }
