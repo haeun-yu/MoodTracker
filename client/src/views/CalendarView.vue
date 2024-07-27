@@ -29,7 +29,7 @@
                     <div class="w-full flex items-center justify-center">
                       <img
                         v-if="getDiary(day)"
-                        class="w-[50%]"
+                        class="w-[40%]"
                         :src="'/icons/emotions/' + getDiary(day)?.emotion + '.svg'"
                         alt="emotion"
                       />
@@ -152,20 +152,7 @@ const diaryList = ref<Diary[]>([])
 const longestConsecutive = ref<number>(0)
 const weeklyAverage = ref<number>(0)
 const monthlyCount = ref<number>(0)
-const emotionCount = ref<{ emotion: string; count: number }[]>([
-  {
-    emotion: 'Happy',
-    count: 10
-  },
-  {
-    emotion: 'Sad',
-    count: 5
-  },
-  {
-    emotion: 'Angry',
-    count: 3
-  }
-])
+const emotionCount = ref<{ emotion: string; count: number }[]>([])
 
 const selectedDiary = ref<Diary>()
 const isModalOpen = ref<boolean>(false)

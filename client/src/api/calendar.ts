@@ -54,7 +54,7 @@ const getEmotionCount = async (
     console.log('getEmotionCount response: ', res)
 
     if (res.data.data.resultCode !== 'FAIL') {
-      return res.data.data.count
+      return res.data.data
     } else {
       return []
     }

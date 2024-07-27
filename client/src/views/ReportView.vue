@@ -40,9 +40,45 @@
           </div>
         </div>
 
-        <div class="w-[70%] boxs2">
+        <div class="w-full boxs2 justify-between">
           <label class="text-lg-bold">아무개 님의 2024년 6월달 감정을 분석했어요</label>
-          <div></div>
+          <div class="w-full h-[80%] flex gap-[20px]">
+            <LineChart :data="monthScore" />
+            <div class="flex flex-col gap-[10px] justify-end">
+              <div class="flex items-center gap-[5px]">
+                <div
+                  class="text-center w-[45px] rounded-[40px] bg-white text-sm-semibold text-[#E9ACAC]"
+                >
+                  + 1
+                </div>
+                <img class="w-[20px]" src="/icons/emotions/Happy.svg" alt="Happy" />
+                <img class="w-[20px]" src="/icons/emotions/Proud.svg" alt="Proud" />
+                <img class="w-[20px]" src="/icons/emotions/Excited.svg" alt="Excited" />
+                <img class="w-[20px]" src="/icons/emotions/Grateful.svg" alt="Grateful" />
+              </div>
+
+              <div class="flex items-center gap-[5px]">
+                <div
+                  class="text-center w-[45px] rounded-[40px] bg-white text-sm-semibold text-[#E9ACAC]"
+                >
+                  0
+                </div>
+                <img class="w-[20px]" src="/icons/emotions/IDK.svg" alt="IDK" />
+              </div>
+
+              <div class="flex items-center gap-[5px]">
+                <div
+                  class="text-center w-[45px] rounded-[40px] bg-white text-sm-semibold text-[#E9ACAC]"
+                >
+                  - 1
+                </div>
+                <img class="w-[20px]" src="/icons/emotions/Sad.svg" alt="Sad" />
+                <img class="w-[20px]" src="/icons/emotions/Angry.svg" alt="Angry" />
+                <img class="w-[20px]" src="/icons/emotions/Panicked.svg" alt="Panicked" />
+                <img class="w-[20px]" src="/icons/emotions/Exhausted.svg" alt="Exhausted" />
+              </div>
+            </div>
+          </div>
           <p class="text-sm-light">*사용자 기록을 점수로 변환하여 누적 합산한 결과입니다.</p>
         </div>
       </article>
@@ -62,6 +98,7 @@
 import { onBeforeMount, ref, watch } from 'vue'
 import authAPI from '@/api/auth'
 import Gemini from '@/api/gemini'
+import LineChart from '@/components/chart/LineChart.vue'
 import { useRoute, useRouter } from 'vue-router'
 import { useToastStore } from '@/stores/toast.store'
 
@@ -89,10 +126,11 @@ const emotionCount = ref<{ emotion: string; count: number }[]>([
     count: 3
   }
 ])
+const monthScore = ref<number[]>([10, 2, -10, 0, 20, 13, 8, 0, 0, 0, 1, 0])
 
-const id = route.params.id
-const year = id.slice(0, 4)
-const month = id.slice(-1)
+const id = route.params.id as string
+const [year, month] = id.split('-')
+
 const user = ref<User | null>({
   name: 'name',
   email: 'user@test.test'
@@ -164,6 +202,7 @@ pre {
   display: flex;
   flex-direction: column;
   border-radius: 10px;
+  gap: 10px;
   padding: 20px;
   background-color: #e6afb9;
   color: white;
