@@ -9,9 +9,6 @@
       <RouterLink to="/today" class="navigation" :class="{ active: menu === 'today' }"
         >Today</RouterLink
       >
-      <RouterLink to="/report" class="navigation" :class="{ active: menu === 'report' }"
-        >Report</RouterLink
-      >
       <RouterLink to="/search" class="navigation" :class="{ active: menu === 'search' }"
         >Search</RouterLink
       >
