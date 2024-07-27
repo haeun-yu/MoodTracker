@@ -95,12 +95,14 @@
                   class="bg-white h-[20px] rounded-r-[10px] mt-[5px]"
                   :style="{ width: (emotion.count / 30) * 100 + '%' }"
                 ></div>
-                <p>{{ emotion.count }}회</p>
+                <p>{{ emotion.emotion }}/{{ emotion.count }}회</p>
               </div>
             </div>
           </div>
           <div class="w-full flex justify-end">
-            <RouterLink to="/report" class="btn-route">그래프 보러 가기</RouterLink>
+            <RouterLink :to="'/report/' + currentYear + '-' + currentMonth" class="btn-route"
+              >그래프 보러 가기</RouterLink
+            >
           </div>
         </article>
 
@@ -145,12 +147,25 @@ const currentYear = ref<number>(0)
 const currentMonth = ref<number>(0)
 
 const user = ref<User | null>(null)
-const diaryList = ref<{ date: string; emotion: string }[]>([])
+const diaryList = ref<Diary[]>([])
 
 const longestConsecutive = ref<number>(0)
 const weeklyAverage = ref<number>(0)
 const monthlyCount = ref<number>(0)
-const emotionCount = ref<{ emotion: string; count: number }[]>([])
+const emotionCount = ref<{ emotion: string; count: number }[]>([
+  {
+    emotion: 'Happy',
+    count: 10
+  },
+  {
+    emotion: 'Sad',
+    count: 5
+  },
+  {
+    emotion: 'Angry',
+    count: 3
+  }
+])
 
 const selectedDiary = ref<Diary>()
 const isModalOpen = ref<boolean>(false)
@@ -291,7 +306,7 @@ const getDiary = (day: number) => {
   if (day === 0) return null
 
   const diary = diaryList.value.find((diary) => {
-    const diaryDate = new Date(diary.date)
+    const diaryDate = new Date(diary.createdAt)
     return (
       diaryDate.getFullYear() === currentYear.value &&
       diaryDate.getMonth() + 1 === currentMonth.value &&

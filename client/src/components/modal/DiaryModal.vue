@@ -45,10 +45,11 @@ const emits = defineEmits(['close'])
 const date = ref('')
 
 onBeforeMount(() => {
-  if (props.diary) date.value = getDate(props.diary.date)
+  if (props.diary) date.value = getDate(props.diary.createdAt)
+  console.log(props.diary)
 })
 
-const getDate = (date: string) => {
+const getDate = (date: string | Date) => {
   const dateObj = new Date(date)
   const year = dateObj.getFullYear()
   const month = dateObj.getMonth() + 1
@@ -72,5 +73,6 @@ pre {
   box-shadow:
     0 10px 15px -3px rgb(0 0 0 / 0.1),
     0 4px 6px -4px rgb(0 0 0 / 0.1);
+  white-space: pre-wrap;
 }
 </style>

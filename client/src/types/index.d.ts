@@ -6,7 +6,7 @@ type Login = {
 type User = {
   name: string
   email: string
-  password: string
+  password?: string
 }
 
 type UserForm = {
@@ -16,10 +16,11 @@ type UserForm = {
 }
 
 type Diary = {
-  date: string
+  // date: string
   emotion: string
   content: string
   feedback: string
+  createdAt: Date | string
 }
 
 type DiaryForm = {

@@ -1,0 +1,30 @@
+var P=Object.defineProperty;var V=(n,o,l)=>o in n?P(n,o,{enumerable:!0,configurable:!0,writable:!0,value:l}):n[o]=l;var v=(n,o,l)=>V(n,typeof o!="symbol"?o+"":o,l);import{d as G,u as R,r as _,m as F,a as $,q as M,c as i,e as t,F as O,z as U,s as h,t as x,C as k,D as I,n as j,h as u,A as L,p as z,j as K,i as S,_ as N}from"./index-rlBB47KP.js";import{G as H}from"./index-BxK1Kcup.js";import{d as W}from"./diary-28Qgq9kd.js";const X="/images/stamp.svg",Y="/icons/loading.svg",q="AIzaSyCXpx3BdoALyxXrn2TTS629kOaOR0POmuI";class Q{constructor(o){v(this,"genAI",null);v(this,"model",null);v(this,"handleResult",()=>{});v(this,"generate",async o=>{try{const a=(await this.model.generateContent(o)).response.text();this.handleResult(a)}catch(l){console.log(l.message)}});this.handleResult=o,this.genAI=new H(q),this.model=this.genAI.getGenerativeModel({model:"gemini-1.0-pro"})}}const g=n=>(z("data-v-9669b03c"),n=n(),K(),n),J={class:"flex items-center justify-between"},Z={key:0,class:"diary-container px-[30px] py-[60px] w-[35%] fade-in"},ee=g(()=>t("h1",{class:"text-4xl-bold mb-[30px] text-[#222222]"},"오늘의 감정",-1)),te={class:"grid grid-cols-3"},se=["onClick"],ae=["src"],oe=g(()=>t("article",null,null,-1)),ne={key:1,class:"w-[60%] fade-in relative"},le={class:"diary-container px-[40px] py-[30px]"},ce={class:"w-full flex items-end justify-between text-[#484848]"},ie={class:"flex flex-col gap-[20px]"},ue={class:"text-lg-bold"},de=g(()=>t("p",{class:"text-lg-regular"},[S(" 오늘은 어떤 하루를 보내셨나요? "),t("br"),S(" 하루를 기록해보세요! ")],-1)),re={class:"bg-white p-[20px] rounded-[20px] shadow-md flex items-center gap-[20px]"},pe=["src"],me={class:"relative w-full"},ve=["disable"],_e={class:"absolute bottom-[10px] right-[10px] text-[#5B5B5B] text-sm-light"},he={key:0,class:"absolute top-[-80px] right-[-50px]"},ge=g(()=>t("img",{src:X,alt:"diary",class:"w-[200px]"},null,-1)),xe=[ge],fe={key:0,class:"flex justify-end mt-[20px]"},ye=["disabled"],be={key:0,src:Y,class:"w-[30px] animate-spin"},we={key:1},$e={key:2,class:"diary-container px-[40px] py-[30px] w-[35%] fade-in text-[#434343]"},ke={class:"w-full"},Ie={class:"text-lg-regular"},Se=g(()=>t("div",{class:"w-full text-end"},[t("p",{class:"text-lg-regular"},"From. Mood Tracker")],-1)),Ce=G({__name:"TodayView",setup(n){const o=j(),{addToast:l}=R(),y=["Happy","Angry","Sad","IDK","Exhausted","Panicked","Blue","Upset","Peaceful"],a=_(null),e=_({emotion:"",content:"",feedback:""}),b=_(null),m=_(!1),p=_(!1);F(async()=>{await $.checkLogin()||(l({message:"로그인이 필요합니다."}),o.push("/login")),a.value=await $.getInformation(),b.value=new Q(B)}),M(()=>e.value.content,s=>{s.length>1e3&&(e.value.content=s.slice(0,1e3))});const C=()=>{const s=new Date,d=["일요일","월요일","화요일","수요일","목요일","금요일","토요일"],r=s.getFullYear(),c=s.getMonth()+1,f=s.getDate(),w=d[s.getDay()];return`${r}년 ${c}월 ${f}일 ${w}`},A=s=>{e.value.emotion=s},D=()=>{m.value||(m.value=!0,T())},B=s=>{e.value.feedback=s,E()},T=()=>{const s=`사용자가 하루 동안 기록한 감정을 기반으로 따뜻하고 공감어린 피드백을 작성해줘. 감정에 따라 아래와 같은 피드백을 출력해줘. 각 피드백은 사용자의 감정과 일기 내용을 바탕으로 특별하고 맞춤형으로 작성되어야 해.
+
+사용자 정보:
+- 사용자 이름: ${a.value.name}
+- 일기의 내용: ${e.value.content}
+- 선택한 감정: ${e.value.emotion}
+
+감정에 따른 피드백 예시:
+
+- Happy: "${a.value.name}, 오늘 정말 기쁜 하루를 보낸 것 같아 기뻐요! 당신의 긍정적인 에너지가 ${e.value.content}을 통해 전해졌어요. 오늘 하루도 너무 수고 많았고, 내일도 이 기운 그대로 멋진 하루가 될 거예요!"
+
+- Angry: "${a.value.name}, 오늘 화가 나는 일이 있었군요. ${e.value.content}을 읽으니 당신의 감정을 충분히 이해할 수 있어요. 때로는 화를 내는 것도 필요해요. 내일은 더 나은 날이 될 거예요. 당신을 항상 응원하고 있어요."
+
+- Sad: "${a.value.name}, 오늘 슬픈 일이 있었군요. ${e.value.content}을 통해 당신의 마음이 느껴져요. 슬픔도 우리가 느껴야 할 중요한 감정이에요. 충분히 쉬고, 당신이 소중한 존재라는 걸 잊지 마세요. 내일은 더 나은 날이 될 거예요."
+
+- Exhausted: "${a.value.name}, 오늘 많이 피곤했나 봐요. ${e.value.content}을 읽으니 정말 힘든 하루를 보낸 것 같아요. 충분히 쉬어야 해요. 당신의 건강이 가장 중요해요. 내일은 더 활기찬 하루가 되길 바랄게요."
+
+- Panicked: "${a.value.name}, 오늘 두려움을 느낀 일이 있었군요. ${e.value.content}을 보니 얼마나 힘들었을지 이해가 돼요. 두려움은 우리를 성장하게 하는 감정이에요. 당신이 이겨낼 수 있다는 걸 믿어요. 내일은 더 안정된 하루가 될 거예요."
+
+- IDK: "${a.value.name}, 오늘 무기력한 하루를 보냈군요. ${e.value.content}을 보니 모든 것이 귀찮게 느껴졌겠어요. 누구나 가끔은 이렇게 느낄 때가 있어요. 충분히 쉬고, 자신을 돌봐주세요. 내일은 더 활기찬 하루가 되길 바라요."
+
+- Blue: "${a.value.name}, 오늘 우울한 기분이었군요. ${e.value.content}을 통해 당신의 마음이 느껴져요. 우울함도 우리가 겪는 중요한 감정이에요. 충분히 쉬고, 자신을 잘 돌봐주세요. 내일은 더 나은 날이 되길 바랄게요."
+
+- Upset: "${a.value.name}, 오늘 속상한 일이 있었군요. ${e.value.content}을 보니 얼마나 마음이 아팠을지 이해가 돼요. 속상함을 느끼는 것도 중요해요. 충분히 쉬고, 자신을 잘 돌봐주세요. 내일은 더 나은 날이 될 거예요."
+
+- Peaceful: "${a.value.name}, 오늘 평온한 하루를 보낸 것 같아 기뻐요. ${e.value.content}을 읽으니 당신의 마음이 안정된 것 같아 좋네요. 평온한 하루를 보낸 만큼 내일도 이렇게 평온하길 바랄게요."
+
+출력 형식:
+
+${a.value.name}, 사용자가 선택한 감정에 따라 적절한 피드백을 여기에 삽입하세요.`;b.value.generate(s)},E=async()=>{var r;const s={emotion:e.value.emotion,content:e.value.content,feedback:e.value.feedback,feedbackCode:"SUCCESS"};await W.createDiary((r=a.value)==null?void 0:r.name,s)&&(m.value=!1,p.value=!0)};return(s,d)=>{var r;return u(),i("div",J,[p.value?h("",!0):(u(),i("section",Z,[ee,t("article",te,[(u(),i(O,null,U(y,(c,f)=>t("button",{key:f,class:L(["emotion-box",e.value.emotion===c?"bg-[#D0A7EB]":"bg-white"]),onClick:w=>A(c)},[t("img",{src:`/icons/emotions/${c}.svg`,alt:"emotion",class:"w-[60px]"},null,8,ae)],10,se)),64))]),oe])),e.value.emotion?(u(),i("section",ne,[t("article",le,[t("div",ce,[t("div",ie,[t("label",ue,x(C()),1),de]),t("span",re,[t("img",{src:`/icons/emotions/${e.value.emotion}.svg`,alt:"emotion",class:"w-[30px]"},null,8,pe),t("p",null,x(e.value.emotion),1)])]),t("div",me,[k(t("textarea",{"onUpdate:modelValue":d[0]||(d[0]=c=>e.value.content=c),class:"h-[calc(45vh)]",disable:p.value},null,8,ve),[[I,e.value.content]]),t("p",_e,x(e.value.content.length)+"/1000 ",1)]),p.value?(u(),i("div",he,xe)):h("",!0)]),p.value?h("",!0):(u(),i("div",fe,[t("button",{class:"btn-primary p-[10px]",onClick:D,disabled:m.value},[m.value?(u(),i("img",be)):(u(),i("p",we,"Submit"))],8,ye)]))])):h("",!0),p.value?(u(),i("section",$e,[t("div",ke,[t("p",Ie,"To. "+x((r=a.value)==null?void 0:r.name),1)]),k(t("textarea",{"onUpdate:modelValue":d[1]||(d[1]=c=>e.value.feedback=c),class:"h-[calc(50vh)]",disabled:""},null,512),[[I,e.value.feedback]]),Se])):h("",!0)])}}}),Ee=N(Ce,[["__scopeId","data-v-9669b03c"]]);export{Ee as default};
