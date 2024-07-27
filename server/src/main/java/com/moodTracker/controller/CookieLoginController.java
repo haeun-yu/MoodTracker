@@ -117,16 +117,6 @@ public class CookieLoginController {
         return CommonResponse.success(CommonResponseDTO.of("SUCCESS", "로그인 성공"));
     }
 
-//	  구 로그아웃
-//    @GetMapping("/logout")
-//    public CommonResponse<?> logout(HttpServletResponse response) {
-//        Cookie cookie = new Cookie("userSeq", null);
-//        cookie.setMaxAge(0);
-//        response.addCookie(cookie);
-//        log.info("[LOGOUT] 로그아웃 성공");
-//        return CommonResponse.success(CommonResponseDTO.of("SUCCESS","로그아웃 성공"));
-//    }
-
     @GetMapping("/logout")
     public ResponseEntity<CommonResponse<?>> logout(HttpServletResponse response) {
         try {
@@ -137,7 +127,14 @@ public class CookieLoginController {
 //            }
         	
             Cookie cookie = new Cookie("userSeq", null);
-            cookie.setMaxAge(0);
+            cookie.setMaxAge(0);            
+            cookie.setHttpOnly(true);  // JavaScript에서 쿠키 접근 불가
+            cookie.setPath("/");       // 쿠키의 유효 경로 설정
+
+            // SameSite 및 Secure 옵션 설정
+            cookie.setSecure(true);    // HTTPS 연결에서만 전송
+            cookie.setAttribute("SameSite", "none");  // SameSite 설정
+
             response.addCookie(cookie);
             
             log.info("[LOGOUT] 로그아웃 성공");
