@@ -58,4 +58,31 @@ public class DiaryService {
 	public List<Diary> searchDiaryByKeword(Integer userSeq, String searchWord) {
 		return diaryRepository.findByUserSeqAndContentContaining(userSeq, searchWord);
 	}
+
+	/**
+	 * 날짜와 userSeq로 일기 존재여부 조회
+	 * @param userSeq
+	 * @param requestYearMonth
+	 * @return
+	 */
+	public boolean searchDiaryExistence(Integer userSeq, String searchDate) {
+        return diaryRepository.existsByDateAndUserSeq(userSeq, parseDateTime(searchDate));	
+        
+	}
+	
+	/**
+	 * YYYY-MM-DD 형식의 String 타입을 LocalDateTime으로 변환
+	 * @param dateString
+	 * @return
+	 */
+    public LocalDateTime parseDateTime(String dateString) throws DateTimeParseException {
+        try {
+            String dateTimeString = dateString + "T00:00:00"; // 여기서 T는 날짜와 시간을 구분하는 구분자입니다.
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss");
+            return LocalDateTime.parse(dateTimeString, formatter);
+        } catch (DateTimeParseException e) {
+            // 예외 처리: 날짜 형식이 올바르지 않을 경우 	
+            throw new DateTimeParseException("Invalid date format", dateString, e.getErrorIndex(), e);
+        }
+    }
 }
