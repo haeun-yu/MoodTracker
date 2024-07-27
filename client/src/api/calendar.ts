@@ -26,7 +26,7 @@ const getDiaryList = async (userName: string, date: string): Promise<Diary[]> =>
 const getDiary = async (userName: string, date: string): Promise<Diary | null> => {
   try {
     const res = await axiosInstance.get(`/date/${userName}`, {
-      params: { requestYearMonth: date }
+      params: { submitDate: date }
     })
 
     console.log('getDiary response: ', res)
