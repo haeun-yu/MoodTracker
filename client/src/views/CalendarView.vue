@@ -210,6 +210,10 @@ const getDatas = async () => {
     user.value!.name,
     `${currentYear.value}-${currentMonth.value}`
   )
+  weeklyAverage.value = await calendarAPI.getWeeklyAverage(
+    user.value!.name,
+    `${currentYear.value}-${currentMonth.value}`
+  )
 }
 
 const init = () => {
