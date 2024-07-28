@@ -8,14 +8,14 @@
           되새겨보는 시간을 가져보세요.
         </p>
       </div>
-      <div class="flex items-center gap-[10px]">
+      <!-- <div class="flex items-center gap-[10px]">
         <button class="btn-tertiary" @click="prevMonth">
           <img src="/icons/arrow-left.svg" class="w-[40px]" />
         </button>
         <button class="btn-tertiary" @click="nextMonth">
           <img src="/icons/arrow-left.svg" class="w-[40px] -scale-x-100" />
         </button>
-      </div>
+      </div> -->
     </section>
 
     <section v-if="isNextMonth">
@@ -133,7 +133,7 @@ const isNextMonth = ref(false)
 
 const report = ref<string | null>(null)
 const emotionCount = ref<{ emotion: string; count: number }[]>([])
-const monthScore = ref<number[]>([10, 2, -10, 0, 20, 13, 8, 0, 0, 0, 1, 0])
+const monthScore = ref<number[]>([])
 
 const id = route.params.id as string
 const year = ref<string>()

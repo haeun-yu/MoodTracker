@@ -19,7 +19,7 @@ const getReport = async (userName: string, date: string): Promise<string | null>
       return null
     }
 
-    return response.data.data
+    return response.data.data.monthlyFeedback
   } catch (error) {
     console.log('getReport error: ', error)
     return null
