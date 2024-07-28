@@ -113,4 +113,10 @@ public interface DiaryRepository extends JpaRepository<Diary, Integer>{
     	       + "GROUP BY YEAR(d.createdAt), MONTH(d.createdAt) "
     	       + "ORDER BY YEAR(d.createdAt) DESC, MONTH(d.createdAt) DESC")
     	List<ChartDataDTO> findEmotionScoresByYear(@Param("userSeq") Integer userSeq, @Param("year") int year);
+//    @Query("SELECT COALESCE(SUM(CASE WHEN e.emotionScore = '+1' THEN 1 WHEN e.emotionScore = '-1' THEN -1 ELSE 0 END), 0) "
+//    	       + "FROM Diary d LEFT JOIN Emotion e ON d.emotion = e.emotion "
+//    	       + "WHERE d.userSeq = :userSeq AND YEAR(d.createdAt) = :year "
+//    	       + "GROUP BY MONTH(d.createdAt) "
+//    	       + "ORDER BY MONTH(d.createdAt)")
+//	List<Integer> findEmotionScoresByYear(@Param("userSeq") Integer userSeq, @Param("year") int year);
 }
