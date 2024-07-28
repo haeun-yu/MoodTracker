@@ -72,7 +72,6 @@
 
 <script setup lang="ts">
 import { onBeforeMount, ref, watch } from 'vue'
-import { formatDate } from '@vueuse/core'
 import Gemini from '@/api/gemini'
 import authAPI from '@/api/auth'
 import diaryAPI from '@/api/diary'
@@ -116,11 +115,11 @@ onBeforeMount(async () => {
 
   user.value = await authAPI.getInformation()
 
-  const hasDiary = await diaryAPI.hasDiary(user.value?.name!, formatDate(new Date(), 'yyyy-m-d'))
+  const hasDiary = await diaryAPI.hasDiary(user.value?.name!, getTodayFormatted())
 
   if (hasDiary) {
     isDone.value = true
-    const diary = await calendarAPI.getDiary(user.value?.name!, formatDate(new Date(), 'yyyy-m-d'))
+    const diary = await calendarAPI.getDiary(user.value?.name!, getTodayFormatted())
 
     if (diary) {
       form.value.emotion = diary.emotion
@@ -152,6 +151,15 @@ const getToday = () => {
   const dayOfWeek = daysOfWeek[now.getDay()]
 
   return `${year}년 ${month}월 ${day}일 ${dayOfWeek}`
+}
+
+const getTodayFormatted = () => {
+  const now = new Date()
+
+  const year = now.getFullYear()
+  const month = now.getMonth() + 1
+  const day = now.getDate()
+  return `${year}-${month}-${day}`
 }
 
 const handleChangeEmotion = (value: string) => {

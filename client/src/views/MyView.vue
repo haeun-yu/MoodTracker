@@ -204,7 +204,7 @@ const handleResetPassword = async () => {
     addToast({
       message: '비밀번호가 변경되었습니다.'
     })
-    router.push('/login')
+    router.push('/')
   } else {
     addToast({
       message: response
