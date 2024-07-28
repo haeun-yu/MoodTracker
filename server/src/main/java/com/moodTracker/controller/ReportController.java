@@ -125,7 +125,7 @@ public class ReportController {
             try {
                 log.info("[REQUEST] REQUEST 성공");
                 Boolean isDiaryWrittenForMonth = reportService.checkDiaryExists(userSeq, requestYearMonth);
-                return CommonResponse.success(isDiaryWrittenForMonth);
+                return CommonResponse.success(CommonResponseDTO.of("SUCCESS", isDiaryWrittenForMonth.toString()));
             } catch (Exception e) {
                 log.error("[REQUEST] 예외발생 : {}", e.getMessage());
                 return CommonResponse.success(CommonResponseDTO.of("FAIL", "[예외발생] " + e.getMessage()));
