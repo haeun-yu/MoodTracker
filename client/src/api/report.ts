@@ -18,6 +18,9 @@ const getReport = async (userName: string, date: string): Promise<string | null>
     if (response.data.data.resultCode && response.data.data.resultCode !== 'SUCCESS') {
       return null
     }
+    if (response.data.data === null) {
+      return null
+    }
 
     return response.data.data.monthlyFeedback
   } catch (error) {
