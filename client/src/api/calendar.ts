@@ -108,7 +108,7 @@ const getWeeklyAverage = async (userName: string, date: string): Promise<number>
     console.log('getWeeklyAverage response: ', res)
 
     if (res.data.data.resultCode !== 'FAIL') {
-      return res.data.data.count
+      return res.data.data.message
     } else {
       return 0
     }
