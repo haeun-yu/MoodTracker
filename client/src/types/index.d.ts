@@ -42,3 +42,8 @@ type CheckLogin = {
   name: string
   message: string
 }
+
+type ReportForm = {
+  reportedMonth: string
+  monthlyFeedback: string
+}
