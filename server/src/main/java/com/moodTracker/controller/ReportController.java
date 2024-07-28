@@ -32,30 +32,30 @@ public class ReportController {
     private final UserService userService;
     
     @GetMapping("/chart/{userName}")
-	public CommonResponse<?> requestChartData (
-			@CookieValue(name = "userSeq") Integer userSeq,
-			@PathVariable("userName") String userName,
-			@RequestParam(name = "requestYearMonth") String requestYearMonth
-			) {
+    public CommonResponse<?> requestChartData (
+            @CookieValue(name = "userSeq") Integer userSeq,
+            @PathVariable("userName") String userName,
+            @RequestParam(name = "requestYearMonth") String requestYearMonth
+            ) {
 
-		//쿠키의 userSeq값으로 유저 정보조회
-		User user = userService.getLoginUser(userSeq);
-			
-		//쿠키로 조회한 유저명과 쿼리스트링으로 넘어온 유저명 비교
-		if(user.getUserName().equals(userName)) {
+        // 쿠키의 userSeq값으로 유저 정보조회
+        User user = userService.getLoginUser(userSeq);
+            
+        // 쿠키로 조회한 유저명과 쿼리스트링으로 넘어온 유저명 비교
+        if(user.getUserName().equals(userName)) {
             try {
                 log.info("[REQUEST] REQUEST 성공");
-                List<ChartDataDTO> chartData = reportService.requestChartData(userSeq, requestYearMonth);
+                int[] chartData = reportService.requestChartData(userSeq, requestYearMonth);
                 return CommonResponse.success(chartData);
             } catch (Exception e) {
                 log.error("[REQUEST] 예외발생 : {}", e.getMessage());
                 return CommonResponse.success(CommonResponseDTO.of("FAIL", "[예외발생] " + e.getMessage()));
             }
-		} else {
-			log.info("[REQUEST] REQUEST 실패");
-	        return CommonResponse.success(CommonResponseDTO.of("FAIL", "잘못된 접근입니다."));
-		}	
-	}
+        } else {
+            log.info("[REQUEST] REQUEST 실패");
+            return CommonResponse.success(CommonResponseDTO.of("FAIL", "잘못된 접근입니다."));
+        }    
+    }
     
     @GetMapping("/monthlyFeedback/{userName}")
     public CommonResponse<?> requestMonthlyFeedback (
