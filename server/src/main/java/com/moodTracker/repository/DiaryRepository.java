@@ -11,6 +11,7 @@ import org.springframework.data.repository.query.Param;
 
 import com.moodTracker.domain.dto.MonthlyEmotionsDTO;
 import com.moodTracker.domain.dto.MonthlyTop3EmotionsDTO;
+import com.moodTracker.domain.dto.ChartDataDTO;
 import com.moodTracker.domain.dto.MonthlyCommonCountDTO;
 import com.moodTracker.domain.entity.Diary;
 
@@ -97,4 +98,20 @@ public interface DiaryRepository extends JpaRepository<Diary, Integer>{
      */
     @Query("SELECT COUNT(d) > 0 FROM Diary d WHERE d.userSeq = :userSeq AND FUNCTION('DATE', d.createdAt) = FUNCTION('DATE', :date)")
     Boolean existsByDateAndUserSeq(@Param("userSeq") Integer userSeq, @Param("date") LocalDateTime date);
+    
+    /**
+     * 차트 데이터 조회
+     * @param userSeq
+     * @param year
+     * @param month
+     * @return
+     */
+    @Query("SELECT new com.moodTracker.domain.dto.ChartDataDTO(CONCAT(YEAR(d.createdAt), '-', LPAD(CAST(MONTH(d.createdAt) AS string), 2, '0')), "
+    	       + "SUM(CASE WHEN e.emotionScore = '+1' THEN 1 WHEN e.emotionScore = '-1' THEN -1 ELSE 0 END)) "
+    	       + "FROM Diary d JOIN Emotion e ON d.emotion = e.emotion "
+    	       + "WHERE d.userSeq = :userSeq AND (YEAR(d.createdAt) = :year AND MONTH(d.createdAt) <= :month "
+    	       + "OR (YEAR(d.createdAt) < :year)) "
+    	       + "GROUP BY YEAR(d.createdAt), MONTH(d.createdAt) "
+    	       + "ORDER BY YEAR(d.createdAt) DESC, MONTH(d.createdAt) DESC")
+    	List<ChartDataDTO> findEmotionScoresByMonthAndUser(@Param("userSeq") Integer userSeq, @Param("year") int year, @Param("month") int month);
 }
