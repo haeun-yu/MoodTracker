@@ -73,7 +73,7 @@ const hasDiary = async (userName: string, date: string): Promise<boolean> => {
 
     console.log('hasDiary response: ', response)
 
-    if (response.data.data.resultCode && response.data.data.resultCode !== 'FAIL') {
+    if (response.data.data.resultCode && response.data.data.resultCode === 'FAIL') {
       return false
     }
 
