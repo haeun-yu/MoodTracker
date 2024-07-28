@@ -168,9 +168,13 @@ onBeforeMount(async () => {
   await getDatas()
 })
 
-watch([year, month], async () => {
-  await getDatas()
-})
+watch(
+  [year, month],
+  async () => {
+    await getDatas()
+  },
+  { deep: true }
+)
 
 const getDatas = async () => {
   const now = new Date()

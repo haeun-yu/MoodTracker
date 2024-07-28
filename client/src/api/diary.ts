@@ -77,7 +77,9 @@ const hasDiary = async (userName: string, date: string): Promise<boolean> => {
       return false
     }
 
-    return response.data.data.message
+    if (response.data.data.message === 'false') return false
+
+    return true
   } catch (error) {
     console.log('hasDiary error: ', error)
     return false
