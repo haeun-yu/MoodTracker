@@ -16,6 +16,7 @@ import com.moodTracker.domain.dto.ChartDataDTO;
 import com.moodTracker.domain.dto.CommonResponseDTO;
 import com.moodTracker.domain.dto.MonthlyReportDTO;
 import com.moodTracker.domain.entity.User;
+import com.moodTracker.service.ReportService;
 import com.moodTracker.service.UserService;
 
 import lombok.RequiredArgsConstructor;

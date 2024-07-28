@@ -1,4 +1,4 @@
-package com.moodTracker.controller;
+package com.moodTracker.service;
 
 import java.util.ArrayList;
 import java.util.List;
