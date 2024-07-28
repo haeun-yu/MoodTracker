@@ -114,7 +114,7 @@
 </template>
 
 <script setup lang="ts">
-import { onBeforeMount, ref, watch } from 'vue'
+import { onMounted, ref, watch } from 'vue'
 import authAPI from '@/api/auth'
 import calendarAPI from '@/api/calendar'
 import reportAPI from '@/api/report'
@@ -144,26 +144,26 @@ const user = ref<User | null>({
   email: 'user@test.test'
 })
 
-onBeforeMount(async () => {
+onMounted(async () => {
   year.value = id.split('-')[0]
   month.value = id.split('-')[1]
 
-  const checkLoginResponse = await authAPI.checkLogin()
-  if (!checkLoginResponse) {
-    addToast({
-      message: '로그인이 필요합니다.'
-    })
-    router.push('/login')
-  }
+  // const checkLoginResponse = await authAPI.checkLogin()
+  // if (!checkLoginResponse) {
+  //   addToast({
+  //     message: '로그인이 필요합니다.'
+  //   })
+  //   router.push('/login')
+  // }
 
-  const getUserResponse = await authAPI.getInformation()
-  if (!getUserResponse) {
-    addToast({
-      message: '사용자 정보를 불러오는데 실패했습니다.'
-    })
-    router.push('/login')
-  }
-  user.value = getUserResponse
+  // const getUserResponse = await authAPI.getInformation()
+  // if (!getUserResponse) {
+  //   addToast({
+  //     message: '사용자 정보를 불러오는데 실패했습니다.'
+  //   })
+  //   router.push('/login')
+  // }
+  // user.value = getUserResponse
 
   await getDatas()
 })
@@ -181,28 +181,28 @@ const getDatas = async () => {
   const nowYear = now.getFullYear()
   const nowMonth = now.getMonth() + 1
 
-  if (+year.value! > nowYear || (+year.value! === nowYear && +month.value! >= nowMonth)) {
+  if (+year.value! > nowYear || (+year.value! === nowYear && +month.value! > nowMonth)) {
     isNextMonth.value = true
+    return
   } else {
     isNextMonth.value = false
-    return
-  }
 
-  report.value = await reportAPI.getReport(user.value!.name, `${year.value!}-${month.value!}`)
-  monthScore.value = await reportAPI.getMonthScore(
-    user.value!.name,
-    `${year.value!}-${month.value!}`
-  )
-  emotionCount.value = await calendarAPI.getEmotionCount(
-    user.value!.name,
-    `${year.value!}-${month.value!}`
-  )
+    report.value = await reportAPI.getReport(user.value!.name, `${year.value!}-${month.value!}`)
+    monthScore.value = await reportAPI.getMonthScore(
+      user.value!.name,
+      `${year.value!}-${month.value!}`
+    )
+    emotionCount.value = await calendarAPI.getEmotionCount(
+      user.value!.name,
+      `${year.value!}-${month.value!}`
+    )
 
-  if (!report.value) {
-    hasReport.value = false
-    await handleCreateReport()
-  } else {
-    hasReport.value = true
+    if (!report.value) {
+      hasReport.value = false
+      await handleCreateReport()
+    } else {
+      hasReport.value = true
+    }
   }
 }
 
