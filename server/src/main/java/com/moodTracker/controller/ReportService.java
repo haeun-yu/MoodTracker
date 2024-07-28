@@ -1,7 +1,6 @@
 package com.moodTracker.controller;
 
 import java.util.ArrayList;
-
 import java.util.List;
 
 import org.springframework.stereotype.Service;
@@ -23,7 +22,6 @@ public class ReportService {
 
 	private final DiaryRepository diaryRepository;
 	private final MonthlyReportRepository monthlyReportRepository;
-
     public List<ChartDataDTO> requestChartData(Integer userSeq, String requestYearMonth) {
         String[] date = requestYearMonth.split("-");
         int year = Integer.parseInt(date[0]);
@@ -73,6 +71,14 @@ public class ReportService {
 		int month = Integer.parseInt(date[1]);
 		
 		return monthlyReportRepository.findByUserSeqAndReportedMonth(userSeq, year, month);
-
 	}
+
+	public Boolean checkDiaryExists(Integer userSeq, String requestYearMonth) {
+		String[] date = requestYearMonth.split("-");
+		int year = Integer.parseInt(date[0]);
+		int month = Integer.parseInt(date[1]);
+		
+		return monthlyReportRepository.existsByUserSeqAndReportedMonth(userSeq, year, month);
+	}
+
 }

@@ -108,4 +108,31 @@ public class ReportController {
 	        return CommonResponse.success(CommonResponseDTO.of("FAIL", "잘못된 접근입니다."));
 		}	
 	}
+    
+    @GetMapping("/check/{userName}")
+	public CommonResponse<?> checkDiaryExists (
+			@CookieValue(name = "userSeq") Integer userSeq,
+			@PathVariable("userName") String userName,
+			@RequestParam(name = "requestYearMonth") String requestYearMonth
+			) {
+
+		//쿠키의 userSeq값으로 유저 정보조회
+		User user = userService.getLoginUser(userSeq);
+			
+		//쿠키로 조회한 유저명과 쿼리스트링으로 넘어온 유저명 비교
+		if(user.getUserName().equals(userName)) {
+            try {
+                log.info("[REQUEST] REQUEST 성공");
+                Boolean isDiaryWrittenForMonth = reportService.checkDiaryExists(userSeq, requestYearMonth);
+                return CommonResponse.success(isDiaryWrittenForMonth);
+            } catch (Exception e) {
+                log.error("[REQUEST] 예외발생 : {}", e.getMessage());
+                return CommonResponse.success(CommonResponseDTO.of("FAIL", "[예외발생] " + e.getMessage()));
+            }
+		} else {
+			log.info("[REQUEST] REQUEST 실패");
+	        return CommonResponse.success(CommonResponseDTO.of("FAIL", "잘못된 접근입니다."));
+		}	
+	}
+	
 }
