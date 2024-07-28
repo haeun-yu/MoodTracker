@@ -205,7 +205,60 @@ const getDatas = async () => {
 const handleCreateReport = async () => {
   gemini.value = new Gemini(handleGeminiResult)
 
-  const prompt = ``
+  const prompt = `###프롬프트###
+다음은 감정 기록 앱 사용자의 월간 통계입니다. 당신은 반드시 '사용자'가 '선택한 감정'의 통계 결과를 바탕으로, 사용자에게 맞춤형 피드백을 작성해야 합니다.
+피드백:
+###데이터###
+* 사용자 이름: ${user.value!.name}
+* value.emotion.this.month.sum: ${monthScore.value[+month.value! - 1]}
+* value.emotion.last.month.sum: ${monthScore.value[+month.value! - 2]}
+###데이터 설명###
+* value.emotion.this.month.sum과 value.emotion.last.month는 아래 값들로 이루어진 합산 결과 입니다.
+*value.emotion.positive(+1): happy, grateful, proud, excited
+* value.emotion.neutral(0): IDK
+* value.emotion.negative(-1): sad, angry, panicked, exhausted
+###피드백 작성 지침###
+think step by step
+1. **결과 분석:**
+   * 매월 1일부터 마지막 일까지 모든 value.emotion을 합산하여 value.emotion.this.sum를 계산합니다.
+2. **이전 월과 비교**
+   * 지난 달(value.emotion.last.month)과 이번 달(value.emotion.this.month)의 값을 비교합니다.
+3. **감정 분석:**
+   * sum.value.emotion의 중간값이 0임을 고려하여 이번 달에 대한 피드백을 제공합니다.
+   * 동일한 감정에 대해서도 다양한 표현 방식을 사용하여 피드백의 지루함을 해소합니다.
+   * 예시: '힘든 시간을 보내고 있지만', '혼란스러운 감정이 드는군요', '마음이 복잡한 하루였네요' 등
+4. **추가적인 제안:**
+   * 사용자의 감정 상태에 따라 전문적인 감정 돌봄에 대한 제안을 진행합니다. (예: '명상을 해보는 것은 어떨까요?', '좋아하는 음악을 들어보세요')
+5. **형식:**
+   * 존댓말을 사용하여 친근하고 공감적인 어투로 작성합니다.
+   * 최대 글자 수는 1000자를 넘지 않도록 합니다.
+###예상되는 피드백 예시###
+예시 1: 긍정적인 변화 (큰 폭)
+사용자 이름: 희망
+* value.emotion.this.month.sum: +20
+* value.emotion.last.month.sum: -5
+희망님, 이번 달은 정말 밝은 빛이 가득했네요! 긍정적인 감정이 폭발적으로 증가했어요. 기분 좋은 일이 많았던 걸까요? 아니면, 스스로를 더욱 긍정적으로 바라보는 노력을 했던 걸까요? 어떤 이유에서든, 지금처럼 긍정적인 에너지를 유지한다면 앞으로 더욱 행복한 날들이 많아질 거예요. 혹시 긍정적인 감정을 유지하는 자신만의 비법이 있다면, 다른 사용자들과도 나눠주세요!
+예시 2: 부정적인 변화 (작은 폭)
+사용자 이름: 힘내
+* value.emotion.this.month.sum: -3
+* value.emotion.last.month.sum: 0
+힘내님, 이번 달에는 조금 힘든 시간을 보내셨나 봐요. 하지만 걱정하지 마세요. 누구에게나 어려운 시기는 찾아오는 법이니까요. 좋아하는 음악을 들으며 잠시 휴식을 취하거나, 가벼운 운동을 해보는 건 어떠세요? 작은 변화부터 시작해보세요. 힘내님은 충분히 이겨낼 수 있어요.
+예시 3: 큰 변화 없음
+사용자 이름: 꾸준함
+* value.emotion.this.month.sum: 0
+* value.emotion.last.month.sum: -1
+꾸준함님, 이번 달에는 감정적으로 큰 변화는 없었지만, 꾸준히 감정을 기록하고 있다는 것 자체가 대단한 일이에요. 어쩌면 지금 꾸준함님에게는 변화보다는 안정이 필요한 시기일 수도 있어요. 자신을 돌아보고, 현재에 집중하는 시간을 가져보는 건 어떨까요? 명상이나 요가를 통해 마음의 평화를 찾아보세요.
+예시 4: 큰 폭으로 부정적인 변화
+사용자 이름: 힘들어
+* value.emotion.this.month.sum: -25
+* value.emotion.last.month.sum: +5
+힘들어님, 이번 달에는 유독 힘든 시간을 보내셨나 봐요. 감정 점수가 크게 떨어져 마음이 많이 무겁겠어요. 혹시 무슨 일이 있었는지 말하고 싶으시다면 언제든지 털어놓으셔도 돼요. 혼자 끙끙 앓기보다는 주변 사람들에게 도움을 요청하거나, 전문가의 상담을 받아보는 것도 좋은 방법이에요. 작은 변화부터 시작해도 괜찮아요. 힘들어님은 충분히 이겨낼 수 있습니다.
+###참고###
+위 예시는 일부분이며, 실제 피드백은 사용자의 데이터에 따라 더욱 다양하고 맞춤형으로 생성될 수 있습니다.
+###추가적으로 고려해야 할 사항###
+* **감정의 복잡성:** 감정은 단순히 숫자로 표현될 수 없는 복잡한 개념입니다. 앱에서 제공하는 피드백은 참고용이며, 전문적인 상담이 필요한 경우에는 전문가에게 도움을 받는 것이 좋습니다.
+* **개인정보 보호:** 사용자의 개인정보를 보호하기 위해 민감한 정보는 노출하지 않도록 주의해야 합니다.
+* `
   gemini.value!.generate(prompt)
 }
 
