@@ -63,10 +63,32 @@ const createDiary = async (userName: string, data: DiaryForm): Promise<boolean> 
   }
 }
 
+const hasDiary = async (userName: string, date: string): Promise<boolean> => {
+  try {
+    const response = await axiosInstance.get(`/exists/${userName}`, {
+      params: {
+        searchDate: date
+      }
+    })
+
+    console.log('hasDiary response: ', response)
+
+    if (response.data.data.resultCode && response.data.data.resultCode !== 'FAIL') {
+      return false
+    }
+
+    return true
+  } catch (error) {
+    console.log('hasDiary error: ', error)
+    return false
+  }
+}
+
 const diaryAPI = {
   searchDiaryByKeyword,
   searchDiaryByDate,
-  createDiary
+  createDiary,
+  hasDiary
 }
 
 export default diaryAPI

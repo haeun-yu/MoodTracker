@@ -76,6 +76,7 @@ import { formatDate } from '@vueuse/core'
 import Gemini from '@/api/gemini'
 import authAPI from '@/api/auth'
 import diaryAPI from '@/api/diary'
+import calendarAPI from '@/api/calendar'
 import { useRouter } from 'vue-router'
 import { useToastStore } from '@/stores/toast.store'
 
@@ -86,12 +87,12 @@ const emotions = [
   'Happy',
   'Angry',
   'Sad',
+  'Proud',
   'IDK',
-  'Exhausted',
+  'Excited',
   'Panicked',
-  'Blue',
-  'Upset',
-  'Peaceful'
+  'Grateful',
+  'Exhausted'
 ]
 
 const user = ref<User | null>(null)
@@ -106,7 +107,6 @@ const isDone = ref<boolean>(false)
 
 onBeforeMount(async () => {
   const response = await authAPI.checkLogin()
-
   if (!response) {
     addToast({
       message: '로그인이 필요합니다.'
@@ -116,7 +116,20 @@ onBeforeMount(async () => {
 
   user.value = await authAPI.getInformation()
 
-  gemini.value = new Gemini(handleGeminiResult)
+  const hasDiary = await diaryAPI.hasDiary(user.value?.name!, formatDate(new Date(), 'yyyy-m-d'))
+
+  if (hasDiary) {
+    isDone.value = true
+    const diary = await calendarAPI.getDiary(user.value?.name!, formatDate(new Date(), 'yyyy-m-d'))
+
+    if (diary) {
+      form.value.emotion = diary.emotion
+      form.value.content = diary.content
+      form.value.feedback = diary.feedback
+    }
+  } else {
+    gemini.value = new Gemini(handleGeminiResult)
+  }
 })
 
 watch(

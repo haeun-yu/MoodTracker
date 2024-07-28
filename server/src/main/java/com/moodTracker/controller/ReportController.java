@@ -108,5 +108,4 @@ public class ReportController {
 	        return CommonResponse.success(CommonResponseDTO.of("FAIL", "잘못된 접근입니다."));
 		}	
 	}
-	
 }

@@ -1,6 +1,7 @@
 package com.moodTracker.controller;
 
 import java.util.ArrayList;
+
 import java.util.List;
 
 import org.springframework.stereotype.Service;
@@ -72,6 +73,6 @@ public class ReportService {
 		int month = Integer.parseInt(date[1]);
 		
 		return monthlyReportRepository.findByUserSeqAndReportedMonth(userSeq, year, month);
-	}
 
+	}
 }

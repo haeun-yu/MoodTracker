@@ -54,7 +54,7 @@ const getEmotionCount = async (
     console.log('getEmotionCount response: ', res)
 
     if (res.data.data.resultCode !== 'FAIL') {
-      return res.data.data.count
+      return res.data.data
     } else {
       return []
     }
@@ -100,12 +100,31 @@ const getLongestConsecutive = async (userName: string, date: string): Promise<nu
   }
 }
 
+const getWeeklyAverage = async (userName: string, date: string): Promise<number> => {
+  try {
+    const res = await axiosInstance.get(`/monthly/weekly-average/${userName}`, {
+      params: { requestYearMonth: date }
+    })
+    console.log('getWeeklyAverage response: ', res)
+
+    if (res.data.data.resultCode !== 'FAIL') {
+      return res.data.data.count
+    } else {
+      return 0
+    }
+  } catch (error) {
+    console.error(error)
+    return 0
+  }
+}
+
 const calendarAPI = {
   getDiaryList,
   getDiary,
   getEmotionCount,
   getMonthlyCount,
-  getLongestConsecutive
+  getLongestConsecutive,
+  getWeeklyAverage
 }
 
 export default calendarAPI
