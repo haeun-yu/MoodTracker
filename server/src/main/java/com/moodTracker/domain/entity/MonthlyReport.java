@@ -17,33 +17,30 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @Entity
-@Table(name="Diary")
+@Table(name = "MonthlyReport")
 @Builder
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class Diary {
+public class MonthlyReport {
 	
 	@Id @GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name = "diarySeq")
-	private Integer diarySeq;
+	@Column(name = "monthlyReportSeq")
+	private Integer monthlyReportSeq;
 	
 	@Column(name = "userSeq")
 	private Integer userSeq;
 
-	@Column(name = "content")
-	private String content;
+	@Column(name = "totalMonthlyEmotionScore")
+	private String totalMonthlyEmotionScore;
 	
-	@Column(name = "feedback")
-	private String feedback;
+	@Column(name = "reportedMonth")
+	private String reportedMonth;
 	
-	@Column(name = "feedbackCode")
-	private String feedbackCode;
-	
-	@Column(name = "emotion")
-	private String emotion;
-	
+	@Column(name = "monthlyFeedback")
+	private String monthlyFeedback;
+
 	@CreationTimestamp
 	@Column(name = "createdAt", nullable = false)
 	private LocalDateTime createdAt;
