@@ -18,11 +18,20 @@
       </div>
     </section>
 
-    <section v-if="!hasReport" class="w-full h-full flex items-center justify-center">
+    <section v-if="isNextMonth">
+      <p class="text-lg-bold text-[#888888]">
+        아직 해당 달이 지나지 않았기 때문에 리포트를 생성할 수 없습니다.
+      </p>
+    </section>
+
+    <section
+      v-if="!isNextMonth && !hasReport"
+      class="w-full h-full flex items-center justify-center"
+    >
       <p class="text-lg-bold text-[#888888] animate-bounce">분석 중 입니다...</p>
     </section>
 
-    <section v-else class="flex flex-col gap-[30px]">
+    <section v-if="!isNextMonth && hasReport" class="flex flex-col gap-[30px]">
       <article class="flex gap-[20px] h-[300px]">
         <div class="w-[35%] boxs gap-[10px]">
           <label class="text-lg-bold">{{ year }}년 {{ month }}월 감정 순위</label>
@@ -120,6 +129,7 @@ const { addToast } = useToastStore()
 const gemini = ref<Gemini | null>(null)
 
 const hasReport = ref(true)
+const isNextMonth = ref(false)
 
 const report = ref<string | null>(null)
 const emotionCount = ref<{ emotion: string; count: number }[]>([])
@@ -145,6 +155,7 @@ onBeforeMount(async () => {
     })
     router.push('/login')
   }
+
   const getUserResponse = await authAPI.getInformation()
   if (!getUserResponse) {
     addToast({
@@ -153,6 +164,7 @@ onBeforeMount(async () => {
     router.push('/login')
   }
   user.value = getUserResponse
+
   await getDatas()
 })
 
@@ -161,6 +173,17 @@ watch([year, month], async () => {
 })
 
 const getDatas = async () => {
+  const now = new Date()
+  const nowYear = now.getFullYear()
+  const nowMonth = now.getMonth() + 1
+
+  if (+year.value! > nowYear || (+year.value! === nowYear && +month.value! >= nowMonth)) {
+    isNextMonth.value = true
+  } else {
+    isNextMonth.value = false
+    return
+  }
+
   report.value = await reportAPI.getReport(user.value!.name, `${year.value!}-${month.value!}`)
   monthScore.value = await reportAPI.getMonthScore(
     user.value!.name,
@@ -200,6 +223,10 @@ const prevMonth = () => {
 
 const nextMonth = () => {
   const date = new Date(+year.value!, +month.value! + 1)
+
+  if (date.getFullYear() === new Date().getFullYear() && date.getMonth() >= new Date().getMonth()) {
+    return
+  }
   router.push(`/report/${date.getFullYear()}-${date.getMonth() + 1}`)
   year.value = date.getFullYear().toString()
   month.value = (date.getMonth() + 1).toString()

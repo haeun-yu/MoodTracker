@@ -14,7 +14,6 @@
         <p class="text-[15px]">{{ member.name }}</p>
         <p class="text-[#888888] text-[13px]">{{ member.role }}</p>
       </article>
-      v.1.1
     </section>
   </div>
 </template>
