@@ -66,10 +66,35 @@ const getMonthScore = async (userName: string, date: string): Promise<number[]> 
   }
 }
 
+const checkReport = async (userName: string, date: string): Promise<boolean> => {
+  try {
+    const response = await axiosInstance.get(`/check/${userName}`, {
+      params: {
+        requestYearMonth: date
+      }
+    })
+
+    console.log('checkReport response: ', response)
+
+    if (response.data.data.resultCode && response.data.data.resultCode === 'FAIL') {
+      return false
+    }
+    if (response.data.data.message && response.data.data.message === 'false') {
+      return false
+    }
+
+    return true
+  } catch (error) {
+    console.log('checkReport error: ', error)
+    return false
+  }
+}
+
 const reportAPI = {
   getReport,
   createReport,
-  getMonthScore
+  getMonthScore,
+  checkReport
 }
 
 export default reportAPI

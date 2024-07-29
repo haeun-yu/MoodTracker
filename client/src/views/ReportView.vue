@@ -148,22 +148,22 @@ onMounted(async () => {
   year.value = id.split('-')[0]
   month.value = id.split('-')[1]
 
-  // const checkLoginResponse = await authAPI.checkLogin()
-  // if (!checkLoginResponse) {
-  //   addToast({
-  //     message: '로그인이 필요합니다.'
-  //   })
-  //   router.push('/login')
-  // }
+  const checkLoginResponse = await authAPI.checkLogin()
+  if (!checkLoginResponse) {
+    addToast({
+      message: '로그인이 필요합니다.'
+    })
+    router.push('/login')
+  }
 
-  // const getUserResponse = await authAPI.getInformation()
-  // if (!getUserResponse) {
-  //   addToast({
-  //     message: '사용자 정보를 불러오는데 실패했습니다.'
-  //   })
-  //   router.push('/login')
-  // }
-  // user.value = getUserResponse
+  const getUserResponse = await authAPI.getInformation()
+  if (!getUserResponse) {
+    addToast({
+      message: '사용자 정보를 불러오는데 실패했습니다.'
+    })
+    router.push('/login')
+  }
+  user.value = getUserResponse
 
   await getDatas()
 })
@@ -187,21 +187,26 @@ const getDatas = async () => {
   } else {
     isNextMonth.value = false
 
-    report.value = await reportAPI.getReport(user.value!.name, `${year.value!}-${month.value!}`)
-    monthScore.value = await reportAPI.getMonthScore(
-      user.value!.name,
-      `${year.value!}-${month.value!}`
-    )
-    emotionCount.value = await calendarAPI.getEmotionCount(
+    const hasReportResponse = await reportAPI.checkReport(
       user.value!.name,
       `${year.value!}-${month.value!}`
     )
 
-    if (!report.value) {
+    if (!hasReportResponse) {
       hasReport.value = false
       await handleCreateReport()
     } else {
       hasReport.value = true
+
+      report.value = await reportAPI.getReport(user.value!.name, `${year.value!}-${month.value!}`)
+      monthScore.value = await reportAPI.getMonthScore(
+        user.value!.name,
+        `${year.value!}-${month.value!}`
+      )
+      emotionCount.value = await calendarAPI.getEmotionCount(
+        user.value!.name,
+        `${year.value!}-${month.value!}`
+      )
     }
   }
 }
