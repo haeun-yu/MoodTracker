@@ -16,7 +16,7 @@
       </p>
     </section>
 
-    <section v-if="isNextMonth">
+    <section v-if="hasDiary && isNextMonth">
       <p class="text-lg-bold text-[#888888]">
         아직 해당 달이 지나지 않았기 때문에 리포트를 생성할 수 없습니다.
       </p>
