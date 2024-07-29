@@ -32,7 +32,7 @@ public interface MonthlyReportRepository extends JpaRepository<MonthlyReport, In
     MonthlyReportDTO findByUserSeqAndReportedMonth(@Param("userSeq") Integer userSeq, @Param("year") int year, @Param("month") int month);
 
     @Query("SELECT COUNT(mr) > 0 " +
-    	       "FROM MonthlyReport mr " +
+    	       "FROM Diary mr " +
     	       "WHERE mr.userSeq = :userSeq " +
     	       "AND YEAR(mr.createdAt) = :year " +
     	       "AND MONTH(mr.createdAt) = :month")
