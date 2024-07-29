@@ -18,6 +18,12 @@
       </div> -->
     </section>
 
+    <section v-if="!hasDiary">
+      <p class="text-lg-bold text-[#888888]">
+        아직 해당 달이 지나지 않았기 때문에 리포트를 생성할 수 없습니다.
+      </p>
+    </section>
+
     <section v-if="isNextMonth">
       <p class="text-lg-bold text-[#888888]">
         아직 해당 달이 지나지 않았기 때문에 리포트를 생성할 수 없습니다.
@@ -25,13 +31,13 @@
     </section>
 
     <section
-      v-if="!isNextMonth && !hasReport"
+      v-if="!isNextMonth && !hasReport && hasDiary"
       class="w-full h-full flex items-center justify-center"
     >
       <p class="text-lg-bold text-[#888888] animate-bounce">분석 중 입니다...</p>
     </section>
 
-    <section v-if="!isNextMonth && hasReport" class="flex flex-col gap-[30px]">
+    <section v-if="!isNextMonth && hasReport && hasDiary" class="flex flex-col gap-[30px]">
       <article class="flex gap-[20px] h-[300px]">
         <div class="w-[35%] boxs gap-[10px]">
           <label class="text-lg-bold">{{ year }}년 {{ month }}월 감정 순위</label>
@@ -130,6 +136,7 @@ const gemini = ref<Gemini | null>(null)
 
 const hasReport = ref(true)
 const isNextMonth = ref(false)
+const hasDiary = ref(false)
 
 const report = ref<string | null>(null)
 const emotionCount = ref<{ emotion: string; count: number }[]>([])
@@ -187,18 +194,16 @@ const getDatas = async () => {
   } else {
     isNextMonth.value = false
 
-    const hasReportResponse = await reportAPI.checkReport(
-      user.value!.name,
-      `${year.value!}-${month.value!}`
-    )
+    hasDiary.value = await reportAPI.checkReport(user.value!.name, `${year.value!}-${month.value!}`)
+    if (!hasDiary.value) return
 
-    if (!hasReportResponse) {
+    report.value = await reportAPI.getReport(user.value!.name, `${year.value!}-${month.value!}`)
+    if (!report.value) {
       hasReport.value = false
       await handleCreateReport()
     } else {
       hasReport.value = true
 
-      report.value = await reportAPI.getReport(user.value!.name, `${year.value!}-${month.value!}`)
       monthScore.value = await reportAPI.getMonthScore(
         user.value!.name,
         `${year.value!}-${month.value!}`
