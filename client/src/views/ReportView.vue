@@ -8,19 +8,11 @@
           되새겨보는 시간을 가져보세요.
         </p>
       </div>
-      <!-- <div class="flex items-center gap-[10px]">
-        <button class="btn-tertiary" @click="prevMonth">
-          <img src="/icons/arrow-left.svg" class="w-[40px]" />
-        </button>
-        <button class="btn-tertiary" @click="nextMonth">
-          <img src="/icons/arrow-left.svg" class="w-[40px] -scale-x-100" />
-        </button>
-      </div> -->
     </section>
 
     <section v-if="!hasDiary">
       <p class="text-lg-bold text-[#888888]">
-        아직 해당 달이 지나지 않았기 때문에 리포트를 생성할 수 없습니다.
+        해당 달에 일기를 작성하지 않았기 때문에 리포트를 생성할 수 없습니다.
       </p>
     </section>
 
@@ -231,6 +223,7 @@ const handleCreateReport = async () => {
 *value.emotion.positive(+1): happy, grateful, proud, excited
 * value.emotion.neutral(0): IDK
 * value.emotion.negative(-1): sad, angry, panicked, exhausted
+* 값이 0인 경우에는 IDK만 있거나, positive와 negative가 동일하게 존재하는 경우입니다.
 ###피드백 작성 지침###
 think step by step
 1. **결과 분석:**
@@ -288,24 +281,6 @@ const handleGeminiResult = async (result: string) => {
   setTimeout(async () => {
     await getDatas()
   }, 1000)
-}
-
-const prevMonth = () => {
-  const date = new Date(+year.value!, +month.value! - 2)
-  router.push(`/report/${date.getFullYear()}-${date.getMonth() + 1}`)
-  year.value = date.getFullYear().toString()
-  month.value = (date.getMonth() + 1).toString()
-}
-
-const nextMonth = () => {
-  const date = new Date(+year.value!, +month.value! + 1)
-
-  if (date.getFullYear() === new Date().getFullYear() && date.getMonth() >= new Date().getMonth()) {
-    return
-  }
-  router.push(`/report/${date.getFullYear()}-${date.getMonth() + 1}`)
-  year.value = date.getFullYear().toString()
-  month.value = (date.getMonth() + 1).toString()
 }
 </script>
 
