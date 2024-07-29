@@ -181,7 +181,7 @@ const getDatas = async () => {
   const nowYear = now.getFullYear()
   const nowMonth = now.getMonth() + 1
 
-  if (+year.value! > nowYear || (+year.value! === nowYear && +month.value! > nowMonth)) {
+  if (+year.value! > nowYear || (+year.value! === nowYear && +month.value! >= nowMonth)) {
     isNextMonth.value = true
     return
   } else {
@@ -273,7 +273,16 @@ think step by step
 
 const handleGeminiResult = async (result: string) => {
   report.value = result
-  await getDatas()
+
+  const data: ReportForm = {
+    reportedMonth: `${year.value!}-${month.value!}`,
+    monthlyFeedback: result
+  }
+  await reportAPI.createReport(data)
+
+  setTimeout(async () => {
+    await getDatas()
+  }, 1000)
 }
 
 const prevMonth = () => {
