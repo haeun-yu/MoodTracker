@@ -1,7 +1,8 @@
 package com.moodTracker.service;
 
-import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
+
 
 import org.springframework.stereotype.Service;
 
@@ -43,14 +44,29 @@ public class ReportService {
 	    return result;
 	}
 
+	//월간 피드백 Submit
 	public void submitMonthlyReport(MonthlyReportDTO monthlyReportDTO) {
 		Integer userSeq = monthlyReportDTO.getUserSeq();
 		String[] date = monthlyReportDTO.getReportedMonth().split("-");
 		int year = Integer.parseInt(date[0]);
 		int month = Integer.parseInt(date[1]);
 		
-		monthlyReportDTO.setTotalMonthlyEmotionScore((monthlyReportRepository.findEmotionScoresByMonthAndUser(userSeq, year, month)).toString());
-		monthlyReportRepository.save(monthlyReportDTO.toEntity());
+		//월간 감정스코어 합계
+		Optional<String> totalMonthlyEmotionScore = Optional.ofNullable(monthlyReportRepository.findEmotionScoresByMonthAndUser(userSeq, year, month).orElse((long) 0).toString());
+		monthlyReportDTO.setTotalMonthlyEmotionScore(totalMonthlyEmotionScore.orElse("0"));
+		
+		//월간 피드백 존재여부 체크
+		Optional<MonthlyReportDTO> existingMonthlyReport =  Optional.ofNullable(monthlyReportRepository.findByUserSeqAndReportedMonth(userSeq, year, month));
+		
+		//월간 피드백 존재여부에 따라 Insert/Update
+		if(existingMonthlyReport.isPresent()) {
+			//받아온 월간 피드백 일련번호 monthlyReportDTO에 입력
+			monthlyReportDTO.setMonthlyReportSeq(existingMonthlyReport.get().toEntity().getMonthlyReportSeq());
+			
+			monthlyReportRepository.save(monthlyReportDTO.toEntity());
+		} else {
+			monthlyReportRepository.save(monthlyReportDTO.toEntity());
+		}
 	}
 
 	public MonthlyReportDTO requestMonthlyFeedback(Integer userSeq, String requestYearMonth) {
