@@ -99,24 +99,25 @@
               </div>
             </div>
           </div>
-          <div class="w-full flex justify-end">
-            <RouterLink :to="'/report/' + currentYear + '-' + currentMonth" class="btn-route"
-              >그래프 보러 가기</RouterLink
-            >
-          </div>
         </article>
 
-        <article class="mt-[10px] w-full shadow-md bg-white p-[20px] rounded-[20px]">
-          <div
-            class="bg-[#B49BC5] p-[20px] text-white rounded-[20px] flex flex-col items-center gap-[20px]"
+        <article
+          class="mt-[10px] w-full flex flex-col items-start gap-[20px] bg-white shadow-md p-[20px] rounded-[20px]"
+        >
+          <p class="w-full flex justify-end text-[#B49BC5] text-xl-medium">
+            이 달의 리포트 분석이에요
+          </p>
+          <RouterLink :to="'/report/' + currentYear + '-' + currentMonth" class="btn-route"
+            >리포트 확인하기</RouterLink
           >
-            <p class="text-xl-medium text-center">오늘의 감정을 기록하세요</p>
-            <RouterLink
-              to="/today"
-              class="bg-white text-[#826C90] py-[5px] px-[20px] rounded-[10px] text-center text-lg-medium"
-            >
-              기록하러 가기
-            </RouterLink>
+        </article>
+
+        <article
+          class="mt-[10px] w-full flex flex-col items-start gap-[20px] bg-[#B49BC5] shadow-md p-[20px] rounded-[20px]"
+        >
+          <p class="w-full text-white text-xl-medium">오늘의 감정을 기록하세요</p>
+          <div class="w-full flex justify-end">
+            <RouterLink to="/today" class="btn-route2">기록하러 가기</RouterLink>
           </div>
         </article>
       </section>
@@ -158,21 +159,18 @@ const selectedDiary = ref<Diary>()
 const isModalOpen = ref<boolean>(false)
 
 onBeforeMount(async () => {
-  const response = await authAPI.checkLogin()
-  if (!response) {
-    addToast({
-      message: '로그인이 필요합니다.'
-    })
-    router.push('/login')
-  }
-
-  user.value = await authAPI.getInformation()
-
-  currentYear.value = new Date().getFullYear()
-  currentMonth.value = new Date().getMonth() + 1
-
-  init()
-  await getDatas()
+  // const response = await authAPI.checkLogin()
+  // if (!response) {
+  //   addToast({
+  //     message: '로그인이 필요합니다.'
+  //   })
+  //   router.push('/login')
+  // }
+  // user.value = await authAPI.getInformation()
+  // currentYear.value = new Date().getFullYear()
+  // currentMonth.value = new Date().getMonth() + 1
+  // init()
+  // await getDatas()
 })
 
 watch([currentYear, currentMonth], async () => {
@@ -406,7 +404,7 @@ table {
 .btn-route {
   padding: 5px 20px;
   color: white;
-  background-color: #e29696;
+  background-color: #b49bc5;
   border-radius: 10px;
   cursor: pointer;
   transition: all 300ms;
@@ -423,11 +421,36 @@ table {
 
 .btn-route:hover,
 .btn-route:active {
-  background-color: #e08989;
+  background-color: #a37abe;
   box-shadow: 0 0 #0000;
 }
 
-.btn-route:disabled {
+.btn-route2 {
+  padding: 5px 20px;
+  color: #826c90;
+  background-color: white;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: all 300ms;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow:
+    0 4px 6px -1px rgb(0 0 0 / 0.1),
+    0 2px 4px -2px rgb(0 0 0 / 0.1);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.btn-route2:hover,
+.btn-route2:active {
+  background-color: white;
+  box-shadow: 0 0 #0000;
+}
+
+.btn-route:disabled,
+.btn-route2:disabled {
   background-color: #a1a1a1;
   color: white;
   cursor: not-allowed;
