@@ -159,18 +159,18 @@ const selectedDiary = ref<Diary>()
 const isModalOpen = ref<boolean>(false)
 
 onBeforeMount(async () => {
-  // const response = await authAPI.checkLogin()
-  // if (!response) {
-  //   addToast({
-  //     message: '로그인이 필요합니다.'
-  //   })
-  //   router.push('/login')
-  // }
-  // user.value = await authAPI.getInformation()
-  // currentYear.value = new Date().getFullYear()
-  // currentMonth.value = new Date().getMonth() + 1
-  // init()
-  // await getDatas()
+  const response = await authAPI.checkLogin()
+  if (!response) {
+    addToast({
+      message: '로그인이 필요합니다.'
+    })
+    router.push('/login')
+  }
+  user.value = await authAPI.getInformation()
+  currentYear.value = new Date().getFullYear()
+  currentMonth.value = new Date().getMonth() + 1
+  init()
+  await getDatas()
 })
 
 watch([currentYear, currentMonth], async () => {
