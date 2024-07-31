@@ -30,7 +30,7 @@
       <article v-if="menu === 'My Information'" class="function-box">
         <div class="w-[80%] flex flex-col gap-[30px] p-[20px]">
           <img
-            :src="'/images/'+${getImage(user.userSeq)}+'.svg'"
+            :src="'/images/' + getImage(user.userSeq!) + '.svg'"
             alt="sample-image"
             class="w-[180px] h-[180px] rounded-[10px] border object-cover"
           />
