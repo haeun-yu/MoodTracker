@@ -35,7 +35,7 @@
 
         <div class="flex flex-col gap-[10px]">
           <label>Confirm Password</label>
-          <CommonInput v-model="form.password" type="password" placeholder="Enter Password" />
+          <CommonInput v-model="confirmPassword" type="password" placeholder="Enter Password" />
           <p class="text-[14px] text-[#8E46BD]">{{ confirmMessage }}</p>
         </div>
 

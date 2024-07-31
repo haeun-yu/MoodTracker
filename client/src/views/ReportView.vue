@@ -139,8 +139,8 @@ const year = ref<string>()
 const month = ref<string>()
 
 const user = ref<User | null>({
-  name: 'name',
-  email: 'user@test.test'
+  name: '',
+  email: ''
 })
 
 onMounted(async () => {
@@ -216,8 +216,8 @@ const handleCreateReport = async () => {
 피드백:
 ###데이터###
 * 사용자 이름: ${user.value!.name}
-* value.emotion.this.month.sum: ${monthScore.value[+month.value! - 1]}
-* value.emotion.last.month.sum: ${monthScore.value[+month.value! - 2]}
+* value.emotion.this.month.sum: ${monthScore.value[+month.value!]}
+* value.emotion.last.month.sum: ${monthScore.value[+month.value! - 1]}
 ###데이터 설명###
 * value.emotion.this.month.sum과 value.emotion.last.month는 아래 값들로 이루어진 합산 결과 입니다.
 *value.emotion.positive(+1): happy, grateful, proud, excited

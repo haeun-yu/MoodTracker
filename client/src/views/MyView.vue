@@ -30,7 +30,7 @@
       <article v-if="menu === 'My Information'" class="function-box">
         <div class="w-[80%] flex flex-col gap-[30px] p-[20px]">
           <img
-            src="/images/sample-image.svg"
+            :src="'/images/'+${getImage(user.userSeq)}+'.svg'"
             alt="sample-image"
             class="w-[180px] h-[180px] rounded-[10px] border object-cover"
           />
@@ -154,6 +154,25 @@ onBeforeMount(async () => {
     router.back()
   }
 })
+
+const emotions = [
+  'Happy',
+  'Angry',
+  'Sad',
+  'Proud',
+  'IDK',
+  'Excited',
+  'Panicked',
+  'Grateful',
+  'Exhausted',
+  'Blue',
+  'Peaceful',
+  'Upset'
+]
+
+const getImage = (userSeq: number) => {
+  return emotions[((userSeq % 12) + 12) % 12]
+}
 
 const handleMenu = (value: string) => {
   menu.value = value

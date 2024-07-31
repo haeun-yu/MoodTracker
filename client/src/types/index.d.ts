@@ -7,6 +7,7 @@ type User = {
   name: string
   email: string
   password?: string
+  userSeq?: number
 }
 
 type UserForm = {
