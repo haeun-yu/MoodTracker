@@ -29,11 +29,13 @@
 
       <article v-if="menu === 'My Information'" class="function-box">
         <div class="w-[80%] flex flex-col gap-[30px] p-[20px]">
-          <img
-            :src="'/icons/emotions/' + getImage(user.userSeq!) + '.svg'"
-            alt="sample-image"
-            class="w-[180px] h-[180px] rounded-[10px] border object-cover"
-          />
+          <div>
+            <img
+              :src="'/icons/emotions/' + getImage() + '.svg'"
+              alt="sample-image"
+              class="h-[180px] object-cover"
+            />
+          </div>
           <div class="flex border-b-[1.5px] border-black">
             <label class="w-[30%] text-[26px]">Name</label>
             <p class="w-[70%]] text-[26px] font-light">{{ user.name }}</p>
@@ -124,7 +126,8 @@ const menu = ref<string>('My Information')
 const user = ref<User>({
   name: '',
   email: '',
-  password: ''
+  password: '',
+  userSeq: 0
 })
 const password = ref<string>('')
 const changePassword = ref<any>({
@@ -170,8 +173,8 @@ const emotions = [
   'Upset'
 ]
 
-const getImage = (userSeq: number) => {
-  return emotions[((userSeq % 12) + 12) % 12]
+const getImage = () => {
+  return emotions[Math.floor(Math.random() * emotions.length)]
 }
 
 const handleMenu = (value: string) => {
