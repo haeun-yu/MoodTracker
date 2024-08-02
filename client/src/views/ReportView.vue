@@ -198,20 +198,20 @@ const getDatas = async () => {
     if (!hasDiary.value) return
 
     report.value = await reportAPI.getReport(user.value!.name, `${year.value!}-${month.value!}`)
+    monthScore.value = await reportAPI.getMonthScore(
+      user.value!.name,
+      `${year.value!}-${month.value!}`
+    )
+    emotionCount.value = await calendarAPI.getEmotionCount(
+      user.value!.name,
+      `${year.value!}-${month.value!}`
+    )
+
     if (!report.value) {
       hasReport.value = false
       await handleCreateReport()
     } else {
       hasReport.value = true
-
-      monthScore.value = await reportAPI.getMonthScore(
-        user.value!.name,
-        `${year.value!}-${month.value!}`
-      )
-      emotionCount.value = await calendarAPI.getEmotionCount(
-        user.value!.name,
-        `${year.value!}-${month.value!}`
-      )
     }
   }
 }
