@@ -108,6 +108,14 @@
         <p class="w-full text-end">From. Mood Tracker</p>
       </article>
     </section>
+
+    <div class="w-full flex justify-end">
+      <RouterLink to="/calendar">
+        <button class="text-[#855CF8] border-b-[1.5px] border-[#855CF8]">
+          Calendar로 돌아가기
+        </button>
+      </RouterLink>
+    </div>
   </div>
 </template>
 
