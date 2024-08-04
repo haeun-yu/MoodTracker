@@ -8,15 +8,36 @@
             <pattern>%d{yyyyMMdd HH:mm:ss.SSS} [%thread] %-5level %logger{35} - %msg%n</pattern>
         </encoder>
     </appender>
-
-    <!-- Hibernate TRACE 로그 설정 -->
-    <logger name="org.hibernate" level="TRACE">
-        <appender-ref ref="STDOUT" />
-    </logger>
+    
+<!--     파일 저장용 FILE 애펜더 정의     -->
+    <appender name="FILE" class="ch.qos.logback.core.FileAppender">
+	    <file>../../logs/moodtracker.log</file>
+	    <encoder>
+            <pattern>%d{yyyyMMdd HH:mm:ss.SSS} [%thread] %-5level %logger{35} - %msg%n</pattern>
+	    </encoder>
+	    <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+	        <fileNamePattern>%d{yyyy-MM-dd}.log</fileNamePattern>
+	        <maxHistory>30</maxHistory> 
+	        <totalSizeCap>3GB</totalSizeCap> 
+	    </rollingPolicy>
+	</appender>
 
     <!-- 루트 로거 설정 -->
-    <root level="ERROR">
+    <root level="INFO">
         <appender-ref ref="STDOUT" />
+        <appender-ref ref="FILE" />
     </root>
+
+    <!-- Hibernate 로거 설정 -->
+    <logger name="org.hibernate.SQL" level="DEBUG" additivity="false">
+        <appender-ref ref="STDOUT" />
+        <appender-ref ref="FILE" />
+    </logger>
+    
+    <!-- Hibernate Parameter Binding 로거 설정 -->
+    <logger name="org.hibernate.orm.jdbc.bind" level="TRACE" additivity="false">
+    	<appender-ref ref="STDOUT" />
+ 	    <appender-ref ref="FILE" />
+    </logger>
 
 </configuration>
